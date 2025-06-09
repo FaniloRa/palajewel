@@ -18,10 +18,8 @@ const Header = () => {
         <div className="flex-1 flex justify-start">
           <div className="hidden md:flex items-center space-x-5 lg:space-x-7">
             {navLinks.map((link) => (
-              <Link key={link.label} href={link.href} legacyBehavior>
-                <a className="font-body text-sm hover:text-accent/80 transition-colors">
+              <Link key={link.label} href={link.href} className="font-body text-sm hover:text-accent/80 transition-colors">
                   {link.label}
-                </a>
               </Link>
             ))}
           </div>
@@ -34,13 +32,11 @@ const Header = () => {
 
         {/* Center: Logo */}
         <div className="flex-shrink-0 mx-auto"> {/* Adjusted for better centering with flex */}
-          <Link href="/" legacyBehavior>
-            <a className="flex flex-col items-center group">
-              <Gem size={20} className="mb-0.5 text-accent group-hover:text-accent/80 transition-colors" />
-              <span className="font-headline text-2xl lg:text-3xl tracking-wider text-accent uppercase group-hover:text-accent/80 transition-colors">
-                Pala
-              </span>
-            </a>
+          <Link href="/" className="flex flex-col items-center group">
+            <Gem size={20} className="mb-0.5 text-accent group-hover:text-accent/80 transition-colors" />
+            <span className="font-headline text-2xl lg:text-3xl tracking-wider text-accent uppercase group-hover:text-accent/80 transition-colors">
+              Pala
+            </span>
           </Link>
         </div>
 
