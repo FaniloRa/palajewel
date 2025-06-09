@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 
 const HeroSection = () => {
   return (
-    <section className="relative w-full h-[60vh] min-h-[400px] md:h-[70vh] text-center">
+    <section className="relative w-full h-screen text-center">
       <Image
         src="https://placehold.co/1920x1080.png"
         alt="Featured Jewelry Collection"
