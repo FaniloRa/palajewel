@@ -14,6 +14,9 @@ export default {
         headline: ['Playfair Display', 'serif'],
         code: ['monospace'],
       },
+      backgroundImage: {
+        'hero-gradient': 'linear-gradient(135deg, #1b1f3d, #063d5f)',
+      },
       colors: {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',

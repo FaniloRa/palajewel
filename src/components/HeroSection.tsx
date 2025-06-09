@@ -5,7 +5,7 @@ import { ArrowRight } from 'lucide-react';
 
 const HeroSection = () => {
   return (
-    <section className="relative w-full h-screen flex flex-col text-accent bg-background">
+    <section className="relative w-full h-screen flex flex-col text-accent bg-hero-gradient">
       <Header />
       <div className="flex-grow flex container mx-auto px-4 sm:px-6 lg:px-8 items-center pt-24 md:pt-32"> {/* Added padding-top for header */}
         {/* Left Content Area */}
