@@ -12,6 +12,7 @@ export default {
       fontFamily: {
         body: ['PT Sans', 'sans-serif'],
         headline: ['Playfair Display', 'serif'],
+        snippet: ['Snippet', 'sans-serif'], // Ajout de la police Snippet
         code: ['monospace'],
       },
       backgroundImage: {

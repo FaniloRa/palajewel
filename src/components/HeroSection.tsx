@@ -10,7 +10,7 @@ const HeroSection = () => {
       <div className="flex-grow flex container mx-auto px-4 sm:px-6 lg:px-8 items-center pt-24 md:pt-32"> {/* Added padding-top for header */}
         {/* Left Content Area */}
         <div className="w-full lg:w-3/5 xl:w-1/2 flex flex-col justify-center text-left py-10 z-10">
-          <span className="font-body text-xs sm:text-sm uppercase tracking-widest text-accent/80 mb-2 sm:mb-3">
+          <span className="font-snippet font-normal text-xs sm:text-sm uppercase tracking-widest text-accent/80 mb-2 sm:mb-3">
             EDITION LIMITEE
           </span>
           <h1 className="font-headline text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-accent mb-4 sm:mb-6 leading-tight">
