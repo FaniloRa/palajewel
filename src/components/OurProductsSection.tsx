@@ -7,7 +7,7 @@ interface OurProductsSectionProps {
 
 const OurProductsSection: React.FC<OurProductsSectionProps> = ({ products }) => {
   return (
-    <section className="w-full py-12 md:py-16 lg:py-20 bg-[#CCCCCC]">
+    <section className="w-full py-12 md:py-16 lg:py-20 bg-[#F0F4F5]">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h2 className="font-headline text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-3">
           Nos Produits
