@@ -11,8 +11,9 @@ export default {
     extend: {
       fontFamily: {
         body: ['PT Sans', 'sans-serif'],
-        headline: ['Playfair Display', 'serif'],
-        snippet: ['Snippet', 'sans-serif'], // Ajout de la police Snippet
+        headline: ['Playfair Display', 'serif'], // Default headline font
+        seoulhangang: ['Seoul Hangang', 'serif'], // Added Seoul Hangang
+        snippet: ['Snippet', 'sans-serif'],
         code: ['monospace'],
       },
       backgroundImage: {

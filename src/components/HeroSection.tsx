@@ -13,7 +13,7 @@ const HeroSection = () => {
           <span className="font-snippet font-normal text-xs sm:text-sm uppercase tracking-widest text-accent/80 mb-2 sm:mb-3">
             EDITION LIMITEE
           </span>
-          <h1 className="font-headline text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-accent mb-4 sm:mb-6 leading-tight">
+          <h1 className="font-seoulhangang text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-[#F6D5BE] mb-4 sm:mb-6 leading-tight">
             L&apos;Excellence<br />Intemporelle
           </h1>
           <p className="font-body text-sm sm:text-base text-accent/90 mb-6 sm:mb-8 max-w-md">
