@@ -16,7 +16,7 @@ const HeroSection = () => {
           <h1 className="font-seoulhangang text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-[#F6D5BE] mb-4 sm:mb-6 leading-tight">
             L&apos;Excellence<br />Intemporelle
           </h1>
-          <p className="font-body text-sm sm:text-base text-accent/90 mb-6 sm:mb-8 max-w-md">
+          <p className="font-kantumruy text-sm sm:text-base text-accent/90 mb-6 sm:mb-8 max-w-md">
             Chaque pièce, fruit d&apos;un savoir-faire centenaire, incarne la
             quintessence de l&apos;horlogerie suisse. Une invitation à posséder
             non pas une montre, mais un héritage.

@@ -14,6 +14,7 @@ export default {
         headline: ['Playfair Display', 'serif'], // Default headline font
         seoulhangang: ['Seoul Hangang', 'serif'], // Added Seoul Hangang
         snippet: ['Snippet', 'sans-serif'],
+        kantumruy: ['Kantumruy Pro', 'sans-serif'], // Added Kantumruy Pro
         code: ['monospace'],
       },
       backgroundImage: {
