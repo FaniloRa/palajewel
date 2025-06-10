@@ -34,7 +34,7 @@ const NewsletterSection = () => {
   };
 
   return (
-    <section className="w-full py-12 md:py-16 lg:py-20 bg-accent text-accent-foreground">
+    <section className="w-full py-12 md:py-16 lg:py-20 bg-[#EFEFEE] text-accent-foreground">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16">
           {/* Left: Image */}
@@ -56,7 +56,7 @@ const NewsletterSection = () => {
             <h2 className="font-headline text-3xl sm:text-4xl lg:text-5xl font-bold text-primary mb-4">
               Restons en contact
             </h2>
-            <p className="font-body text-base text-muted-foreground mb-8 max-w-md mx-auto md:mx-0">
+            <p className="font-body text-base text-slate-700 mb-8 max-w-md mx-auto md:mx-0">
               Des nouvelles et de l&apos;inspiration directement dans votre boîte
               de réception, chaque semaine. Amusons-nous, avec style.
             </p>
