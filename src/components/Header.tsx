@@ -15,7 +15,7 @@ const Header = () => {
     <header className="absolute top-0 left-0 right-0 z-20 py-4 md:py-6">
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between text-accent">
         {/* Left: Nav Links (Desktop) / Hamburger (Mobile) */}
-        <div className="flex-1 flex justify-start">
+        <div className="flex-1 flex justify-start mt-8">
           <div className="hidden md:flex items-center space-x-5 lg:space-x-7 mt-1"> {/* Added mt-1 */}
             {navLinks.map((link) => (
               <Link key={link.label} href={link.href} className="font-body text-sm hover:text-accent/80 transition-colors">
@@ -41,7 +41,7 @@ const Header = () => {
         </div>
 
         {/* Right: Icon Buttons */}
-        <div className="flex-1 flex justify-end">
+        <div className="flex-1 flex justify-end mt-8">
           <div className="flex items-center space-x-3 sm:space-x-4 mt-1"> {/* Added mt-1 */}
             <button aria-label="Search" className="hover:text-accent/80 transition-colors p-1">
               <Search size={18} />

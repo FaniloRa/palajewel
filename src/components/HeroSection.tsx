@@ -15,7 +15,8 @@ const HeroSection = () => {
             EDITION LIMITEE
           </span>
           <h1 className="font-seoulhangang text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-[#F6D5BE] mb-4 sm:mb-6 leading-tight">
-            L&apos;Excellence<br />Intemporelle
+            L&apos;Excellence<br />
+            <span className="text-accent">Intemporelle</span>
           </h1>
           <p className="font-kantumruy text-sm sm:text-base text-accent/90 mb-6 sm:mb-8 max-w-md">
             Chaque pièce, fruit d&apos;un savoir-faire centenaire, incarne la
