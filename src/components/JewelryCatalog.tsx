@@ -35,21 +35,21 @@ const JewelryCatalog: React.FC<JewelryCatalogProps> = ({ jewelries }) => {
   }, [jewelries, sortOption, filterType]);
 
   return (
-    <section className="w-full py-12 md:py-16 lg:py-20 bg-background">
+    <section className="w-full py-12 md:py-16 lg:py-20 bg-accent">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="font-headline text-3xl md:text-4xl font-bold text-center text-foreground mb-10">
+        <h2 className="font-headline text-3xl md:text-4xl font-bold text-center text-accent-foreground mb-10">
           Our Collection
         </h2>
 
         <div className="mb-8 flex flex-col sm:flex-row justify-between items-center gap-4 p-4 rounded-lg shadow-md bg-card">
           <div className="flex items-center gap-2 w-full sm:w-auto">
             <Filter size={20} className="text-primary" />
-            <Label htmlFor="filter-type" className="text-sm font-medium text-foreground">Filter by Type:</Label>
+            <Label htmlFor="filter-type" className="text-sm font-medium text-card-foreground">Filter by Type:</Label>
             <Select
               value={filterType}
               onValueChange={(value) => setFilterType(value as FilterTypeOption)}
             >
-              <SelectTrigger id="filter-type" className="w-full sm:w-[180px] bg-background border-border text-foreground">
+              <SelectTrigger id="filter-type" className="w-full sm:w-[180px] bg-input border-border text-foreground">
                 <SelectValue placeholder="Select type" />
               </SelectTrigger>
               <SelectContent className="bg-popover text-popover-foreground border-border">
@@ -64,12 +64,12 @@ const JewelryCatalog: React.FC<JewelryCatalogProps> = ({ jewelries }) => {
 
           <div className="flex items-center gap-2 w-full sm:w-auto">
             <ArrowUpDown size={20} className="text-primary" />
-            <Label htmlFor="sort-order" className="text-sm font-medium text-foreground">Sort by Price:</Label>
+            <Label htmlFor="sort-order" className="text-sm font-medium text-card-foreground">Sort by Price:</Label>
             <Select
               value={sortOption}
               onValueChange={(value) => setSortOption(value as SortOption)}
             >
-              <SelectTrigger id="sort-order" className="w-full sm:w-[180px] bg-background border-border text-foreground">
+              <SelectTrigger id="sort-order" className="w-full sm:w-[180px] bg-input border-border text-foreground">
                 <SelectValue placeholder="Sort by" />
               </SelectTrigger>
               <SelectContent className="bg-popover text-popover-foreground border-border">

@@ -8,7 +8,7 @@ interface FeaturedProductsProps {
 
 const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ products }) => {
   return (
-    <section className="w-full py-12 md:py-16 lg:py-20 bg-background">
+    <section className="w-full py-12 md:py-16 lg:py-20 bg-accent">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <p className="font-body text-sm text-muted-foreground mb-2">
           Découvrez l&apos;essence du raffinement et du style intemporel
@@ -28,7 +28,7 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ products }) => {
                   data-ai-hint={product.dataAiHint}
                 />
               </div>
-              <h3 className="font-headline text-xl text-foreground mb-1">{product.name}</h3>
+              <h3 className="font-headline text-xl text-accent-foreground mb-1">{product.name}</h3>
               <Link href={product.viewMoreLink} className="font-body text-xs text-muted-foreground hover:text-primary transition-colors border-b border-transparent hover:border-primary pb-0.5">
                   Voir plus
               </Link>

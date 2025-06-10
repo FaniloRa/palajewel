@@ -10,7 +10,7 @@ export default function Home() {
       <HeroSection />
       <FeaturedProducts products={featuredProductsData} /> {/* Added new section */}
       <JewelryCatalog jewelries={mockJewelries} />
-      <footer className="w-full py-8 text-center border-t border-border mt-auto">
+      <footer className="w-full py-8 text-center border-t border-border mt-auto bg-accent">
         <p className="text-muted-foreground font-body">&copy; {new Date().getFullYear()} Pala Jewelry. All rights reserved.</p>
       </footer>
     </main>
