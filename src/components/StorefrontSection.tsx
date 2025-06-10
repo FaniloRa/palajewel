@@ -3,9 +3,9 @@ import { Gem, MapPin, Phone, Mail } from 'lucide-react';
 
 const StorefrontSection = () => {
   return (
-    <section className="w-full py-12 md:py-16 lg:py-20 bg-accent">
+    <section className="w-full pt-12 md:pt-16 lg:pt-20 pb-0 bg-accent">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 className="font-headline text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-3">
+        <h2 className="font-headline text-4xl md:text-5xl lg:text-6xl font-bold text-primary mb-3">
           Explorez notre collection exclusive
         </h2>
         <div className="flex justify-center mb-1">
