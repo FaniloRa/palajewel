@@ -10,7 +10,7 @@ const HeroSection = () => {
       <Header />
       <div className="flex-grow flex container mx-auto px-4 sm:px-6 lg:px-8 items-center pt-24 md:pt-32"> {/* Added padding-top for header */}
         {/* Left Content Area */}
-        <div className="w-full lg:w-3/5 xl:w-1/2 flex flex-col justify-center text-left py-10 z-10">
+        <div className="w-full lg:w-1/2 xl:w-2/5 flex flex-col justify-center text-left py-10 z-10">
           <span className="font-snippet font-normal text-xs sm:text-sm uppercase tracking-widest text-accent/80 mb-2 sm:mb-3">
             EDITION LIMITEE
           </span>
@@ -43,10 +43,10 @@ const HeroSection = () => {
         </div>
 
         {/* Right Image Area */}
-        <div className="hidden lg:flex lg:w-2/5 xl:w-1/2 h-full items-center justify-center relative z-0 pb-16"> {/* Added padding-bottom to align with text baseline */}
-          <div className="relative w-full h-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl">
+        <div className="hidden lg:flex lg:w-1/2 xl:w-3/5 h-full items-center justify-center relative z-0 pb-16"> {/* Adjusted column width */}
+          <div className="relative w-full h-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-4xl"> {/* Increased max-width values */}
             <Image
-              src={heroImage} 
+              src={heroImage}
               alt="L'Excellence Intemporelle"
               layout="fill"
               objectFit="contain"
