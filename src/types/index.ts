@@ -16,12 +16,21 @@ export type FilterTypeOption = 'All' | JewelryTypeOption;
 
 export type SortOption = 'default' | 'price-asc' | 'price-desc';
 
-// Added FeaturedProduct type
 export interface FeaturedProduct {
   id: string;
   name: string;
   imageUrl: string;
   imageAlt: string;
   viewMoreLink: string;
+  dataAiHint: string;
+}
+
+export interface OurProduct {
+  id: string;
+  name: string;
+  description: string;
+  price: string;
+  imageUrl: string;
+  imageAlt: string;
   dataAiHint: string;
 }
