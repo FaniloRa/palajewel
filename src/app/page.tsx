@@ -4,7 +4,8 @@ import ExcellenceDetails from '@/components/ExcellenceDetails';
 import StyleComposerSection from '@/components/StyleComposerSection';
 import CraftsmanshipSection from '@/components/CraftsmanshipSection';
 import OurProductsSection from '@/components/OurProductsSection';
-import StorefrontSection from '@/components/StorefrontSection'; // Nouvelle importation
+import StorefrontSection from '@/components/StorefrontSection';
+import NewsletterSection from '@/components/NewsletterSection'; // Nouvelle importation
 import { featuredProductsData } from '@/data/featuredProductsData';
 import { ourProductsData } from '@/data/ourProductsData';
 
@@ -17,7 +18,8 @@ export default function Home() {
       <StyleComposerSection />
       <CraftsmanshipSection />
       <OurProductsSection products={ourProductsData} />
-      <StorefrontSection /> {/* Nouveau composant ajouté */}
+      <StorefrontSection />
+      <NewsletterSection /> {/* Nouveau composant ajouté */}
       <footer className="w-full py-8 text-center border-t border-border mt-auto bg-accent">
         <p className="text-muted-foreground font-body">&copy; {new Date().getFullYear()} Pala Jewelry. All rights reserved.</p>
       </footer>
