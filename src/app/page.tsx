@@ -1,15 +1,12 @@
 import HeroSection from '@/components/HeroSection';
-import JewelryCatalog from '@/components/JewelryCatalog';
-import FeaturedProducts from '@/components/FeaturedProducts'; // Added import
-import { mockJewelries } from '@/data/mockJewelry';
-import { featuredProductsData } from '@/data/featuredProductsData'; // Added import
+import FeaturedProducts from '@/components/FeaturedProducts';
+import { featuredProductsData } from '@/data/featuredProductsData';
 
 export default function Home() {
   return (
     <main className="flex flex-col items-center min-h-screen bg-background">
       <HeroSection />
-      <FeaturedProducts products={featuredProductsData} /> {/* Added new section */}
-      <JewelryCatalog jewelries={mockJewelries} />
+      <FeaturedProducts products={featuredProductsData} />
       <footer className="w-full py-8 text-center border-t border-border mt-auto bg-accent">
         <p className="text-muted-foreground font-body">&copy; {new Date().getFullYear()} Pala Jewelry. All rights reserved.</p>
       </footer>
