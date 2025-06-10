@@ -15,3 +15,13 @@ export type FilterTypeOption = 'All' | JewelryTypeOption;
 
 
 export type SortOption = 'default' | 'price-asc' | 'price-desc';
+
+// Added FeaturedProduct type
+export interface FeaturedProduct {
+  id: string;
+  name: string;
+  imageUrl: string;
+  imageAlt: string;
+  viewMoreLink: string;
+  dataAiHint: string;
+}
