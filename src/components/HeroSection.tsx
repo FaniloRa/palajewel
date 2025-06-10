@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/Header';
 import { ArrowRight } from 'lucide-react';
+import heroImage from '@/app/hero.png'; // Importation de l'image locale
 
 const HeroSection = () => {
   return (
@@ -45,13 +46,13 @@ const HeroSection = () => {
         <div className="hidden lg:flex lg:w-2/5 xl:w-1/2 h-full items-center justify-center relative z-0 pb-16"> {/* Added padding-bottom to align with text baseline */}
           <div className="relative w-full h-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl">
             <Image
-              src="https://placehold.co/600x800.png" // Placeholder for the watch
-              alt="L'Excellence Intemporelle Watch"
+              src={heroImage} 
+              alt="L'Excellence Intemporelle"
               layout="fill"
               objectFit="contain"
               quality={90}
               className="drop-shadow-2xl"
-              data-ai-hint="luxury watch gold"
+              priority // Ajout de la propriété priority pour les images LCP
             />
           </div>
         </div>
