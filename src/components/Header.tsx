@@ -13,7 +13,7 @@ const navLinks = [
 const Header = () => {
   return (
     <header className="absolute top-0 left-0 right-0 z-20 py-4 md:py-6">
-      <nav className="container mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between text-accent">
+      <nav className="container mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between text-accent font-kanit">
         {/* Left: Nav Links (Desktop) / Hamburger (Mobile) */}
         <div className="flex-1 flex justify-start mt-8">
           <div className="hidden md:flex items-center space-x-5 lg:space-x-7 mt-1"> {/* Added mt-1 */}

@@ -16,6 +16,7 @@ export default {
         snippet: ['Snippet', 'sans-serif'],
         kantumruy: ['Kantumruy Pro', 'sans-serif'], // Added Kantumruy Pro
         'nunito-sans': ['Nunito Sans', 'sans-serif'], // Added Nunito Sans
+        kanit: ['Kanit', 'sans-serif'], // Added Kanit
         code: ['monospace'],
       },
       backgroundImage: {
