@@ -15,6 +15,7 @@ export default {
         seoulhangang: ['Seoul Hangang', 'serif'], // Added Seoul Hangang
         snippet: ['Snippet', 'sans-serif'],
         kantumruy: ['Kantumruy Pro', 'sans-serif'], // Added Kantumruy Pro
+        'nunito-sans': ['Nunito Sans', 'sans-serif'], // Added Nunito Sans
         code: ['monospace'],
       },
       backgroundImage: {
