@@ -39,7 +39,7 @@ const NewsletterSection = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16">
           {/* Left: Image */}
-          <div className="md:w-1/2 lg:w-2/5">
+          <div className="md:w-1/2 lg:w-1/2"> {/* Changé de lg:w-2/5 à lg:w-1/2 */}
             <div className="relative w-full h-80 md:h-96 lg:h-[500px] rounded-lg overflow-hidden">
               <Image
                 src={bgirlImage}
@@ -53,7 +53,7 @@ const NewsletterSection = () => {
           </div>
 
           {/* Right: Text Content & Form */}
-          <div className="md:w-1/2 lg:w-3/5 text-center md:text-left">
+          <div className="md:w-1/2 lg:w-1/2 text-center md:text-left"> {/* Changé de lg:w-3/5 à lg:w-1/2 */}
             <h2 className="font-headline text-3xl sm:text-4xl lg:text-5xl font-bold text-primary mb-4">
               Restons en contact
             </h2>
