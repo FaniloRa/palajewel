@@ -67,7 +67,7 @@ const NewsletterSection = () => {
                 placeholder="Entrer votre email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="flex-grow bg-background border-border text-foreground placeholder:text-muted-foreground focus:border-primary"
+                className="flex-grow bg-accent border-border text-accent-foreground placeholder:text-muted-foreground focus:border-primary"
                 aria-label="Adresse e-mail pour la newsletter"
               />
               <Button
