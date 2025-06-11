@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { ChevronRight } from 'lucide-react';
 import { useState, type FormEvent } from 'react';
 import { useToast } from '@/hooks/use-toast';
+import bgirlImage from '@/app/bgirl.png'; // Importation de la nouvelle image locale
 
 
 const NewsletterSection = () => {
@@ -41,8 +42,8 @@ const NewsletterSection = () => {
           <div className="md:w-1/2 lg:w-2/5">
             <div className="relative w-full h-80 md:h-96 lg:h-[500px] rounded-lg overflow-hidden shadow-lg">
               <Image
-                src="https://placehold.co/600x800.png"
-                alt="Modèle portant des bijoux PALA"
+                src={bgirlImage}
+                alt="Modèle portant des bijoux PALA pour la newsletter"
                 layout="fill"
                 objectFit="cover"
                 data-ai-hint="fashion model jewelry"
