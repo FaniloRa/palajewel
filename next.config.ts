@@ -17,6 +17,8 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
+    // If your logo is locally stored, no need to add to remotePatterns
+    // but ensure it's in the public folder or imported correctly.
   },
 };
 

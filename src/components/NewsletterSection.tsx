@@ -72,8 +72,8 @@ const NewsletterSection = () => {
               />
               <Button
                 type="submit"
-                size="lg"
-                className="bg-primary text-primary-foreground hover:bg-primary/90 w-full sm:w-auto px-5 py-2.5"
+                //size="lg"
+                className="bg-primary text-primary-foreground hover:bg-primary/90 w-full sm:w-auto px-5 py-2"
                 aria-label="S'inscrire à la newsletter"
               >
                 <ChevronRight size={24} />
