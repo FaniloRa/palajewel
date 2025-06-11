@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { Search, ShoppingBag, User, Menu } from 'lucide-react';
 import Image from 'next/image';
-import logoPala from '@/app/logo-pala.png'; // Supposing the image is saved here
+// Removed: import logoPala from '@/app/logo-pala.png';
 
 const navLinks = [
   { href: '/accueil', label: 'Accueil' },
@@ -36,10 +36,10 @@ const Header = () => {
         <div className="flex-shrink-0 mx-auto">
           <Link href="/" className="group">
             <Image
-              src={logoPala}
+              src="/logo-pala.png" // Changed to reference from public folder
               alt="Pala Jewelry Logo"
-              width={120} // Adjust width as needed
-              height={60} // Adjust height as needed
+              width={120}
+              height={60}
               className="group-hover:opacity-80 transition-opacity"
               priority
             />
