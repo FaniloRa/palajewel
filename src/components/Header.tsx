@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { Search, ShoppingBag, User, Menu } from 'lucide-react';
 import Image from 'next/image';
-// Removed: import logoPala from '@/app/logo-pala.png';
+import palabiglogo from '@/app/palabiglogo.png'; // Importation de la nouvelle image du logo
 
 const navLinks = [
   { href: '/accueil', label: 'Accueil' },
@@ -36,10 +36,10 @@ const Header = () => {
         <div className="flex-shrink-0 mx-auto">
           <Link href="/" className="group">
             <Image
-              src="/logo-pala.png" // Changed to reference from public folder
+              src={palabiglogo} // Utilisation de l'image importée
               alt="Pala Jewelry Logo"
-              width={120}
-              height={60}
+              width={120} // Vous pouvez ajuster la largeur
+              height={60}  // Vous pouvez ajuster la hauteur
               className="group-hover:opacity-80 transition-opacity"
               priority
             />
