@@ -54,7 +54,7 @@ const NewsletterSection = () => {
 
           {/* Right: Text Content & Form */}
           <div className="md:w-1/2 lg:w-3/5 text-center md:text-left">
-            <h2 className="font-headline text-3xl sm:text-4xl lg:text-5xl font-bold text-primary mb-4">
+            <h2 className="font-nunito-sans text-3xl sm:text-4xl lg:text-5xl font-bold text-primary mb-4">
               Restons en contact
             </h2>
             <p className="font-body text-base text-slate-700 mb-8 max-w-md mx-auto md:mx-0">
