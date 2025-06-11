@@ -7,7 +7,7 @@ const CraftsmanshipSection = () => {
         <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16">
           {/* Left: Text Content */}
           <div className="md:w-1/2">
-            <h2 className="font-headline text-2xl sm:text-3xl text-primary uppercase mb-2">
+            <h2 className="font-headline text-2xl sm:text-3xl text-background uppercase mb-2">
               FABRIQUE AVEC SOINS
             </h2>
             <div className="w-16 h-0.5 bg-primary mb-8"></div>

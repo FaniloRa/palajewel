@@ -5,7 +5,7 @@ const StorefrontSection = () => {
   return (
     <section className="w-full pt-12 md:pt-16 lg:pt-20 pb-0 bg-accent">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 className="font-nunito-sans text-4xl md:text-5xl lg:text-6xl font-bold text-primary mb-3">
+        <h2 className="font-nunito-sans text-4xl md:text-5xl lg:text-6xl font-bold text-background mb-3">
           Explorez notre collection exclusive
         </h2>
         <div className="flex justify-center mb-1">
