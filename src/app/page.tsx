@@ -1,4 +1,6 @@
+
 import HeroSection from '@/components/HeroSection';
+import QualitySection from '@/components/QualitySection';
 import FeaturedProducts from '@/components/FeaturedProducts';
 import StyleComposerSection from '@/components/StyleComposerSection';
 import CraftsmanshipSection from '@/components/CraftsmanshipSection';
@@ -15,6 +17,7 @@ export default function Home() {
   return (
     <main className="flex flex-col items-center min-h-screen">
       <HeroSection />
+      <QualitySection />
       <FeaturedProducts products={featuredProductsData} />
       <StyleComposerSection />
       <CraftsmanshipSection />

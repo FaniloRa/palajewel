@@ -1,0 +1,47 @@
+
+import Image from 'next/image';
+
+const QualitySection = () => {
+  return (
+    <section className="w-full bg-accent text-accent-foreground py-12 md:py-16 lg:py-20">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 lg:gap-16">
+          {/* Left Text Block */}
+          <div className="md:w-1/3 text-center md:text-left">
+            <h3 className="font-headline text-2xl sm:text-3xl text-primary mb-4">
+              Haute qualité
+            </h3>
+            <p className="font-body text-sm text-muted-foreground leading-relaxed">
+              Donec commodo dui at finibus ultricies. Etiam mattis vel arcu id interdum. Phasellus ornare lorem vitae facilisis sodales. Etiam auctor eget turpis eget lacinia. Sed eget augue pretium, lacinia.
+            </p>
+          </div>
+
+          {/* Center Image Block */}
+          <div className="md:w-auto flex justify-center items-center my-8 md:my-0 max-w-xs md:max-w-sm">
+            <div className="relative w-48 h-64 sm:w-56 sm:h-72 md:w-60 md:h-80"> {/* Adjusted for a pendant-like shape */}
+              <Image
+                src="https://placehold.co/300x400.png" 
+                alt="Collier PALA de haute qualité"
+                layout="fill"
+                objectFit="contain"
+                data-ai-hint="diamond pendant necklace"
+              />
+            </div>
+          </div>
+
+          {/* Right Text Block */}
+          <div className="md:w-1/3 text-center md:text-left">
+            <h3 className="font-headline text-2xl sm:text-3xl text-primary mb-4">
+              Savoir faire-expert
+            </h3>
+            <p className="font-body text-sm text-muted-foreground leading-relaxed">
+              Donec commodo dui at finibus ultricies. Etiam mattis vel arcu id interdum. Phasellus ornare lorem vitae facilisis sodales. Etiam auctor eget turpis eget lacinia. Sed eget augue pretium, lacinia.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default QualitySection;
