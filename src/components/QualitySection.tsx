@@ -1,9 +1,10 @@
 
 import Image from 'next/image';
+import collierImage from '@/app/collier.png'; // Importation de la nouvelle image
 
 const QualitySection = () => {
   return (
-    <section className="w-full bg-accent text-accent-foreground py-12 md:py-16 lg:py-20">
+    <section className="w-full bg-accent text-accent-foreground pt-0 pb-12 md:pb-16 lg:pb-20">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 lg:gap-16">
           {/* Left Text Block */}
@@ -20,11 +21,12 @@ const QualitySection = () => {
           <div className="md:w-auto flex justify-center items-center my-8 md:my-0 max-w-xs md:max-w-sm">
             <div className="relative w-48 h-64 sm:w-56 sm:h-72 md:w-60 md:h-80"> {/* Adjusted for a pendant-like shape */}
               <Image
-                src="https://placehold.co/300x400.png" 
-                alt="Collier PALA de haute qualité"
+                src={collierImage}
+                alt="Collier PALA de haute qualité en or et diamants"
                 layout="fill"
                 objectFit="contain"
-                data-ai-hint="diamond pendant necklace"
+                data-ai-hint="gold diamond necklace"
+                priority // Peut être utile si l'image est visible au chargement initial après le scroll
               />
             </div>
           </div>
