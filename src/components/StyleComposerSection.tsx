@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Gem } from 'lucide-react';
 import anneauxImageFromFile from '@/app/anneaux.jpg'; // Importation de l'image pour Anneaux
 import montreImageFromFile from '@/app/montre.jpg'; // Importation de l'image pour Montre
+import accessoiresImageFromFile from '@/app/alef.jpg'; // Importation de l'image pour Accessoires
 
 interface StyleCardItem {
   id: string;
@@ -21,7 +22,7 @@ const styleCardsData: StyleCardItem[] = [
   {
     id: 'style-anneaux',
     title: 'Anneaux',
-    imageUrl: anneauxImageFromFile, 
+    imageUrl: anneauxImageFromFile,
     imageAlt: 'Modèle portant des anneaux PALA',
     buttonText: 'Découvrir maintenant',
     buttonLink: '/collections/anneaux',
@@ -43,7 +44,7 @@ const styleCardsData: StyleCardItem[] = [
   {
     id: 'style-accessoires',
     title: 'Accessoires',
-    imageUrl: 'https://placehold.co/400x600.png',
+    imageUrl: accessoiresImageFromFile, // Utilisation de l'image importée pour Accessoires
     imageAlt: 'Modèle portant des accessoires PALA',
     buttonText: 'Découvrir maintenant',
     buttonLink: '/collections/accessoires',
