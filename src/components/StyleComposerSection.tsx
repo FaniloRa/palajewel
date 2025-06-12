@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Gem } from 'lucide-react';
+import anneauxImageFromFile from '@/app/anneaux.jpg'; // Importation de l'image pour Anneaux
 
 interface StyleCardItem {
   id: string;
@@ -19,7 +20,7 @@ const styleCardsData: StyleCardItem[] = [
   {
     id: 'style-anneaux',
     title: 'Anneaux',
-    imageUrl: '/test.jpg', // Chemin corrigé pour l'image test.jpg depuis le dossier public
+    imageUrl: anneauxImageFromFile, // Utilisation de l'image importée
     imageAlt: 'Modèle portant des anneaux PALA',
     buttonText: 'Découvrir maintenant',
     buttonLink: '/collections/anneaux',
