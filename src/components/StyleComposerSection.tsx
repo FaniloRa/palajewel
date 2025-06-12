@@ -2,11 +2,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Gem } from 'lucide-react';
+// Removed: import anneauxImage from '@/app/test.jpg';
 
 interface StyleCardItem {
   id: string;
   title: string;
-  imageUrl: string;
+  imageUrl: string | any; // Changed to any to support StaticImageData
   imageAlt: string;
   buttonText: string;
   buttonLink: string;
@@ -19,7 +20,7 @@ const styleCardsData: StyleCardItem[] = [
   {
     id: 'style-anneaux',
     title: 'Anneaux',
-    imageUrl: 'https://placehold.co/400x600.png',
+    imageUrl: '/test.jpg', // Utilisation de l'image depuis le dossier public
     imageAlt: 'Modèle portant des anneaux PALA',
     buttonText: 'Découvrir maintenant',
     buttonLink: '/collections/anneaux',
