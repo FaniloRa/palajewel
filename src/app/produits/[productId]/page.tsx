@@ -32,7 +32,7 @@ const ProductDetailPage = ({ params }: ProductPageProps) => {
         <Header />
       </div>
       
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 md:pt-32 pb-10 md:pb-16">
         {/* Breadcrumbs (optional enhancement) */}
         {/* 
         <nav className="mb-8 text-sm font-body">
