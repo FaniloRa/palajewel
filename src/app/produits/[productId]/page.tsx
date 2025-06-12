@@ -1,3 +1,4 @@
+
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -27,7 +28,7 @@ const ProductDetailPage = ({ params }: ProductPageProps) => {
   }
 
   return (
-    <main className="flex flex-col items-center min-h-screen bg-background text-foreground">
+    <main className="flex flex-col items-center min-h-screen bg-accent text-accent-foreground">
       <div className="w-full bg-hero-gradient">
         <Header />
       </div>
@@ -40,7 +41,7 @@ const ProductDetailPage = ({ params }: ProductPageProps) => {
           <span className="mx-2 text-muted-foreground">/</span>
           <Link href="/produits" className="text-muted-foreground hover:text-primary">Produits</Link>
           <span className="mx-2 text-muted-foreground">/</span>
-          <span className="text-foreground">{product.name}</span>
+          <span className="text-accent-foreground">{product.name}</span>
         </nav>
         */}
 
@@ -83,9 +84,9 @@ const ProductDetailPage = ({ params }: ProductPageProps) => {
           <div className="py-4">
             <h1 className="text-3xl lg:text-4xl font-headline text-primary mb-2">{product.name}</h1>
             <p className="text-sm text-muted-foreground mb-1">RÉF. {product.sku}</p>
-            <p className="text-3xl lg:text-4xl font-bold text-foreground mb-6">{product.price.toFixed(2)} €</p>
+            <p className="text-3xl lg:text-4xl font-bold text-accent-foreground mb-6">{product.price.toFixed(2)} €</p>
             
-            <div className="prose prose-sm lg:prose-base text-foreground/80 mb-8 font-body">
+            <div className="prose prose-sm lg:prose-base text-accent-foreground/80 mb-8 font-body">
               <p>{product.detailedDescription || product.description}</p>
             </div>
             
@@ -94,19 +95,19 @@ const ProductDetailPage = ({ params }: ProductPageProps) => {
             </Button>
             
             <div className="space-y-3 font-body">
-              <div className="flex items-center text-sm text-foreground/90">
+              <div className="flex items-center text-sm text-accent-foreground/90">
                 <Gift size={20} className="mr-3 text-primary shrink-0" />
                 <span>C'est un cadeau</span>
               </div>
-              <div className="flex items-center text-sm text-foreground/90">
+              <div className="flex items-center text-sm text-accent-foreground/90">
                 <Truck size={20} className="mr-3 text-primary shrink-0" />
                 <span>Livraison et retours gratuits</span>
               </div>
-              <div className="flex items-center text-sm text-foreground/90">
+              <div className="flex items-center text-sm text-accent-foreground/90">
                 <Tag size={20} className="mr-3 text-primary shrink-0" />
                 <span>Les codes de promotions peuvent être saisis à l'étape suivante</span>
               </div>
-              <div className="flex items-center text-sm text-foreground/90">
+              <div className="flex items-center text-sm text-accent-foreground/90">
                 <ShieldCheck size={20} className="mr-3 text-primary shrink-0" />
                 <span>Paiements sécurisés</span>
               </div>
