@@ -35,7 +35,7 @@ const NewsletterSection = () => {
   };
 
   return (
-    <section id="newsletter-section" className="w-full pt-12 md:pt-16 lg:pt-20 bg-[#EFEFEE] text-accent-foreground">
+    <section id="newsletter-section" className="w-full pt-12 md:pt-16 lg:pt-20 bg-accent text-accent-foreground">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16">
           {/* Left: Image */}
