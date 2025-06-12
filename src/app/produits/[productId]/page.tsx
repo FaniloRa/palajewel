@@ -29,8 +29,8 @@ const ProductDetailPage = ({ params }: ProductPageProps) => {
 
   return (
     <main className="flex flex-col items-center min-h-screen bg-accent text-accent-foreground">
-      <div className="w-full bg-hero-gradient">
-        <Header />
+      <div className="w-full"> {/* Removed bg-hero-gradient as header is on light bg now */}
+        <Header themeVariant="onLightBg" />
       </div>
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 md:pt-32 pb-10 md:pb-16">
@@ -52,8 +52,8 @@ const ProductDetailPage = ({ params }: ProductPageProps) => {
               <Image 
                 src={product.mainImageUrl} 
                 alt={product.name} 
-                layout="fill" 
-                objectFit="cover" 
+                fill // Changed from layout="fill"
+                style={{objectFit: "cover"}} // Changed from objectFit="cover"
                 data-ai-hint={`${product.dataAiHint} main`}
                 priority
               />
@@ -63,8 +63,8 @@ const ProductDetailPage = ({ params }: ProductPageProps) => {
                 <Image 
                   src={product.thumbnailImageUrl1} 
                   alt={`${product.name} vignette 1`} 
-                  layout="fill" 
-                  objectFit="cover" 
+                  fill
+                  style={{objectFit: "cover"}}
                   data-ai-hint={`${product.dataAiHint} thumbnail one`}
                 />
               </div>
@@ -72,8 +72,8 @@ const ProductDetailPage = ({ params }: ProductPageProps) => {
                 <Image 
                   src={product.thumbnailImageUrl2} 
                   alt={`${product.name} vignette 2`} 
-                  layout="fill" 
-                  objectFit="cover" 
+                  fill
+                  style={{objectFit: "cover"}}
                   data-ai-hint={`${product.dataAiHint} thumbnail two`}
                 />
               </div>
