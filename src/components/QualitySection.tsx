@@ -19,14 +19,14 @@ const QualitySection = () => {
 
           {/* Center Image Block */}
           <div className="md:w-auto flex justify-center items-center my-8 md:my-0 max-w-xs md:max-w-sm">
-            <div className="relative w-48 h-64 sm:w-56 sm:h-72 md:w-60 md:h-80"> {/* Adjusted for a pendant-like shape */}
+            <div className="relative w-52 h-72 sm:w-60 sm:h-80 md:w-64 md:h-96"> {/* Adjusted for a pendant-like shape and made larger */}
               <Image
                 src={collierImage}
                 alt="Collier PALA de haute qualité en or et diamants"
                 layout="fill"
                 objectFit="contain"
                 data-ai-hint="gold diamond necklace"
-                priority // Peut être utile si l'image est visible au chargement initial après le scroll
+                priority
               />
             </div>
           </div>
