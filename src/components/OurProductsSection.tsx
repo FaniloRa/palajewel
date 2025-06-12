@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import type { OurProduct } from '@/types';
+import Link from 'next/link';
 
 interface OurProductsSectionProps {
   products: OurProduct[];
@@ -23,21 +24,23 @@ const OurProductsSection: React.FC<OurProductsSectionProps> = ({ products }) => 
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10">
           {products.map((product) => (
-            <div key={product.id} className="flex flex-col items-center group text-slate-800">
-              <div className="relative w-full h-64 md:h-72 mb-4 overflow-hidden rounded-md shadow-lg bg-white">
-                <Image
-                  src={product.imageUrl}
-                  alt={product.imageAlt}
-                  layout="fill"
-                  objectFit="cover"
-                  data-ai-hint={product.dataAiHint}
-                  className="transition-transform duration-300 group-hover:scale-105"
-                />
+            <Link key={product.id} href={`/produits/${product.id}`} className="group">
+              <div className="flex flex-col items-center text-slate-800 h-full">
+                <div className="relative w-full h-64 md:h-72 mb-4 overflow-hidden rounded-md shadow-lg bg-white">
+                  <Image
+                    src={product.imageUrl}
+                    alt={product.imageAlt}
+                    layout="fill"
+                    objectFit="cover"
+                    data-ai-hint={product.dataAiHint}
+                    className="transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+                <h3 className="font-headline text-lg font-medium mb-1">{product.name}</h3>
+                <p className="font-body text-xs text-slate-600 mb-1">{product.description}</p>
+                <p className="font-body text-base font-semibold text-primary mt-auto">{product.price.toFixed(2)} €</p>
               </div>
-              <h3 className="font-headline text-lg font-medium mb-1">{product.name}</h3>
-              <p className="font-body text-xs text-slate-600 mb-1">{product.description}</p>
-              <p className="font-body text-base font-semibold text-primary">{product.price}</p>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

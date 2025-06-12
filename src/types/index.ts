@@ -29,8 +29,13 @@ export interface OurProduct {
   id: string;
   name: string;
   description: string;
-  price: string;
-  imageUrl: string;
+  price: number; // Changed from string to number
+  imageUrl: string; // This will be used for the listing card
   imageAlt: string;
   dataAiHint: string;
+  sku: string;
+  detailedDescription?: string; // For longer description on product page
+  mainImageUrl: string; // For product detail page
+  thumbnailImageUrl1: string; // For product detail page
+  thumbnailImageUrl2: string; // For product detail page
 }
