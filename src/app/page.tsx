@@ -18,8 +18,8 @@ export default function Home() {
     <main className="flex flex-col items-center min-h-screen">
       <HeroSection />
       <QualitySection />
-      <FeaturedProducts products={featuredProductsData} />
       <StyleComposerSection />
+      <FeaturedProducts products={featuredProductsData} />
       <CraftsmanshipSection />
       <OurProductsSection products={ourProductsData} />
       <StorefrontSection />
