@@ -37,7 +37,7 @@ const ProductDetailPage = ({ params }: ProductPageProps) => {
         <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-start">
           {/* Image Gallery Column */}
           <div className="flex flex-col gap-4">
-            <div className="relative aspect-square w-full overflow-hidden rounded-lg shadow-xl border border-border group">
+            <div className="relative aspect-square w-full overflow-hidden rounded-lg shadow-xl border border-border group cursor-zoom-in">
               <Image 
                 src={product.mainImageUrl} 
                 alt={product.name} 
@@ -49,7 +49,7 @@ const ProductDetailPage = ({ params }: ProductPageProps) => {
               />
             </div>
             <div className="grid grid-cols-2 gap-4">
-              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg shadow-md border border-border group">
+              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg shadow-md border border-border group cursor-zoom-in">
                 <Image 
                   src={product.thumbnailImageUrl1} 
                   alt={`${product.name} vignette 1`} 
@@ -59,7 +59,7 @@ const ProductDetailPage = ({ params }: ProductPageProps) => {
                   className="transition-transform duration-300 ease-in-out group-hover:scale-110"
                 />
               </div>
-              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg shadow-md border border-border group">
+              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg shadow-md border border-border group cursor-zoom-in">
                 <Image 
                   src={product.thumbnailImageUrl2} 
                   alt={`${product.name} vignette 2`} 
