@@ -29,52 +29,44 @@ const ProductDetailPage = ({ params }: ProductPageProps) => {
 
   return (
     <main className="flex flex-col items-center min-h-screen bg-accent text-accent-foreground">
-      <div className="w-full"> {/* Removed bg-hero-gradient as header is on light bg now */}
+      <div className="w-full">
         <Header themeVariant="onLightBg" />
       </div>
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 md:pt-32 pb-10 md:pb-16">
-        {/* Breadcrumbs (optional enhancement) */}
-        {/* 
-        <nav className="mb-8 text-sm font-body">
-          <Link href="/" className="text-muted-foreground hover:text-primary">Accueil</Link>
-          <span className="mx-2 text-muted-foreground">/</span>
-          <Link href="/produits" className="text-muted-foreground hover:text-primary">Produits</Link>
-          <span className="mx-2 text-muted-foreground">/</span>
-          <span className="text-accent-foreground">{product.name}</span>
-        </nav>
-        */}
-
         <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-start">
           {/* Image Gallery Column */}
           <div className="flex flex-col gap-4">
-            <div className="relative aspect-square w-full overflow-hidden rounded-lg shadow-xl border border-border">
+            <div className="relative aspect-square w-full overflow-hidden rounded-lg shadow-xl border border-border group">
               <Image 
                 src={product.mainImageUrl} 
                 alt={product.name} 
-                fill // Changed from layout="fill"
-                style={{objectFit: "cover"}} // Changed from objectFit="cover"
+                fill
+                style={{objectFit: "cover"}}
                 data-ai-hint={`${product.dataAiHint} main`}
                 priority
+                className="transition-transform duration-300 ease-in-out group-hover:scale-110"
               />
             </div>
             <div className="grid grid-cols-2 gap-4">
-              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg shadow-md border border-border">
+              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg shadow-md border border-border group">
                 <Image 
                   src={product.thumbnailImageUrl1} 
                   alt={`${product.name} vignette 1`} 
                   fill
                   style={{objectFit: "cover"}}
                   data-ai-hint={`${product.dataAiHint} thumbnail one`}
+                  className="transition-transform duration-300 ease-in-out group-hover:scale-110"
                 />
               </div>
-              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg shadow-md border border-border">
+              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg shadow-md border border-border group">
                 <Image 
                   src={product.thumbnailImageUrl2} 
                   alt={`${product.name} vignette 2`} 
                   fill
                   style={{objectFit: "cover"}}
                   data-ai-hint={`${product.dataAiHint} thumbnail two`}
+                  className="transition-transform duration-300 ease-in-out group-hover:scale-110"
                 />
               </div>
             </div>
@@ -115,9 +107,6 @@ const ProductDetailPage = ({ params }: ProductPageProps) => {
           </div>
         </div>
       </div>
-
-      {/* Related Products Section (Placeholder for future enhancement) */}
-      {/* <section className="w-full py-12 md:py-16 lg:py-20 bg-accent"> ... </section> */}
 
       <footer className="w-full py-12 md:py-16 bg-accent text-accent-foreground border-t border-border mt-auto">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
