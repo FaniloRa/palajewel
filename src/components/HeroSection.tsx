@@ -52,7 +52,7 @@ const HeroSection = () => {
               layout="fill"
               objectFit="contain"
               quality={90}
-              className="drop-shadow-2xl"
+              className="drop-shadow-2xl animate-subtle-float"
               priority // Ajout de la propriété priority pour les images LCP
             />
           </div>
