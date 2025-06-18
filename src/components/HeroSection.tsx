@@ -1,3 +1,4 @@
+
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/Header';
@@ -10,7 +11,7 @@ const HeroSection = () => {
       <Header />
       <div className="flex-grow flex container mx-auto px-4 sm:px-6 lg:px-4 items-center pt-24 md:pt-32"> {/* Added padding-top for header */}
         {/* Left Content Area */}
-        <div className="w-full lg:w-1/2 xl:w-2/5 flex flex-col justify-center text-left pt-8 pb-10 z-10">
+        <div className="w-full lg:w-1/2 xl:w-2/5 flex flex-col justify-center text-left pt-8 pb-10 z-10 animate-fade-in-hero-left">
           <span className="font-snippet font-normal text-sm sm:text-base uppercase tracking-widest text-accent/80 mb-2 sm:mb-3">
             EDITION LIMITEE
           </span>

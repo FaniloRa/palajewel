@@ -100,11 +100,16 @@ export default {
           '0%, 100%': { transform: 'translateY(0px)' },
           '50%': { transform: 'translateY(-4px)' },
         },
+        'fade-in-hero-left': {
+          '0%': { opacity: '0', transform: 'translateY(20px)' },
+          '100%': { opacity: '1', transform: 'translateY(0px)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'subtle-float': 'subtle-float 3s ease-in-out infinite',
+        'fade-in-hero-left': 'fade-in-hero-left 1s ease-out forwards',
       },
     },
   },
