@@ -1,15 +1,20 @@
+
+'use client';
+
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Gem } from 'lucide-react';
-import anneauxImageFromFile from '@/app/anneaux.jpg'; // Importation de l'image pour Anneaux
-import montreImageFromFile from '@/app/montre.jpg'; // Importation de l'image pour Montre
-import accessoiresImageFromFile from '@/app/alef.jpg'; // Importation de l'image pour Accessoires
+import anneauxImageFromFile from '@/app/anneaux.jpg';
+import montreImageFromFile from '@/app/montre.jpg';
+import accessoiresImageFromFile from '@/app/alef.jpg';
+import { cn } from '@/lib/utils';
 
 interface StyleCardItem {
   id: string;
   title: string;
-  imageUrl: string | any; // Changed to any to support StaticImageData
+  imageUrl: string | any;
   imageAlt: string;
   buttonText: string;
   buttonLink: string;
@@ -33,7 +38,7 @@ const styleCardsData: StyleCardItem[] = [
   {
     id: 'style-montre',
     title: 'Montre',
-    imageUrl: montreImageFromFile, // Utilisation de l'image importée pour Montre
+    imageUrl: montreImageFromFile,
     imageAlt: 'Montre PALA au poignet',
     buttonText: 'Découvrir maintenant',
     buttonLink: '/collections/montres',
@@ -44,7 +49,7 @@ const styleCardsData: StyleCardItem[] = [
   {
     id: 'style-accessoires',
     title: 'Accessoires',
-    imageUrl: accessoiresImageFromFile, // Utilisation de l'image importée pour Accessoires
+    imageUrl: accessoiresImageFromFile,
     imageAlt: 'Modèle portant des accessoires PALA',
     buttonText: 'Découvrir maintenant',
     buttonLink: '/collections/accessoires',
@@ -55,6 +60,55 @@ const styleCardsData: StyleCardItem[] = [
 ];
 
 const StyleComposerSection = () => {
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [visibleCards, setVisibleCards] = useState<boolean[]>(
+    new Array(styleCardsData.length).fill(false)
+  );
+
+  useEffect(() => {
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.2, // Trigger when 20% of the element is visible
+    };
+
+    const observerCallback = (entries: IntersectionObserverEntry[], observerInstance: IntersectionObserver) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const cardIndex = cardRefs.current.findIndex(ref => ref === entry.target);
+          if (cardIndex !== -1) {
+            setVisibleCards(prev => {
+              const newVisible = [...prev];
+              newVisible[cardIndex] = true;
+              return newVisible;
+            });
+            observerInstance.unobserve(entry.target); // Unobserve after animation
+          }
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+    cardRefs.current.forEach(ref => {
+      if (ref) observer.observe(ref);
+    });
+
+    return () => {
+      cardRefs.current.forEach(ref => {
+        if (ref) observer.unobserve(ref);
+      });
+    };
+  }, []);
+
+
+  const getDelayClass = (index: number): string => {
+    if (index === 0) return 'delay-0';
+    if (index === 1) return 'md:delay-200';
+    if (index === 2) return 'md:delay-400';
+    return '';
+  }
+
   return (
     <section className="w-full py-12 md:py-16 lg:py-20 bg-accent">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -65,8 +119,17 @@ const StyleComposerSection = () => {
           Composer votre style
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-          {styleCardsData.map((card) => (
-            <div key={card.id} className="relative group h-[500px] md:h-[600px] rounded-lg overflow-hidden shadow-xl">
+          {styleCardsData.map((card, index) => (
+            <div 
+              key={card.id} 
+              ref={el => cardRefs.current[index] = el}
+              className={cn(
+                "relative group h-[500px] md:h-[600px] rounded-lg overflow-hidden shadow-xl",
+                "transition-all duration-700 ease-out",
+                getDelayClass(index),
+                visibleCards[index] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+              )}
+            >
               <Image
                 src={card.imageUrl}
                 alt={card.imageAlt}
