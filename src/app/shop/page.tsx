@@ -35,7 +35,7 @@ export default function ShopPage() {
               <ul className="space-y-2">
                 <li><Link href="/" className="text-sm text-accent-foreground/80 hover:text-primary">Accueil</Link></li>
                 <li><Link href="/shop" className="text-sm text-accent-foreground/80 hover:text-primary">Shop</Link></li>
-                <li><Link href="/produits" className="text-sm text-accent-foreground/80 hover:text-primary">Produits</Link></li>
+                <li><Link href="/#nos-produits-section" className="text-sm text-accent-foreground/80 hover:text-primary">Produits</Link></li>
                 <li><Link href="/blog" className="text-sm text-accent-foreground/80 hover:text-primary">Blog</Link></li>
               </ul>
             </div>

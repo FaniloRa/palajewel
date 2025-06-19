@@ -7,7 +7,7 @@ import palabiglogo from '@/app/palabiglogo.png'; // Importation de la nouvelle i
 const navLinks = [
   { href: '/accueil', label: 'Accueil' },
   { href: '/shop', label: 'Shop' },
-  { href: '/produits', label: 'Produits' },
+  { href: '/#nos-produits-section', label: 'Produits' },
   { href: '/blog', label: 'Blog' },
   { href: '/page', label: 'Page' },
 ];
