@@ -11,7 +11,7 @@ const HeroSection = () => {
       <Header />
       <div className="flex-grow flex container mx-auto px-4 sm:px-6 lg:px-4 items-center pt-24 md:pt-32"> {/* Added padding-top for header */}
         {/* Left Content Area */}
-        <div className="w-full lg:w-1/2 xl:w-2/5 flex flex-col justify-center text-left pt-8 pb-10 z-10 animate-fade-in-hero-left">
+        <div className="w-full md:w-1/2 lg:w-1/2 xl:w-2/5 flex flex-col justify-center text-left pt-8 pb-10 z-10 animate-fade-in-hero-left">
           <span className="font-snippet font-normal text-sm sm:text-base uppercase tracking-widest text-accent/80 mb-2 sm:mb-3">
             EDITION LIMITEE
           </span>
@@ -45,7 +45,7 @@ const HeroSection = () => {
         </div>
 
         {/* Right Image Area */}
-        <div className="hidden lg:flex lg:w-1/2 xl:w-3/5 h-full items-center justify-center relative z-0 pb-16"> {/* Adjusted column width */}
+        <div className="hidden md:flex md:w-1/2 lg:w-1/2 xl:w-3/5 h-full items-center justify-center relative z-0 pb-16"> {/* Adjusted column width and visibility */}
           <div className="relative w-full h-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-4xl"> {/* Increased max-width values */}
             <Image
               src={heroImage}
