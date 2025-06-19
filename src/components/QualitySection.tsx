@@ -53,7 +53,7 @@ const QualitySection = () => {
   const textBlockVisibleClasses = "opacity-100 translate-y-0";
 
   return (
-    <section className="w-full bg-accent text-accent-foreground pt-0 pb-12 md:pb-4 lg:pb-4">
+    <section className="w-full bg-accent text-accent-foreground pt-0 pb-4 md:pb-4 lg:pb-4">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 lg:gap-16">
           {/* Left Text Block */}

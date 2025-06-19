@@ -35,13 +35,13 @@ const JewelryCatalog: React.FC<JewelryCatalogProps> = ({ jewelries }) => {
   }, [jewelries, sortOption, filterType]);
 
   return (
-    <section className="w-full py-12 md:py-16 lg:py-20 bg-accent">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="font-headline text-3xl md:text-4xl font-bold text-center text-accent-foreground mb-10">
+    <section className="w-full">
+      <div className="container mx-auto">
+        <h2 className="font-headline text-3xl md:text-4xl font-bold text-center text-primary mb-10">
           Our Collection
         </h2>
 
-        <div className="mb-8 flex flex-col sm:flex-row justify-between items-center gap-4 p-4 rounded-lg shadow-md bg-card">
+        <div className="mb-8 flex flex-col sm:flex-row justify-between items-center gap-4 p-4 rounded-lg shadow-md bg-card border border-border">
           <div className="flex items-center gap-2 w-full sm:w-auto">
             <Filter size={20} className="text-primary" />
             <Label htmlFor="filter-type" className="text-sm font-medium text-card-foreground">Filter by Type:</Label>
@@ -54,7 +54,7 @@ const JewelryCatalog: React.FC<JewelryCatalogProps> = ({ jewelries }) => {
               </SelectTrigger>
               <SelectContent className="bg-popover text-popover-foreground border-border">
                 {jewelryTypes.map(type => (
-                  <SelectItem key={type} value={type} className="hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                  <SelectItem key={type} value={type} className="hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground">
                     {type}
                   </SelectItem>
                 ))}
@@ -73,9 +73,9 @@ const JewelryCatalog: React.FC<JewelryCatalogProps> = ({ jewelries }) => {
                 <SelectValue placeholder="Sort by" />
               </SelectTrigger>
               <SelectContent className="bg-popover text-popover-foreground border-border">
-                <SelectItem value="default" className="hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">Default</SelectItem>
-                <SelectItem value="price-asc" className="hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">Price: Low to High</SelectItem>
-                <SelectItem value="price-desc" className="hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">Price: High to Low</SelectItem>
+                <SelectItem value="default" className="hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground">Default</SelectItem>
+                <SelectItem value="price-asc" className="hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground">Price: Low to High</SelectItem>
+                <SelectItem value="price-desc" className="hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground">Price: High to Low</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -88,7 +88,7 @@ const JewelryCatalog: React.FC<JewelryCatalogProps> = ({ jewelries }) => {
             ))}
           </div>
         ) : (
-          <p className="text-center text-muted-foreground font-body text-lg">
+          <p className="text-center text-muted-foreground font-body text-lg py-10">
             No jewelry matches your current selection.
           </p>
         )}
