@@ -9,7 +9,7 @@ const HeroSection = () => {
   return (
     <section className="relative w-full h-screen flex flex-col text-accent bg-hero-gradient">
       <Header />
-      <div className="flex-grow flex container mx-auto px-4 sm:px-6 lg:px-4 items-center pt-24 md:pt-32"> {/* Added padding-top for header */}
+      <div className="flex-grow flex container mx-auto px-4 sm:px-6 lg:px-4 items-center pt-24 md:pt-32 md:gap-8"> {/* Added md:gap-8 */}
         {/* Left Content Area */}
         <div className="w-full md:w-1/2 lg:w-1/2 xl:w-2/5 flex flex-col justify-center text-left pt-8 pb-10 z-10 animate-fade-in-hero-left">
           <span className="font-snippet font-normal text-sm sm:text-base uppercase tracking-widest text-accent/80 mb-2 sm:mb-3">
