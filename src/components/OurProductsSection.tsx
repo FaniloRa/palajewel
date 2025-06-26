@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import type { OurProduct } from '@/types';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 interface OurProductsSectionProps {
   products: OurProduct[];
@@ -23,7 +24,7 @@ const OurProductsSection: React.FC<OurProductsSectionProps> = ({ products }) => 
           Découvrez des créations uniques et laissez-vous séduire par l&apos;élégance de nos bijoux faits à la main.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10">
-          {products.map((product) => (
+          {products.slice(0, 4).map((product) => (
             <Link key={product.id} href={`/produits/${product.id}`} className="group">
               <div className="flex flex-col items-center text-slate-800 h-full">
                 <div className="relative w-full h-64 md:h-72 mb-4 overflow-hidden rounded-md shadow-lg bg-white">
@@ -42,6 +43,12 @@ const OurProductsSection: React.FC<OurProductsSectionProps> = ({ products }) => 
               </div>
             </Link>
           ))}
+        </div>
+
+        <div className="mt-12 text-center">
+          <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent">
+            <Link href="/shop">Voir la collection</Link>
+          </Button>
         </div>
       </div>
     </section>
