@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { Gem, MapPin, Phone, Mail } from 'lucide-react';
+import storefrontImage from '@/app/PALA_343.jpg';
 
 const StorefrontSection = () => {
   return (
@@ -17,12 +18,12 @@ const StorefrontSection = () => {
 
         <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] rounded-lg overflow-hidden shadow-xl group">
           <Image
-            src="https://placehold.co/1200x800.png"
+            src={storefrontImage}
             alt="Intérieur de la boutique Pala Jewelry"
             layout="fill"
             objectFit="cover"
             className="transition-transform duration-500 group-hover:scale-105"
-            data-ai-hint="jewelry store interior"
+            placeholder="blur"
           />
           <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors duration-300" />
 
