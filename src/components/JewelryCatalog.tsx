@@ -1,98 +1,61 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import type { Jewelry, SortOption, FilterTypeOption, JewelryTypeOption } from '@/types';
+import type { OurProduct } from '@/types';
 import JewelryCard from './JewelryCard';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Label } from '@/components/ui/label';
-import { Filter, ArrowUpDown } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Search } from 'lucide-react';
 
 interface JewelryCatalogProps {
-  jewelries: Jewelry[];
+  jewelries: OurProduct[];
 }
 
-const jewelryTypes: FilterTypeOption[] = ['All', 'Necklace', 'Ring', 'Earrings', 'Bracelet'];
-
 const JewelryCatalog: React.FC<JewelryCatalogProps> = ({ jewelries }) => {
-  const [sortOption, setSortOption] = useState<SortOption>('default');
-  const [filterType, setFilterType] = useState<FilterTypeOption>('All');
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const filteredAndSortedJewelries = useMemo(() => {
-    let items = [...jewelries];
-
-    if (filterType !== 'All') {
-      items = items.filter(item => item.type === filterType);
+  const filteredJewelries = useMemo(() => {
+    if (!searchTerm.trim()) {
+      return jewelries;
     }
-
-    if (sortOption === 'price-asc') {
-      items.sort((a, b) => a.price - b.price);
-    } else if (sortOption === 'price-desc') {
-      items.sort((a, b) => b.price - a.price);
-    }
-    // 'default' sort is the original order (or by ID if implemented)
-
-    return items;
-  }, [jewelries, sortOption, filterType]);
+    const lowercasedTerm = searchTerm.toLowerCase();
+    return jewelries.filter(item =>
+      item.name.toLowerCase().includes(lowercasedTerm) ||
+      item.description.toLowerCase().includes(lowercasedTerm)
+    );
+  }, [jewelries, searchTerm]);
 
   return (
     <section className="w-full">
-      <div className="container mx-auto">
-        <h2 className="font-headline text-3xl md:text-4xl font-bold text-center text-primary mb-10">
-          Our Collection
-        </h2>
-
-        <div className="mb-8 flex flex-col sm:flex-row justify-between items-center gap-4 p-4 rounded-lg shadow-md bg-card border border-border">
-          <div className="flex items-center gap-2 w-full sm:w-auto">
-            <Filter size={20} className="text-primary" />
-            <Label htmlFor="filter-type" className="text-sm font-medium text-card-foreground">Filter by Type:</Label>
-            <Select
-              value={filterType}
-              onValueChange={(value) => setFilterType(value as FilterTypeOption)}
-            >
-              <SelectTrigger id="filter-type" className="w-full sm:w-[180px] bg-input border-border text-foreground">
-                <SelectValue placeholder="Select type" />
-              </SelectTrigger>
-              <SelectContent className="bg-popover text-popover-foreground border-border">
-                {jewelryTypes.map(type => (
-                  <SelectItem key={type} value={type} className="hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground">
-                    {type}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="flex items-center gap-2 w-full sm:w-auto">
-            <ArrowUpDown size={20} className="text-primary" />
-            <Label htmlFor="sort-order" className="text-sm font-medium text-card-foreground">Sort by Price:</Label>
-            <Select
-              value={sortOption}
-              onValueChange={(value) => setSortOption(value as SortOption)}
-            >
-              <SelectTrigger id="sort-order" className="w-full sm:w-[180px] bg-input border-border text-foreground">
-                <SelectValue placeholder="Sort by" />
-              </SelectTrigger>
-              <SelectContent className="bg-popover text-popover-foreground border-border">
-                <SelectItem value="default" className="hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground">Default</SelectItem>
-                <SelectItem value="price-asc" className="hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground">Price: Low to High</SelectItem>
-                <SelectItem value="price-desc" className="hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground">Price: High to Low</SelectItem>
-              </SelectContent>
-            </Select>
+        {/* Header with Title and Search Bar */}
+        <div className="mb-10 flex flex-col sm:flex-row justify-between items-center gap-6">
+          <h2 className="font-headline text-4xl md:text-5xl font-bold text-background self-start sm:self-center">
+            Nos produits
+          </h2>
+          <div className="relative w-full sm:w-auto sm:max-w-xs">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+            <Input
+              type="search"
+              placeholder="Rechercher"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-10 bg-accent border-border text-accent-foreground placeholder:text-muted-foreground focus:border-primary w-full"
+              aria-label="Rechercher des produits"
+            />
           </div>
         </div>
-
-        {filteredAndSortedJewelries.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {filteredAndSortedJewelries.map(item => (
+        
+        {/* Products Grid */}
+        {filteredJewelries.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10">
+            {filteredJewelries.map(item => (
               <JewelryCard key={item.id} item={item} />
             ))}
           </div>
         ) : (
-          <p className="text-center text-muted-foreground font-body text-lg py-10">
-            No jewelry matches your current selection.
+          <p className="text-center text-slate-600 font-body text-lg py-10">
+            Aucun bijou ne correspond à votre recherche.
           </p>
         )}
-      </div>
     </section>
   );
 };

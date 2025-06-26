@@ -1,19 +1,19 @@
 import Header from '@/components/Header';
 import JewelryCatalog from '@/components/JewelryCatalog';
-import { mockJewelries } from '@/data/mockJewelry';
+import { ourProductsData } from '@/data/ourProductsData';
 import Link from 'next/link';
 import { Gem, Facebook, Instagram, Twitter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export default function ShopPage() {
   return (
-    <main className="flex flex-col items-center min-h-screen bg-accent text-accent-foreground">
+    <main className="flex flex-col items-center min-h-screen bg-[#F0F4F5]">
       <div className="w-full">
         <Header themeVariant="onLightBg" />
       </div>
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 md:pt-32 pb-10 md:pb-16 flex-grow">
-        <JewelryCatalog jewelries={mockJewelries} />
+        <JewelryCatalog jewelries={ourProductsData} />
       </div>
 
       <footer className="w-full py-12 md:py-16 bg-accent text-accent-foreground border-t border-border mt-auto">
