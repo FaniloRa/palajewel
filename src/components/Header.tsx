@@ -1,3 +1,4 @@
+
 // src/components/Header.tsx
 import Link from 'next/link';
 import { Search, ShoppingBag, User, Menu } from 'lucide-react';
@@ -61,9 +62,9 @@ const Header = ({ themeVariant = 'default' }: HeaderProps) => {
             <button aria-label="Shopping Bag" className={`${hoverTextClass} transition-colors p-1`}>
               <ShoppingBag size={18} />
             </button>
-            <button aria-label="User Account" className={`${hoverTextClass} transition-colors p-1`}>
+            <Link href="/login" aria-label="User Account" className={`${hoverTextClass} transition-colors p-1`}>
               <User size={18} />
-            </button>
+            </Link>
           </div>
         </div>
       </nav>
