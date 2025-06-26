@@ -1,3 +1,4 @@
+
 export interface Jewelry {
   id: string;
   name: string;
@@ -26,7 +27,7 @@ export interface FeaturedProduct {
 }
 
 export interface OurProduct {
-  id: string;
+  id:string;
   name: string;
   description: string;
   price: number; // Changed from string to number
@@ -34,6 +35,7 @@ export interface OurProduct {
   imageAlt: string;
   dataAiHint: string;
   sku: string;
+  category: string;
   detailedDescription?: string; // For longer description on product page
   mainImageUrl: string; // For product detail page
   thumbnailImageUrl1: string; // For product detail page
