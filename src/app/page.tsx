@@ -44,7 +44,7 @@ export default function Home() {
             <div className="text-center sm:text-left">
               <h3 className="font-headline text-lg font-semibold text-accent-foreground mb-4">Liens Rapides</h3>
               <ul className="space-y-2">
-                <li><Link href="/accueil" className="text-sm text-accent-foreground/80 hover:text-primary">Accueil</Link></li>
+                <li><Link href="/" className="text-sm text-accent-foreground/80 hover:text-primary">Accueil</Link></li>
                 <li><Link href="/shop" className="text-sm text-accent-foreground/80 hover:text-primary">Shop</Link></li>
                 <li><Link href="/#nos-produits-section" className="text-sm text-accent-foreground/80 hover:text-primary">Produits</Link></li>
                 <li><Link href="/blog" className="text-sm text-accent-foreground/80 hover:text-primary">Blog</Link></li>

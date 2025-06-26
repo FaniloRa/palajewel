@@ -5,7 +5,7 @@ import Image from 'next/image';
 import palabiglogo from '@/app/palabiglogo.png'; // Importation de la nouvelle image du logo
 
 const navLinks = [
-  { href: '/accueil', label: 'Accueil' },
+  { href: '/', label: 'Accueil' },
   { href: '/shop', label: 'Shop' },
   { href: '/#nos-produits-section', label: 'Produits' },
   { href: '/blog', label: 'Blog' },
