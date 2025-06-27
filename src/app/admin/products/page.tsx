@@ -1,6 +1,7 @@
 
 import Image from 'next/image'
 import { MoreHorizontal, PlusCircle } from 'lucide-react'
+import Link from 'next/link'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -41,11 +42,13 @@ export default function ProductsPage() {
                 Gérez vos produits et consultez leurs performances de vente.
                 </CardDescription>
             </div>
-            <Button size="sm" className="h-8 gap-1">
+             <Button asChild size="sm" className="h-8 gap-1">
+              <Link href="/admin/products/new">
                 <PlusCircle className="h-3.5 w-3.5" />
                 <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                    Ajouter un Produit
+                  Ajouter un Produit
                 </span>
+              </Link>
             </Button>
         </div>
       </CardHeader>
@@ -81,10 +84,12 @@ export default function ProductsPage() {
               </TableCell>
               <TableCell className="font-medium">{product.name}</TableCell>
               <TableCell>
-                <Badge variant="outline">Actif</Badge>
+                 <Badge variant={product.status === 'active' ? 'outline' : 'secondary'}>
+                  {product.status === 'active' ? 'Actif' : 'Brouillon'}
+                </Badge>
               </TableCell>
               <TableCell>{product.price.toFixed(2)} €</TableCell>
-              <TableCell className="hidden md:table-cell">25</TableCell>
+              <TableCell className="hidden md:table-cell">{product.stock}</TableCell>
               <TableCell className="hidden md:table-cell">
                 2023-07-12 10:42 AM
               </TableCell>

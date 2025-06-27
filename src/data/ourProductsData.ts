@@ -16,6 +16,8 @@ export const ourProductsData: OurProduct[] = [
     mainImageUrl: 'https://placehold.co/600x600.png',
     thumbnailImageUrl1: 'https://placehold.co/300x300.png',
     thumbnailImageUrl2: 'https://placehold.co/300x300.png',
+    stock: 25,
+    status: 'active',
   },
   {
     id: 'op2',
@@ -31,6 +33,8 @@ export const ourProductsData: OurProduct[] = [
     mainImageUrl: 'https://placehold.co/600x600.png',
     thumbnailImageUrl1: 'https://placehold.co/300x300.png',
     thumbnailImageUrl2: 'https://placehold.co/300x300.png',
+    stock: 15,
+    status: 'active',
   },
   {
     id: 'op3',
@@ -46,6 +50,8 @@ export const ourProductsData: OurProduct[] = [
     mainImageUrl: 'https://placehold.co/600x600.png',
     thumbnailImageUrl1: 'https://placehold.co/300x300.png',
     thumbnailImageUrl2: 'https://placehold.co/300x300.png',
+    stock: 30,
+    status: 'active',
   },
   {
     id: 'op4',
@@ -61,6 +67,8 @@ export const ourProductsData: OurProduct[] = [
     mainImageUrl: 'https://placehold.co/600x600.png',
     thumbnailImageUrl1: 'https://placehold.co/300x300.png',
     thumbnailImageUrl2: 'https://placehold.co/300x300.png',
+    stock: 12,
+    status: 'active',
   },
   {
     id: 'op5',
@@ -76,6 +84,8 @@ export const ourProductsData: OurProduct[] = [
     mainImageUrl: 'https://placehold.co/600x600.png',
     thumbnailImageUrl1: 'https://placehold.co/300x300.png',
     thumbnailImageUrl2: 'https://placehold.co/300x300.png',
+    stock: 40,
+    status: 'active',
   },
   {
     id: 'op6',
@@ -91,6 +101,8 @@ export const ourProductsData: OurProduct[] = [
     mainImageUrl: 'https://placehold.co/600x600.png',
     thumbnailImageUrl1: 'https://placehold.co/300x300.png',
     thumbnailImageUrl2: 'https://placehold.co/300x300.png',
+    stock: 18,
+    status: 'active',
   },
   {
     id: 'op7',
@@ -106,6 +118,8 @@ export const ourProductsData: OurProduct[] = [
     mainImageUrl: 'https://placehold.co/600x600.png',
     thumbnailImageUrl1: 'https://placehold.co/300x300.png',
     thumbnailImageUrl2: 'https://placehold.co/300x300.png',
+    stock: 8,
+    status: 'active',
   },
   {
     id: 'op8',
@@ -121,6 +135,8 @@ export const ourProductsData: OurProduct[] = [
     mainImageUrl: 'https://placehold.co/600x600.png',
     thumbnailImageUrl1: 'https://placehold.co/300x300.png',
     thumbnailImageUrl2: 'https://placehold.co/300x300.png',
+    stock: 22,
+    status: 'active',
   },
   {
     id: 'op9',
@@ -136,6 +152,8 @@ export const ourProductsData: OurProduct[] = [
     mainImageUrl: 'https://placehold.co/600x600.png',
     thumbnailImageUrl1: 'https://placehold.co/300x300.png',
     thumbnailImageUrl2: 'https://placehold.co/300x300.png',
+    stock: 50,
+    status: 'draft',
   },
   {
     id: 'op10',
@@ -151,6 +169,8 @@ export const ourProductsData: OurProduct[] = [
     mainImageUrl: 'https://placehold.co/600x600.png',
     thumbnailImageUrl1: 'https://placehold.co/300x300.png',
     thumbnailImageUrl2: 'https://placehold.co/300x300.png',
+    stock: 28,
+    status: 'active',
   },
   {
     id: 'op11',
@@ -166,6 +186,8 @@ export const ourProductsData: OurProduct[] = [
     mainImageUrl: 'https://placehold.co/600x600.png',
     thumbnailImageUrl1: 'https://placehold.co/300x300.png',
     thumbnailImageUrl2: 'https://placehold.co/300x300.png',
+    stock: 7,
+    status: 'active',
   },
   {
     id: 'op12',
@@ -181,6 +203,8 @@ export const ourProductsData: OurProduct[] = [
     mainImageUrl: 'https://placehold.co/600x600.png',
     thumbnailImageUrl1: 'https://placehold.co/300x300.png',
     thumbnailImageUrl2: 'https://placehold.co/300x300.png',
+    stock: 14,
+    status: 'active',
   },
   {
     id: 'op13',
@@ -196,5 +220,7 @@ export const ourProductsData: OurProduct[] = [
     mainImageUrl: 'https://placehold.co/600x600.png',
     thumbnailImageUrl1: 'https://placehold.co/300x300.png',
     thumbnailImageUrl2: 'https://placehold.co/300x300.png',
+    stock: 10,
+    status: 'active',
   },
 ];

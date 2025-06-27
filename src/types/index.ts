@@ -1,4 +1,5 @@
 
+
 export interface Jewelry {
   id: string;
   name: string;
@@ -40,4 +41,6 @@ export interface OurProduct {
   mainImageUrl: string; // For product detail page
   thumbnailImageUrl1: string; // For product detail page
   thumbnailImageUrl2: string; // For product detail page
+  stock: number;
+  status: 'active' | 'draft';
 }
