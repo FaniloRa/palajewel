@@ -28,6 +28,7 @@ import {
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -343,6 +344,12 @@ export default function NewOrderPage() {
       {/* Receipt Dialog */}
       <Dialog open={isReceiptDialogOpen} onOpenChange={(open) => !open && handleCloseAndReset()}>
         <DialogContent className="max-w-sm p-0">
+          <DialogHeader className="sr-only">
+            <DialogTitle>Reçu de la commande</DialogTitle>
+            <DialogDescription>
+              Aperçu du reçu de la commande finalisée, prêt à être imprimé.
+            </DialogDescription>
+          </DialogHeader>
            {finalizedOrder && (
               <div id="receipt-content" className="text-sm font-mono p-6 bg-white text-black">
                   <div className="text-center mb-4">
