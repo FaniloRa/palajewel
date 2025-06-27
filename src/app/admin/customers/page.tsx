@@ -6,7 +6,7 @@ export default function CustomersPage() {
         <Card>
             <CardHeader>
                 <CardTitle>Gestion des Clients</CardTitle>
-                <CardDescription>Consultez et gérez la liste de vos clients.</CardCardDescription>
+                <CardDescription>Consultez et gérez la liste de vos clients.</CardDescription>
             </CardHeader>
             <CardContent>
                 <p>La fonctionnalité de gestion des clients sera bientôt disponible.</p>
