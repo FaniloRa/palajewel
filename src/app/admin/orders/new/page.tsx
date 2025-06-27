@@ -3,7 +3,7 @@
 
 import { useState, useMemo } from 'react';
 import Image from 'next/image';
-import { Search, Plus, Minus, Trash2, Wallet, CreditCard } from 'lucide-react';
+import { Search, Plus, Minus, Trash2, Wallet, CreditCard, Printer, X } from 'lucide-react';
 
 import { ourProductsData } from '@/data/ourProductsData';
 import type { OurProduct } from '@/types';
@@ -23,11 +23,26 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 
 
 interface CartItem {
   product: OurProduct;
   quantity: number;
+}
+
+interface FinalizedOrder {
+  customer: { name: string; email: string };
+  items: CartItem[];
+  summary: { subtotal: number; tax: number; total: number; };
+  paymentMethod: 'cash' | 'visa';
+  date: Date;
 }
 
 export default function NewOrderPage() {
@@ -36,7 +51,13 @@ export default function NewOrderPage() {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [customerName, setCustomerName] = useState('');
   const [customerEmail, setCustomerEmail] = useState('');
+  
   const [isPaymentDialogOpen, setIsPaymentDialogOpen] = useState(false);
+  const [isCashConfirmationDialogOpen, setIsCashConfirmationDialogOpen] = useState(false);
+  const [isReceiptDialogOpen, setIsReceiptDialogOpen] = useState(false);
+  
+  const [cashReceivedAmount, setCashReceivedAmount] = useState('');
+  const [finalizedOrder, setFinalizedOrder] = useState<FinalizedOrder | null>(null);
 
   const filteredProducts = useMemo(() => {
     return ourProductsData.filter(product =>
@@ -93,28 +114,74 @@ export default function NewOrderPage() {
     setIsPaymentDialogOpen(true);
   };
 
-  const handleFinalizeOrder = (paymentMethod: 'cash' | 'visa') => {
-    // In a real app, you would send this data to your backend
-    console.log({
+  const handleConfirmPayment = (paymentMethod: 'cash' | 'visa') => {
+    const orderData = {
         customer: { name: customerName, email: customerEmail },
         items: cart,
         summary: { subtotal, tax, total },
-        paymentMethod
-    });
+        paymentMethod,
+        date: new Date(),
+    };
 
-    toast({ title: 'Succès', description: `La commande a été créée et payée par ${paymentMethod === 'cash' ? 'espèce' : 'Visa'}.` });
-    
-    // Reset state
+    setFinalizedOrder(orderData);
+    console.log('Order created:', orderData);
+
+    setIsPaymentDialogOpen(false);
+    setIsCashConfirmationDialogOpen(false);
+    setIsReceiptDialogOpen(true);
+
+    toast({ title: 'Succès', description: `La commande a été validée avec paiement par ${paymentMethod === 'cash' ? 'espèce' : 'Visa'}.` });
+  };
+
+  const handleCashPayment = () => {
+    const received = parseFloat(cashReceivedAmount);
+    if (isNaN(received) || received < total) {
+      toast({ title: 'Erreur', description: 'Le montant saisi est incorrect ou insuffisant.', variant: 'destructive' });
+      return;
+    }
+    handleConfirmPayment('cash');
+  };
+
+  const handleCloseAndReset = () => {
     setCart([]);
     setCustomerName('');
     setCustomerEmail('');
-    setIsPaymentDialogOpen(false);
+    setCashReceivedAmount('');
+    setFinalizedOrder(null);
+    setIsReceiptDialogOpen(false);
   };
 
+  const handlePrintReceipt = () => {
+    window.print();
+  };
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 h-full">
+      <style jsx global>{`
+        @media print {
+          body * {
+            visibility: hidden;
+          }
+          #receipt-content, #receipt-content * {
+            visibility: visible;
+          }
+          #receipt-content {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            margin: 0;
+            padding: 20px;
+            border: none;
+            box-shadow: none;
+          }
+          .no-print {
+            display: none !important;
+          }
+        }
+      `}</style>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 h-full no-print">
         {/* Product List Column */}
         <div className="md:col-span-2">
           <Card className="h-full flex flex-col">
@@ -218,6 +285,7 @@ export default function NewOrderPage() {
         </div>
       </div>
 
+      {/* Payment Method Dialog */}
       <AlertDialog open={isPaymentDialogOpen} onOpenChange={setIsPaymentDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -227,16 +295,103 @@ export default function NewOrderPage() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="flex-col gap-2 pt-4 sm:flex-col sm:justify-center">
-            <Button size="lg" onClick={() => handleFinalizeOrder('visa')}>
+            <Button size="lg" onClick={() => handleConfirmPayment('visa')}>
               <CreditCard className="mr-2 h-5 w-5" /> Payer par Visa
             </Button>
-            <Button size="lg" variant="secondary" onClick={() => handleFinalizeOrder('cash')}>
+            <Button size="lg" variant="secondary" onClick={() => { setIsPaymentDialogOpen(false); setIsCashConfirmationDialogOpen(true); }}>
               <Wallet className="mr-2 h-5 w-5" /> Payer en espèce
             </Button>
             <AlertDialogCancel className="mt-2">Annuler</AlertDialogCancel>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      {/* Cash Confirmation Dialog */}
+      <AlertDialog open={isCashConfirmationDialogOpen} onOpenChange={setIsCashConfirmationDialogOpen}>
+        <AlertDialogContent>
+            <AlertDialogHeader>
+                <AlertDialogTitle>Paiement en espèce</AlertDialogTitle>
+                <AlertDialogDescription>
+                    Le montant total est de <strong>{total.toFixed(2)} €</strong>. Veuillez saisir le montant reçu du client.
+                </AlertDialogDescription>
+            </AlertDialogHeader>
+            <div className="py-4">
+                <Label htmlFor="cash-received">Montant reçu</Label>
+                <Input
+                    id="cash-received"
+                    type="number"
+                    placeholder={total.toFixed(2)}
+                    value={cashReceivedAmount}
+                    onChange={(e) => setCashReceivedAmount(e.target.value)}
+                    className="text-lg text-right"
+                    min={total}
+                />
+            </div>
+            <AlertDialogFooter>
+                <AlertDialogCancel onClick={() => setCashReceivedAmount('')}>Annuler</AlertDialogCancel>
+                <Button onClick={handleCashPayment}>
+                    Payer
+                </Button>
+            </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Receipt Dialog */}
+      <Dialog open={isReceiptDialogOpen} onOpenChange={(open) => !open && handleCloseAndReset()}>
+        <DialogContent className="max-w-sm p-0 no-print">
+           {finalizedOrder && (
+              <div id="receipt-content" className="text-sm font-mono p-6 bg-white text-black">
+                  <div className="text-center mb-4">
+                      <h3 className="text-lg font-bold">Pala Jewelry</h3>
+                      <p>10 Rue Ratsimilaho, Antananarivo</p>
+                      <p>{finalizedOrder.date.toLocaleString('fr-FR')}</p>
+                  </div>
+                  <div className="mb-4">
+                      <p><strong>Client:</strong> {finalizedOrder.customer.name}</p>
+                  </div>
+                  <div className="border-t border-b border-dashed border-black py-2 my-2">
+                      {finalizedOrder.items.map(item => (
+                          <div key={item.product.id} className="flex justify-between items-start gap-2">
+                              <div className="flex-grow">
+                                  <p>{item.product.name}</p>
+                                  <p className="text-xs">
+                                      {item.quantity} x {item.product.price.toFixed(2)}€
+                                  </p>
+                              </div>
+                              <p className="flex-shrink-0 text-right">{(item.quantity * item.product.price).toFixed(2)}€</p>
+                          </div>
+                      ))}
+                  </div>
+                  <div className="space-y-1 mt-2">
+                        <div className="flex justify-between">
+                          <p>Sous-total</p>
+                          <p>{finalizedOrder.summary.subtotal.toFixed(2)}€</p>
+                      </div>
+                      <div className="flex justify-between">
+                          <p>TVA (20%)</p>
+                          <p>{finalizedOrder.summary.tax.toFixed(2)}€</p>
+                      </div>
+                      <div className="flex justify-between font-bold text-base border-t border-dashed border-black pt-2 mt-2">
+                          <p>TOTAL</p>
+                          <p>{finalizedOrder.summary.total.toFixed(2)}€</p>
+                      </div>
+                  </div>
+                    <div className="text-center mt-6">
+                      <p>Payé par: <strong>{finalizedOrder.paymentMethod === 'cash' ? 'Espèce' : 'Visa'}</strong></p>
+                      <p className="mt-4 text-xs">Merci pour votre achat !</p>
+                  </div>
+              </div>
+          )}
+          <DialogFooter className="sm:justify-between gap-2 p-4 border-t bg-muted">
+              <Button variant="ghost" onClick={handleCloseAndReset}>
+                  <X className="mr-2 h-4 w-4" /> Fermer
+              </Button>
+              <Button onClick={handlePrintReceipt}>
+                  <Printer className="mr-2 h-4 w-4" /> Imprimer le reçu
+              </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
