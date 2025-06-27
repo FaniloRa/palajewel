@@ -1,6 +1,9 @@
 
+'use client';
+
 import type { ReactNode } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import {
   Home,
   ShoppingCart,
@@ -10,7 +13,8 @@ import {
   PanelLeft,
   Search,
   LogOut,
-  FileText
+  FileText,
+  Gem,
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -25,68 +29,56 @@ import {
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
+import { cn } from '@/lib/utils';
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
+
+  const navLinks = [
+    { href: '/admin', label: 'Dashboard', icon: Home },
+    { href: '/admin/orders', label: 'Commandes', icon: ShoppingCart },
+    { href: '/admin/products', label: 'Produits', icon: Package },
+    { href: '/admin/content', label: 'Contenu', icon: FileText },
+    { href: '/admin/customers', label: 'Clients', icon: Users2 },
+  ];
+
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
       <aside className="fixed inset-y-0 left-0 z-10 hidden w-60 flex-col border-r bg-primary text-primary-foreground sm:flex">
-        <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
-          <Link
-            href="/"
-            className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary-foreground text-lg font-semibold text-primary md:h-8 md:w-8 md:text-base"
-          >
-            <Package className="h-4 w-4 transition-all group-hover:scale-110" />
-            <span className="sr-only">Pala Jewelry</span>
-          </Link>
-          <Link
-            href="/admin"
-            className="flex w-full justify-center items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:bg-muted/90"
-          >
-            <Home className="h-4 w-4" />
-            Dashboard
-          </Link>
-          <Link
-            href="/admin/orders"
-            className="flex w-full justify-center items-center gap-3 rounded-lg px-3 py-2 text-primary-foreground/70 transition-all hover:text-primary-foreground"
-          >
-            <ShoppingCart className="h-4 w-4" />
-            Commandes
-            <Badge variant="secondary" className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-              6
-            </Badge>
-          </Link>
-          <Link
-            href="/admin/products"
-            className="flex w-full justify-center items-center gap-3 rounded-lg px-3 py-2 text-primary-foreground/70 transition-all hover:text-primary-foreground"
-          >
-            <Package className="h-4 w-4" />
-            Produits
-          </Link>
-           <Link
-            href="/admin/content"
-            className="flex w-full justify-center items-center gap-3 rounded-lg px-3 py-2 text-primary-foreground/70 transition-all hover:text-primary-foreground"
-          >
-            <FileText className="h-4 w-4" />
-            Contenu
-          </Link>
-          <Link
-            href="/admin/customers"
-            className="flex w-full justify-center items-center gap-3 rounded-lg px-3 py-2 text-primary-foreground/70 transition-all hover:text-primary-foreground"
-          >
-            <Users2 className="h-4 w-4" />
-            Clients
-          </Link>
-        </nav>
-        <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
-          <Link
-            href="#"
-            className="flex w-full justify-center items-center gap-3 rounded-lg px-3 py-2 text-primary-foreground/70 transition-all hover:text-primary-foreground"
-          >
-            <Settings className="h-4 w-4" />
-            Settings
-          </Link>
-        </nav>
+        <div className="flex h-full max-h-screen flex-col gap-2">
+            <div className="flex h-14 items-center border-b border-primary-foreground/20 px-4 lg:h-[60px] lg:px-6">
+                 <Link href="/" className="flex items-center gap-2 font-semibold text-primary-foreground">
+                    <Gem className="h-6 w-6" />
+                    <span className="">Pala Jewelry</span>
+                 </Link>
+            </div>
+            <div className="flex-1">
+              <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={cn(
+                      "flex items-center gap-3 rounded-lg px-3 py-2 text-primary-foreground/70 transition-all hover:text-primary-foreground hover:bg-primary-foreground/10",
+                      pathname === link.href && "bg-primary-foreground/10 text-primary-foreground"
+                    )}
+                  >
+                    <link.icon className="h-4 w-4" />
+                    {link.label}
+                  </Link>
+                ))}
+              </nav>
+            </div>
+            <div className="mt-auto p-4">
+               <Link
+                  href="/login"
+                  className="flex items-center gap-3 rounded-lg px-3 py-2 text-primary-foreground/70 transition-all hover:text-primary-foreground hover:bg-primary-foreground/10"
+                >
+                  <LogOut className="h-4 w-4" />
+                   Déconnexion
+                </Link>
+            </div>
+        </div>
       </aside>
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-60">
         <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
@@ -103,50 +95,28 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                   href="/"
                   className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary-foreground text-lg font-semibold text-primary md:text-base"
                 >
-                  <Package className="h-5 w-5 transition-all group-hover:scale-110" />
+                  <Gem className="h-5 w-5 transition-all group-hover:scale-110" />
                   <span className="sr-only">Pala Jewelry</span>
                 </Link>
-                <Link
-                  href="/admin"
-                  className="flex items-center gap-4 px-2.5 text-primary-foreground hover:text-primary-foreground/80"
-                >
-                  <Home className="h-5 w-5" />
-                  Dashboard
-                </Link>
-                <Link
-                  href="/admin/orders"
-                  className="flex items-center gap-4 px-2.5 text-primary-foreground/70 hover:text-primary-foreground"
-                >
-                  <ShoppingCart className="h-5 w-5" />
-                  Commandes
-                </Link>
-                <Link
-                  href="/admin/products"
-                  className="flex items-center gap-4 px-2.5 text-primary-foreground/70 hover:text-primary-foreground"
-                >
-                  <Package className="h-5 w-5" />
-                  Produits
-                </Link>
-                <Link
-                    href="/admin/content"
-                    className="flex items-center gap-4 px-2.5 text-primary-foreground/70 hover:text-primary-foreground"
-                >
-                    <FileText className="h-5 w-5" />
-                    Contenu
-                </Link>
-                <Link
-                  href="/admin/customers"
-                  className="flex items-center gap-4 px-2.5 text-primary-foreground/70 hover:text-primary-foreground"
-                >
-                  <Users2 className="h-5 w-5" />
-                  Clients
-                </Link>
+                {navLinks.map((link) => (
+                    <Link
+                    key={link.href}
+                    href={link.href}
+                    className={cn(
+                        'flex items-center gap-4 px-2.5 text-primary-foreground/70 hover:text-primary-foreground',
+                        pathname === link.href && "text-primary-foreground"
+                    )}
+                    >
+                    <link.icon className="h-5 w-5" />
+                    {link.label}
+                    </Link>
+                ))}
                  <Link
-                    href="#"
+                    href="/login"
                     className="mt-auto flex items-center gap-4 px-2.5 text-primary-foreground/70 hover:text-primary-foreground"
                  >
-                    <Settings className="h-5 w-5" />
-                    Settings
+                    <LogOut className="h-5 w-5" />
+                    Déconnexion
                 </Link>
               </nav>
             </SheetContent>
