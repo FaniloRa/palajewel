@@ -1,9 +1,11 @@
 
+
 'use client';
 
 import { useState } from 'react';
 import Link from 'next/link';
 import { Gem } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -15,12 +17,12 @@ import { Label } from '@/components/ui/label';
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const router = useRouter();
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically handle the login logic,
-    // like calling an API endpoint.
-    console.log('Logging in with:', { email, password });
+    // Simulate login and redirect to the admin dashboard
+    router.push('/admin');
   };
 
   return (
