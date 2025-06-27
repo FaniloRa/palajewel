@@ -4,6 +4,8 @@
 import { useState, useMemo } from 'react';
 import Image from 'next/image';
 import { Search, Plus, Minus, Trash2, Wallet, CreditCard, Printer, X } from 'lucide-react';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 import { ourProductsData } from '@/data/ourProductsData';
 import type { OurProduct } from '@/types';
@@ -152,36 +154,38 @@ export default function NewOrderPage() {
   };
 
   const handlePrintReceipt = () => {
-    window.print();
+    const receiptElement = document.getElementById('receipt-content');
+    if (receiptElement) {
+      // Use html2canvas to render the receipt element to a canvas
+      html2canvas(receiptElement, { scale: 2 }) // Increase scale for better resolution
+        .then((canvas) => {
+          const imgData = canvas.toDataURL('image/png');
+          
+          // Use jsPDF to create a PDF document
+          // Using a format similar to a thermal receipt printer (80mm width)
+          const pdf = new jsPDF({
+            orientation: 'portrait',
+            unit: 'mm',
+            format: [80, 297] // 80mm width, A4 height (long enough for any receipt)
+          });
+          
+          const imgProps = pdf.getImageProperties(imgData);
+          const pdfWidth = pdf.internal.pageSize.getWidth();
+          // Calculate height to maintain aspect ratio
+          const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+          pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+          
+          // Trigger the download of the PDF file
+          const customerNameForFile = finalizedOrder?.customer.name.replace(/\s+/g, '_') || 'commande';
+          pdf.save(`recu-${customerNameForFile}-${new Date().getTime()}.pdf`);
+        });
+    }
   };
 
   return (
     <>
-      <style jsx global>{`
-        @media print {
-          body * {
-            visibility: hidden;
-          }
-          #receipt-content, #receipt-content * {
-            visibility: visible;
-          }
-          #receipt-content {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            margin: 0;
-            padding: 20px;
-            border: none;
-            box-shadow: none;
-          }
-          .no-print {
-            display: none !important;
-          }
-        }
-      `}</style>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 h-full no-print">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 h-full">
         {/* Product List Column */}
         <div className="md:col-span-2">
           <Card className="h-full flex flex-col">
@@ -338,7 +342,7 @@ export default function NewOrderPage() {
 
       {/* Receipt Dialog */}
       <Dialog open={isReceiptDialogOpen} onOpenChange={(open) => !open && handleCloseAndReset()}>
-        <DialogContent className="max-w-sm p-0 no-print">
+        <DialogContent className="max-w-sm p-0">
            {finalizedOrder && (
               <div id="receipt-content" className="text-sm font-mono p-6 bg-white text-black">
                   <div className="text-center mb-4">
