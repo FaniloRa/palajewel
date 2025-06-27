@@ -1,5 +1,6 @@
 
-import { MoreHorizontal } from "lucide-react"
+import { MoreHorizontal, PlusCircle } from "lucide-react"
+import Link from "next/link"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -36,9 +37,19 @@ const orders = [
 export default function OrdersPage() {
     return (
         <Card>
-            <CardHeader>
-                <CardTitle>Commandes</CardTitle>
-                <CardDescription>Gérez les commandes récentes de vos clients.</CardDescription>
+            <CardHeader className="flex flex-row items-center justify-between">
+                <div>
+                    <CardTitle>Commandes</CardTitle>
+                    <CardDescription>Gérez les commandes récentes de vos clients.</CardDescription>
+                </div>
+                <Button asChild size="sm" className="h-8 gap-1">
+                    <Link href="/admin/orders/new">
+                        <PlusCircle className="h-3.5 w-3.5" />
+                        <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                            Nouvelle Commande
+                        </span>
+                    </Link>
+                </Button>
             </CardHeader>
             <CardContent>
                 <Table>
