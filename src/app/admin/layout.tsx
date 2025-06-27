@@ -30,49 +30,49 @@ import { Badge } from '@/components/ui/badge';
 export default function AdminLayout({ children }: { children: ReactNode }) {
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
-      <aside className="fixed inset-y-0 left-0 z-10 hidden w-60 flex-col border-r bg-background sm:flex">
+      <aside className="fixed inset-y-0 left-0 z-10 hidden w-60 flex-col border-r bg-primary text-primary-foreground sm:flex">
         <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
           <Link
             href="/"
-            className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
+            className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary-foreground text-lg font-semibold text-primary md:h-8 md:w-8 md:text-base"
           >
             <Package className="h-4 w-4 transition-all group-hover:scale-110" />
             <span className="sr-only">Pala Jewelry</span>
           </Link>
           <Link
             href="/admin"
-            className="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:text-primary"
+            className="flex w-full justify-center items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:bg-muted/90"
           >
             <Home className="h-4 w-4" />
             Dashboard
           </Link>
           <Link
             href="/admin/orders"
-            className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+            className="flex w-full justify-center items-center gap-3 rounded-lg px-3 py-2 text-primary-foreground/70 transition-all hover:text-primary-foreground"
           >
             <ShoppingCart className="h-4 w-4" />
             Commandes
-            <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
+            <Badge variant="secondary" className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
               6
             </Badge>
           </Link>
           <Link
             href="/admin/products"
-            className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+            className="flex w-full justify-center items-center gap-3 rounded-lg px-3 py-2 text-primary-foreground/70 transition-all hover:text-primary-foreground"
           >
             <Package className="h-4 w-4" />
             Produits
           </Link>
            <Link
             href="/admin/content"
-            className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+            className="flex w-full justify-center items-center gap-3 rounded-lg px-3 py-2 text-primary-foreground/70 transition-all hover:text-primary-foreground"
           >
             <FileText className="h-4 w-4" />
             Contenu
           </Link>
           <Link
             href="/admin/customers"
-            className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+            className="flex w-full justify-center items-center gap-3 rounded-lg px-3 py-2 text-primary-foreground/70 transition-all hover:text-primary-foreground"
           >
             <Users2 className="h-4 w-4" />
             Clients
@@ -81,7 +81,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
         <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
           <Link
             href="#"
-            className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+            className="flex w-full justify-center items-center gap-3 rounded-lg px-3 py-2 text-primary-foreground/70 transition-all hover:text-primary-foreground"
           >
             <Settings className="h-4 w-4" />
             Settings
@@ -97,53 +97,53 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                 <span className="sr-only">Toggle Menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="sm:max-w-xs">
+            <SheetContent side="left" className="sm:max-w-xs bg-primary text-primary-foreground">
                <nav className="grid gap-6 text-lg font-medium">
                 <Link
                   href="/"
-                  className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
+                  className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary-foreground text-lg font-semibold text-primary md:text-base"
                 >
                   <Package className="h-5 w-5 transition-all group-hover:scale-110" />
                   <span className="sr-only">Pala Jewelry</span>
                 </Link>
                 <Link
                   href="/admin"
-                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                  className="flex items-center gap-4 px-2.5 text-primary-foreground hover:text-primary-foreground/80"
                 >
                   <Home className="h-5 w-5" />
                   Dashboard
                 </Link>
                 <Link
                   href="/admin/orders"
-                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                  className="flex items-center gap-4 px-2.5 text-primary-foreground/70 hover:text-primary-foreground"
                 >
                   <ShoppingCart className="h-5 w-5" />
                   Commandes
                 </Link>
                 <Link
                   href="/admin/products"
-                  className="flex items-center gap-4 px-2.5 text-foreground"
+                  className="flex items-center gap-4 px-2.5 text-primary-foreground/70 hover:text-primary-foreground"
                 >
                   <Package className="h-5 w-5" />
                   Produits
                 </Link>
                 <Link
                     href="/admin/content"
-                    className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                    className="flex items-center gap-4 px-2.5 text-primary-foreground/70 hover:text-primary-foreground"
                 >
                     <FileText className="h-5 w-5" />
                     Contenu
                 </Link>
                 <Link
                   href="/admin/customers"
-                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                  className="flex items-center gap-4 px-2.5 text-primary-foreground/70 hover:text-primary-foreground"
                 >
                   <Users2 className="h-5 w-5" />
                   Clients
                 </Link>
                  <Link
                     href="#"
-                    className="mt-auto flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                    className="mt-auto flex items-center gap-4 px-2.5 text-primary-foreground/70 hover:text-primary-foreground"
                  >
                     <Settings className="h-5 w-5" />
                     Settings
