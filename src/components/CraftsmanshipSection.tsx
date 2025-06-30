@@ -37,8 +37,8 @@ const CraftsmanshipSection = () => {
               <Image
                 src="https://placehold.co/600x400.png"
                 alt="Bracelets fabriqués avec soins"
-                layout="fill"
-                objectFit="cover"
+                fill
+                style={{ objectFit: 'cover' }}
                 data-ai-hint="bracelets jewelry craft"
                 className="transition-transform duration-500 group-hover:scale-105"
               />

@@ -23,8 +23,8 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ products }) => {
                 <Image
                   src={product.imageUrl}
                   alt={product.imageAlt}
-                  layout="fill"
-                  objectFit="cover"
+                  fill
+                  style={{ objectFit: 'cover' }}
                   data-ai-hint={product.dataAiHint}
                 />
               </div>

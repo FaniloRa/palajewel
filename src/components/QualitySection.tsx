@@ -75,8 +75,8 @@ const QualitySection = () => {
               <Image
                 src={collierImage}
                 alt="Collier PALA de haute qualité en or et diamants"
-                layout="fill"
-                objectFit="contain"
+                fill
+                style={{ objectFit: 'contain' }}
                 data-ai-hint="gold diamond necklace"
                 priority
               />

@@ -31,8 +31,8 @@ const OurProductsSection: React.FC<OurProductsSectionProps> = ({ products }) => 
                   <Image
                     src={product.imageUrl}
                     alt={product.imageAlt}
-                    layout="fill"
-                    objectFit="cover"
+                    fill
+                    style={{ objectFit: 'cover' }}
                     data-ai-hint={product.dataAiHint}
                     className="transition-transform duration-300 group-hover:scale-105"
                   />

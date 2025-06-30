@@ -50,8 +50,8 @@ const HeroSection = () => {
             <Image
               src={heroImage}
               alt="L'Excellence Intemporelle"
-              layout="fill"
-              objectFit="contain"
+              fill
+              style={{ objectFit: 'contain' }}
               quality={90}
               className="drop-shadow-2xl animate-subtle-float"
               priority // Ajout de la propriété priority pour les images LCP

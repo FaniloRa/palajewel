@@ -20,8 +20,8 @@ const StorefrontSection = () => {
           <Image
             src={storefrontImage}
             alt="Intérieur de la boutique Pala Jewelry"
-            layout="fill"
-            objectFit="cover"
+            fill
+            style={{ objectFit: 'cover' }}
             className="transition-transform duration-500 group-hover:scale-105"
             placeholder="blur"
           />

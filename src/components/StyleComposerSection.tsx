@@ -132,8 +132,8 @@ const StyleComposerSection = () => {
               <Image
                 src={card.imageUrl}
                 alt={card.imageAlt}
-                layout="fill"
-                objectFit="cover"
+                fill
+                style={{ objectFit: 'cover' }}
                 className="transition-transform duration-500 group-hover:scale-110"
                 data-ai-hint={card.dataAiHint}
               />
