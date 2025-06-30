@@ -43,10 +43,16 @@ interface CartItem {
 interface FinalizedOrder {
   _id: string;
   customer: { name: string; email: string };
-  items: Array<CartItem & { product: { id: string, name: string, price: number }}>;
+  items: Array<{
+    productId: string;
+    name: string;
+    quantity: number;
+    price: number;
+    imageUrl: string;
+  }>;
   summary: { subtotal: number; tax: number; total: number; };
   paymentMethod: 'cash' | 'visa';
-  date: Date;
+  createdAt: string;
 }
 
 interface NewOrderClientPageProps {
@@ -156,12 +162,7 @@ export default function NewOrderClientPage({ products }: NewOrderClientPageProps
     }
     
     if (result.success && result.order) {
-        const orderData = {
-            ...result.order,
-            date: new Date(result.order.date),
-        };
-
-        setFinalizedOrder(orderData as FinalizedOrder);
+        setFinalizedOrder(result.order as FinalizedOrder);
         setIsPaymentDialogOpen(false);
         setIsCashConfirmationDialogOpen(false);
         setIsReceiptDialogOpen(true);
@@ -392,7 +393,7 @@ export default function NewOrderClientPage({ products }: NewOrderClientPageProps
                   <div className="text-center mb-4">
                       <h3 className="text-lg font-bold">Pala Jewelry</h3>
                       <p>10 Rue Ratsimilaho, Antananarivo</p>
-                      <p>{finalizedOrder.date.toLocaleString('fr-FR')}</p>
+                      <p>{new Date(finalizedOrder.createdAt).toLocaleString('fr-FR')}</p>
                       <p>Reçu No: {finalizedOrder._id}</p>
                   </div>
                   <div className="mb-4">
@@ -402,12 +403,12 @@ export default function NewOrderClientPage({ products }: NewOrderClientPageProps
                       {finalizedOrder.items.map((item, index) => (
                           <div key={index} className="flex justify-between items-start gap-2">
                               <div className="flex-grow">
-                                  <p>{item.product.name}</p>
+                                  <p>{item.name}</p>
                                   <p className="text-xs">
-                                      {item.quantity} x {item.product.price.toFixed(2)}€
+                                      {item.quantity} x {item.price.toFixed(2)}€
                                   </p>
                               </div>
-                              <p className="flex-shrink-0 text-right">{(item.quantity * item.product.price).toFixed(2)}€</p>
+                              <p className="flex-shrink-0 text-right">{(item.quantity * item.price).toFixed(2)}€</p>
                           </div>
                       ))}
                   </div>

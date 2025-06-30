@@ -65,22 +65,9 @@ export async function createOrder(data: CreateOrderInput) {
         revalidatePath('/admin/orders');
         revalidatePath('/admin/products'); // to reflect stock changes
         
-        const finalizedOrderForReceipt = {
-            ...newOrder.toObject(),
-            // Ensure all necessary fields are serializable
-            _id: newOrder._id.toString(),
-            date: newOrder.createdAt.toISOString(),
-            items: newOrder.items.map(item => ({
-                ...item,
-                product: {
-                    id: item.productId,
-                    name: item.name,
-                    price: item.price,
-                }
-            }))
-        };
-        
-        return { success: true, order: JSON.parse(JSON.stringify(finalizedOrderForReceipt)) };
+        // The saved order object is already in a good shape.
+        // We just need to serialize it correctly for the client.
+        return { success: true, order: JSON.parse(JSON.stringify(newOrder)) };
 
     } catch (error: any) {
         console.error("Failed to create order:", error);
