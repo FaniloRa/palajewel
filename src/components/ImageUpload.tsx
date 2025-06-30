@@ -22,6 +22,17 @@ export default function ImageUpload({ id, name, onUpload, initialUrl = '' }: Ima
     const file = event.target.files?.[0];
     if (!file) return;
 
+    // Client-side file size validation
+    const MAX_FILE_SIZE = 10485760; // 10MB in bytes, as per Cloudinary error
+    if (file.size > MAX_FILE_SIZE) {
+      toast({
+        title: "Fichier trop volumineux",
+        description: `La taille maximale autorisée est de 10 Mo.`,
+        variant: "destructive",
+      });
+      return;
+    }
+
     const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
     const apiKey = process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY;
 
