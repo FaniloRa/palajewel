@@ -1,10 +1,9 @@
 
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useActionState } from 'react';
 import Link from 'next/link';
 import { Gem } from 'lucide-react';
-import { useFormState } from 'react-dom';
 
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -21,7 +20,7 @@ const initialState = {
 
 export default function LoginPage() {
   const { toast } = useToast();
-  const [state, formAction] = useFormState(loginUser, initialState);
+  const [state, formAction] = useActionState(loginUser, initialState);
 
   useEffect(() => {
     if (state?.error) {

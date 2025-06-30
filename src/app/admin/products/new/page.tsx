@@ -3,7 +3,7 @@
 
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
-import React, { useEffect } from 'react'
+import React, { useEffect, useActionState } from 'react'
 
 import { Button } from "@/components/ui/button"
 import {
@@ -17,7 +17,6 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
-import { useFormState } from "react-dom"
 import { addProduct } from "@/app/actions/productActions"
 
 const initialState = {
@@ -26,7 +25,7 @@ const initialState = {
 
 export default function NewProductPage() {
   const { toast } = useToast()
-  const [state, formAction] = useFormState(addProduct, initialState)
+  const [state, formAction] = useActionState(addProduct, initialState)
 
   useEffect(() => {
     if (state?.error) {
