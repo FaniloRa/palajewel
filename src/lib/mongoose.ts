@@ -31,14 +31,18 @@ async function seedDatabase() {
             console.log('Database seeded successfully with products.');
         }
 
-        const userCount = await User.countDocuments();
-        if (userCount === 0) {
-            console.log('No users found, creating default admin and cashier users...');
-            await User.create([
-                { email: 'admin@example.com', password: 'password', role: 'admin' },
-                { email: 'caissier@example.com', password: 'password', role: 'caissier' },
-            ]);
-            console.log('Database seeded successfully with default users.');
+        const adminUser = await User.findOne({ email: 'admin@example.com' });
+        if (!adminUser) {
+            console.log('Creating default admin user...');
+            await User.create({ email: 'admin@example.com', password: 'password', role: 'admin' });
+            console.log('Default admin user created.');
+        }
+
+        const cashierUser = await User.findOne({ email: 'caissier@example.com' });
+        if (!cashierUser) {
+            console.log('Creating default cashier user...');
+            await User.create({ email: 'caissier@example.com', password: 'password', role: 'caissier' });
+            console.log('Default cashier user created.');
         }
 
     } catch (e) {
