@@ -9,9 +9,9 @@ interface OurProductsSectionProps {
 
 const OurProductsSection: React.FC<OurProductsSectionProps> = ({ products }) => {
   return (
-    <section id="nos-produits-section" className="w-full py-12 md:py-16 lg:py-20 bg-[#F0F4F5]">
+    <section id="nos-produits-section" className="w-full py-12 md:py-16 lg:py-20 bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 className="font-nunito-sans text-4xl md:text-5xl lg:text-6xl font-bold text-background mb-3">
+        <h2 className="font-nunito-sans text-4xl md:text-5xl lg:text-6xl font-bold text-primary mb-3">
           Nos Produits
         </h2>
         <div className="flex justify-center mb-1">

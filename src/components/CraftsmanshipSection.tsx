@@ -2,12 +2,12 @@ import Image from 'next/image';
 
 const CraftsmanshipSection = () => {
   return (
-    <section className="w-full py-12 md:py-16 lg:py-20 bg-accent text-accent-foreground">
+    <section className="w-full py-12 md:py-16 lg:py-20 bg-background text-foreground">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16">
           {/* Left: Text Content */}
           <div className="md:w-1/2">
-            <h2 className="font-headline text-2xl sm:text-3xl text-background uppercase mb-2">
+            <h2 className="font-headline text-2xl sm:text-3xl text-primary uppercase mb-2">
               FABRIQUE AVEC SOINS
             </h2>
             <div className="w-16 h-0.5 bg-primary mb-8"></div>

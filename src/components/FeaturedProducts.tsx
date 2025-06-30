@@ -8,12 +8,12 @@ interface FeaturedProductsProps {
 
 const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ products }) => {
   return (
-    <section className="w-full md:pt-10 lg:pt-12 pb-12 md:pb-16 lg:py-20 bg-accent">
+    <section className="w-full md:pt-10 lg:pt-12 pb-12 md:pb-16 lg:py-20 bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <p className="font-nunito-sans text-sm text-muted-foreground mb-2">
           Découvrez l&apos;essence du raffinement et du style intemporel
         </p>
-        <h2 className="font-nunito-sans text-3xl md:text-4xl lg:text-5xl font-bold text-background mb-10 md:mb-12">
+        <h2 className="font-nunito-sans text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-10 md:mb-12">
           Explorer l&apos;univers PALA
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-8 gap-y-12">

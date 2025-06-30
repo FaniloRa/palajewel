@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
@@ -110,12 +109,12 @@ const StyleComposerSection = () => {
   }
 
   return (
-    <section className="w-full py-12 md:py-16 lg:py-20 bg-accent">
+    <section className="w-full py-12 md:py-16 lg:py-20 bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <p className="font-body text-sm text-muted-foreground mb-2">
           Tous les détails
         </p>
-        <h2 className="font-nunito-sans text-4xl md:text-5xl lg:text-6xl font-bold text-background mb-10 md:mb-12">
+        <h2 className="font-nunito-sans text-4xl md:text-5xl lg:text-6xl font-bold text-primary mb-10 md:mb-12">
           Composer votre style
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">

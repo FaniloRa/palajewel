@@ -1,4 +1,3 @@
-// src/components/NewsletterSection.tsx
 'use client';
 
 import Image from 'next/image';
@@ -35,7 +34,7 @@ const NewsletterSection = () => {
   };
 
   return (
-    <section id="newsletter-section" className="w-full pt-12 md:pt-16 lg:pt-20 bg-accent text-accent-foreground">
+    <section id="newsletter-section" className="w-full pt-12 md:pt-16 lg:pt-20 bg-background text-foreground">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16">
           {/* Left: Image */}
@@ -67,7 +66,7 @@ const NewsletterSection = () => {
                 placeholder="Entrer votre email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="flex-grow bg-accent border-border text-accent-foreground placeholder:text-muted-foreground focus:border-primary"
+                className="flex-grow bg-background border-border text-foreground placeholder:text-muted-foreground focus:border-primary"
                 aria-label="Adresse e-mail pour la newsletter"
               />
               <Button
