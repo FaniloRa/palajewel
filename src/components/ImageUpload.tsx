@@ -25,7 +25,16 @@ export default function ImageUpload({ id, name, onUpload, initialUrl = '' }: Ima
     setLoading(true);
 
     try {
-      const { signature, timestamp } = await getSignature();
+      const signatureResult = await getSignature();
+
+      // Handle config error gracefully
+      if (signatureResult.error) {
+        toast({ title: "Erreur de configuration", description: signatureResult.error, variant: "destructive" });
+        return;
+      }
+      
+      const { signature, timestamp } = signatureResult;
+      
       const formData = new FormData();
       formData.append('file', file);
       formData.append('api_key', process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY!);

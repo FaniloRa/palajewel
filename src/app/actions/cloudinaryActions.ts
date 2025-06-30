@@ -1,7 +1,10 @@
+
 'use server';
 import { v2 as cloudinary } from 'cloudinary';
 
-export async function getSignature() {
+// This function now returns a signature/timestamp object OR an error object.
+// It helps prevent the app from crashing and provides clearer feedback.
+export async function getSignature(): Promise<{ timestamp: number; signature: string; error?: undefined } | { error: string; timestamp?: undefined; signature?: undefined }> {
   const apiSecret = process.env.CLOUDINARY_API_SECRET;
   const apiKey = process.env.CLOUDINARY_API_KEY;
   const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
@@ -12,7 +15,7 @@ export async function getSignature() {
     if (!apiKey) missingKeys.push('CLOUDINARY_API_KEY');
     if (!cloudName) missingKeys.push('CLOUDINARY_CLOUD_NAME');
 
-    throw new Error(`Les clés Cloudinary suivantes manquent dans votre fichier .env.local : ${missingKeys.join(', ')}`);
+    return { error: `Les clés Cloudinary suivantes manquent dans votre fichier .env.local : ${missingKeys.join(', ')}` };
   }
 
   // Configure Cloudinary inside the action to ensure it's done on-demand
