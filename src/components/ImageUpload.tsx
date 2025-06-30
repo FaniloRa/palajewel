@@ -30,6 +30,7 @@ export default function ImageUpload({ id, name, onUpload, initialUrl = '' }: Ima
       // Handle config error gracefully
       if (signatureResult.error) {
         toast({ title: "Erreur de configuration", description: signatureResult.error, variant: "destructive" });
+        setLoading(false);
         return;
       }
       
