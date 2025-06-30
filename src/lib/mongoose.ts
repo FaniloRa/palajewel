@@ -16,21 +16,6 @@ if (!cached) {
 
 async function seedDatabase() {
     try {
-        const productCount = await Product.countDocuments();
-        if (productCount === 0) {
-            console.log('No products found, seeding database...');
-            const productsToSeed = ourProductsData.map(p => {
-                const { id, ...rest } = p;
-                return {
-                    ...rest,
-                    _id: id,
-                    featured: ['op1', 'op2', 'op3', 'op4', 'op5'].includes(id) 
-                };
-            });
-            await Product.insertMany(productsToSeed);
-            console.log('Database seeded successfully with products.');
-        }
-
         const adminUser = await User.findOne({ email: 'admin@example.com' });
         if (!adminUser) {
             console.log('Creating default admin user...');
@@ -45,18 +30,29 @@ async function seedDatabase() {
             console.log('Default cashier user created.');
         }
 
+        const productCount = await Product.countDocuments();
+        if (productCount === 0) {
+            console.log('No products found, seeding database with initial products...');
+            const productsToSeed = ourProductsData.map(p => {
+                const { id, ...rest } = p;
+                return {
+                    ...rest,
+                    _id: id,
+                    featured: ['op1', 'op2', 'op3', 'op4', 'op5'].includes(id) 
+                };
+            });
+            await Product.insertMany(productsToSeed);
+            console.log('Database seeded successfully with products.');
+        }
+
     } catch (e) {
-        console.error("Error during seeding:", e)
-        throw new Error("Database seeding failed.");
+        console.error("An error occurred during database seeding:", e);
+        // We don't re-throw the error, as seeding is a non-critical setup operation.
     }
 }
 
 
 async function connectDB() {
-  if (cached.conn) {
-    return cached.conn;
-  }
-  
   const MONGODB_URI = process.env.MONGODB_URI;
 
   if (!MONGODB_URI) {
@@ -65,24 +61,31 @@ async function connectDB() {
     );
   }
 
-  if (!cached.promise) {
-    const opts = {
-      bufferCommands: false,
-    };
+  // Connect if not already connected
+  if (!cached.conn) {
+    if (!cached.promise) {
+      const opts = {
+        bufferCommands: false,
+      };
+      cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
+        return mongoose;
+      });
+    }
+    
+    try {
+      cached.conn = await cached.promise;
+    } catch (e) {
+      cached.promise = null;
+      throw e;
+    }
+  }
 
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then(async (mongoose) => {
-      console.log('MongoDB connected');
-      await seedDatabase();
-      return mongoose;
-    });
-  }
-  
-  try {
-    cached.conn = await cached.promise;
-  } catch (e) {
-    cached.promise = null;
-    throw e;
-  }
+  // After ensuring a connection, attempt to seed the database.
+  // The seedDatabase function is idempotent, meaning it won't create
+  // duplicate users or products, so it's safe to run.
+  // This ensures that even if the app was run once before the seeding
+  // logic was complete, the default users will be created.
+  await seedDatabase();
 
   return cached.conn;
 }
