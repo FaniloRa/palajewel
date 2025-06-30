@@ -21,10 +21,7 @@ interface CreateOrderInput {
 
 export async function createOrder(data: CreateOrderInput) {
     try {
-        const connection = await connectDB();
-        if (!connection) {
-            return { error: "La base de données n'est pas connectée. Impossible de créer la commande." };
-        }
+        await connectDB();
 
         const { customer, cart, summary, paymentMethod } = data;
 

@@ -21,10 +21,9 @@ async function connectDB() {
   const MONGODB_URI = process.env.MONGODB_URI;
 
   if (!MONGODB_URI) {
-    console.warn(
-      'La variable d\'environnement MONGODB_URI n\'est pas définie. L\'application utilisera des données statiques. Veuillez définir la variable MONGODB_URI dans votre fichier .env.local'
+    throw new Error(
+      'Veuillez définir la variable d\'environnement MONGODB_URI dans votre fichier .env.local'
     );
-    return null;
   }
 
   if (!cached.promise) {
@@ -60,10 +59,9 @@ async function connectDB() {
   
   try {
     cached.conn = await cached.promise;
-  } catch (e: any) {
+  } catch (e) {
     cached.promise = null;
-    console.warn(`Échec de la connexion à MongoDB : ${e.message}. L'application utilisera des données statiques. Vérifiez votre MONGODB_URI.`);
-    return null;
+    throw e;
   }
 
   return cached.conn;

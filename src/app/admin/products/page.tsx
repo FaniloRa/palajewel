@@ -32,17 +32,10 @@ import {
 import connectDB from '@/lib/mongoose'
 import Product from '@/models/Product'
 import type { OurProduct } from '@/types'
-import { ourProductsData } from '@/data/ourProductsData'
 
 export default async function ProductsPage() {
-  const connection = await connectDB();
-  let products: OurProduct[] = [];
-
-  if (connection) {
-    products = JSON.parse(JSON.stringify(await Product.find({}).sort({ createdAt: -1 })));
-  } else {
-    products = [...ourProductsData].sort((a,b) => b.id.localeCompare(a.id));
-  }
+  await connectDB();
+  const products: OurProduct[] = JSON.parse(JSON.stringify(await Product.find({}).sort({ createdAt: -1 })));
 
   return (
     <Card>
@@ -52,7 +45,6 @@ export default async function ProductsPage() {
                 <CardTitle>Produits</CardTitle>
                 <CardDescription>
                 Gérez vos produits et consultez leurs performances de vente.
-                {!connection && <span className="text-destructive block mt-1">Base de données non connectée. Les données affichées sont statiques.</span>}
                 </CardDescription>
             </div>
              <Button asChild size="sm" className="h-8 gap-1">

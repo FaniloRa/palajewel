@@ -26,10 +26,11 @@ const ProductSchema = z.object({
 
 
 export async function addProduct(prevState: any, formData: FormData) {
-    const connection = await connectDB();
-    if (!connection) {
+    try {
+        await connectDB();
+    } catch (dbError: any) {
         return {
-            error: "La base de données n'est pas connectée. Impossible d'ajouter le produit.",
+            error: "La connexion à la base de données a échoué. Impossible d'ajouter le produit.",
         };
     }
     

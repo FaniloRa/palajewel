@@ -32,12 +32,8 @@ import Order, { type IOrder } from "@/models/Order"
 
 
 export default async function OrdersPage() {
-    const connection = await connectDB();
-    let orders: IOrder[] = [];
-
-    if (connection) {
-        orders = JSON.parse(JSON.stringify(await Order.find({}).sort({ createdAt: -1 })));
-    }
+    await connectDB();
+    const orders: IOrder[] = JSON.parse(JSON.stringify(await Order.find({}).sort({ createdAt: -1 })));
 
     return (
         <Card>
@@ -46,7 +42,6 @@ export default async function OrdersPage() {
                     <CardTitle>Commandes</CardTitle>
                     <CardDescription>
                         Gérez les commandes récentes de vos clients.
-                        {!connection && <span className="text-destructive block mt-1">Base de données non connectée. La liste des commandes est vide.</span>}
                     </CardDescription>
                 </div>
                 <Button asChild size="sm" className="h-8 gap-1">
