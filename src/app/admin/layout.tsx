@@ -3,7 +3,7 @@
 
 import type { ReactNode } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import {
   Home,
   ShoppingCart,
@@ -33,21 +33,27 @@ import { cn } from '@/lib/utils';
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const role = searchParams.get('role') === 'admin' ? 'admin' : 'caissier';
 
-  const navLinks = [
-    { href: '/admin', label: 'Dashboard', icon: Home },
-    { href: '/admin/orders', label: 'Commandes', icon: ShoppingCart },
-    { href: '/admin/products', label: 'Produits', icon: Package },
-    { href: '/admin/content', label: 'Contenu', icon: FileText },
-    { href: '/admin/customers', label: 'Clients', icon: Users2 },
+  const allNavLinks = [
+    { href: '/admin', label: 'Dashboard', icon: Home, roles: ['admin', 'caissier'] },
+    { href: '/admin/orders', label: 'Commandes', icon: ShoppingCart, roles: ['admin', 'caissier'] },
+    { href: '/admin/products', label: 'Produits', icon: Package, roles: ['admin'] },
+    { href: '/admin/content', label: 'Contenu', icon: FileText, roles: ['admin'] },
+    { href: '/admin/customers', label: 'Clients', icon: Users2, roles: ['admin'] },
   ];
+  
+  const navLinks = allNavLinks.filter(link => link.roles.includes(role));
+
+  const addRoleQuery = (href: string) => `${href}?role=${role}`;
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
       <aside className="fixed inset-y-0 left-0 z-10 hidden w-60 flex-col border-r bg-primary text-primary-foreground sm:flex">
         <div className="flex h-full max-h-screen flex-col gap-2">
             <div className="flex h-14 items-center border-b border-primary-foreground/20 px-4 lg:h-[60px] lg:px-6">
-                 <Link href="/" className="flex items-center gap-2 font-semibold text-primary-foreground">
+                 <Link href={addRoleQuery("/")} className="flex items-center gap-2 font-semibold text-primary-foreground">
                     <Gem className="h-6 w-6" />
                     <span className="">Pala Jewelry</span>
                  </Link>
@@ -57,7 +63,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                 {navLinks.map((link) => (
                   <Link
                     key={link.href}
-                    href={link.href}
+                    href={addRoleQuery(link.href)}
                     className={cn(
                       "flex items-center gap-3 rounded-lg px-3 py-2 text-primary-foreground/70 transition-all hover:text-primary-foreground hover:bg-primary-foreground/10",
                       pathname === link.href && "bg-primary-foreground/10 text-primary-foreground"
@@ -92,7 +98,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
             <SheetContent side="left" className="sm:max-w-xs bg-primary text-primary-foreground">
                <nav className="grid gap-6 text-lg font-medium">
                 <Link
-                  href="/"
+                  href={addRoleQuery("/")}
                   className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary-foreground text-lg font-semibold text-primary md:text-base"
                 >
                   <Gem className="h-5 w-5 transition-all group-hover:scale-110" />
@@ -101,7 +107,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                 {navLinks.map((link) => (
                     <Link
                     key={link.href}
-                    href={link.href}
+                    href={addRoleQuery(link.href)}
                     className={cn(
                         'flex items-center gap-4 px-2.5 text-primary-foreground/70 hover:text-primary-foreground',
                         pathname === link.href && "text-primary-foreground"
@@ -138,7 +144,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
               >
                 <Avatar className="h-9 w-9">
                     <AvatarImage src="https://placehold.co/40x40.png" alt="@admin" data-ai-hint="person portrait" />
-                    <AvatarFallback>AD</AvatarFallback>
+                    <AvatarFallback>{role === 'admin' ? 'AD' : 'CA'}</AvatarFallback>
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>

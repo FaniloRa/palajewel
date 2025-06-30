@@ -1,11 +1,10 @@
 
-
 'use client';
 
-import { useState } from 'react';
+import { useEffect } from 'react';
 import Link from 'next/link';
 import { Gem } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { useFormState } from 'react-dom';
 
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -13,17 +12,26 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useToast } from '@/hooks/use-toast';
+import { loginUser } from '@/app/actions/authActions';
+
+const initialState = {
+  error: null,
+};
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const router = useRouter();
+  const { toast } = useToast();
+  const [state, formAction] = useFormState(loginUser, initialState);
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Simulate login and redirect to the admin dashboard
-    router.push('/admin');
-  };
+  useEffect(() => {
+    if (state?.error) {
+      toast({
+        title: "Erreur de connexion",
+        description: state.error,
+        variant: "destructive",
+      });
+    }
+  }, [state, toast]);
 
   return (
     <div className="flex flex-col min-h-screen bg-[#F0F4F5]">
@@ -41,17 +49,16 @@ export default function LoginPage() {
             <CardTitle className="text-2xl font-headline text-primary">Back Office</CardTitle>
             <CardDescription className="text-muted-foreground pt-1">Connectez-vous à votre espace administrateur</CardDescription>
           </CardHeader>
-          <form onSubmit={handleLogin}>
+          <form action={formAction}>
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
                   id="email"
+                  name="email"
                   type="email"
                   placeholder="admin@example.com"
                   required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
                   className="bg-accent border-border focus:border-primary"
                 />
               </div>
@@ -59,10 +66,10 @@ export default function LoginPage() {
                 <Label htmlFor="password">Mot de passe</Label>
                 <Input
                   id="password"
+                  name="password"
                   type="password"
+                  placeholder="••••••••"
                   required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
                   className="bg-accent border-border focus:border-primary"
                 />
               </div>

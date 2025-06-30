@@ -41,8 +41,9 @@ interface CartItem {
 }
 
 interface FinalizedOrder {
+  _id: string;
   customer: { name: string; email: string };
-  items: CartItem[];
+  items: Array<CartItem & { product: { id: string, name: string, price: number }}>;
   summary: { subtotal: number; tax: number; total: number; };
   paymentMethod: 'cash' | 'visa';
   date: Date;
@@ -76,13 +77,23 @@ export default function NewOrderClientPage({ products }: NewOrderClientPageProps
     setCart(prevCart => {
       const existingItem = prevCart.find(item => item.product.id === product.id);
       if (existingItem) {
-        return prevCart.map(item =>
-          item.product.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
+        if (existingItem.quantity < product.stock) {
+          return prevCart.map(item =>
+            item.product.id === product.id
+              ? { ...item, quantity: item.quantity + 1 }
+              : item
+          );
+        } else {
+          toast({ title: 'Stock insuffisant', description: `Vous ne pouvez pas ajouter plus de ${product.name}.`, variant: 'destructive'});
+          return prevCart;
+        }
       }
-      return [...prevCart, { product, quantity: 1 }];
+      if (product.stock > 0) {
+        return [...prevCart, { product, quantity: 1 }];
+      } else {
+        toast({ title: 'Stock épuisé', description: `${product.name} est en rupture de stock.`, variant: 'destructive'});
+        return prevCart;
+      }
     });
   };
 
@@ -91,6 +102,12 @@ export default function NewOrderClientPage({ products }: NewOrderClientPageProps
       handleRemoveFromCart(productId);
       return;
     }
+    const productInCart = cart.find(item => item.product.id === productId)?.product;
+    if(productInCart && quantity > productInCart.stock) {
+      toast({ title: 'Stock insuffisant', description: `Il ne reste que ${productInCart.stock} ${productInCart.name} en stock.`, variant: 'destructive'});
+      return;
+    }
+
     setCart(prevCart =>
       prevCart.map(item =>
         item.product.id === productId ? { ...item, quantity } : item
@@ -194,7 +211,7 @@ export default function NewOrderClientPage({ products }: NewOrderClientPageProps
           pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
           
           const customerNameForFile = finalizedOrder?.customer.name.replace(/\s+/g, '_') || 'commande';
-          pdf.save(`recu-${customerNameForFile}-${new Date().getTime()}.pdf`);
+          pdf.save(`recu-${customerNameForFile}-${finalizedOrder?._id}.pdf`);
         });
     }
   };
@@ -228,8 +245,13 @@ export default function NewOrderClientPage({ products }: NewOrderClientPageProps
                       <div className="p-4">
                           <h3 className="font-semibold text-sm truncate">{product.name}</h3>
                           <p className="text-xs text-muted-foreground">{product.price.toFixed(2)} €</p>
-                          <Button size="sm" className="w-full mt-2" onClick={() => handleAddToCart(product)}>
-                              Ajouter
+                          <Button 
+                            size="sm" 
+                            className="w-full mt-2" 
+                            onClick={() => handleAddToCart(product)}
+                            disabled={product.stock === 0}
+                          >
+                            {product.stock > 0 ? 'Ajouter' : 'Épuisé'}
                           </Button>
                       </div>
                     </Card>
@@ -359,9 +381,9 @@ export default function NewOrderClientPage({ products }: NewOrderClientPageProps
       {/* Receipt Dialog */}
       <Dialog open={isReceiptDialogOpen} onOpenChange={(open) => !open && handleCloseAndReset()}>
         <DialogContent className="max-w-sm p-0">
-          <DialogHeader className="sr-only">
-            <DialogTitle>Reçu de la commande</DialogTitle>
-            <DialogDescription>
+          <DialogHeader className="p-6 pb-0">
+            <DialogTitle className="sr-only">Reçu de la commande</DialogTitle>
+            <DialogDescription className="sr-only">
               Aperçu du reçu de la commande finalisée, prêt à être imprimé.
             </DialogDescription>
           </DialogHeader>
@@ -371,13 +393,14 @@ export default function NewOrderClientPage({ products }: NewOrderClientPageProps
                       <h3 className="text-lg font-bold">Pala Jewelry</h3>
                       <p>10 Rue Ratsimilaho, Antananarivo</p>
                       <p>{finalizedOrder.date.toLocaleString('fr-FR')}</p>
+                      <p>Reçu No: {finalizedOrder._id}</p>
                   </div>
                   <div className="mb-4">
                       <p><strong>Client:</strong> {finalizedOrder.customer.name}</p>
                   </div>
                   <div className="border-t border-b border-dashed border-black py-2 my-2">
-                      {finalizedOrder.items.map(item => (
-                          <div key={item.product.id} className="flex justify-between items-start gap-2">
+                      {finalizedOrder.items.map((item, index) => (
+                          <div key={index} className="flex justify-between items-start gap-2">
                               <div className="flex-grow">
                                   <p>{item.product.name}</p>
                                   <p className="text-xs">

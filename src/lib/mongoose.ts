@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import { ourProductsData } from '@/data/ourProductsData'; // For seeding
 import Product from '@/models/Product'; // For seeding
+import User from '@/models/User'; // For seeding
 
 /**
  * Global is used here to maintain a cached connection across hot reloads
@@ -12,6 +13,40 @@ let cached = (global as any).mongoose;
 if (!cached) {
   cached = (global as any).mongoose = { conn: null, promise: null };
 }
+
+async function seedDatabase() {
+    try {
+        const productCount = await Product.countDocuments();
+        if (productCount === 0) {
+            console.log('No products found, seeding database...');
+            const productsToSeed = ourProductsData.map(p => {
+                const { id, ...rest } = p;
+                return {
+                    ...rest,
+                    _id: id,
+                    featured: ['op1', 'op2', 'op3', 'op4', 'op5'].includes(id) 
+                };
+            });
+            await Product.insertMany(productsToSeed);
+            console.log('Database seeded successfully with products.');
+        }
+
+        const userCount = await User.countDocuments();
+        if (userCount === 0) {
+            console.log('No users found, seeding database...');
+            await User.create([
+                { email: 'admin@example.com', password: 'password', role: 'admin' },
+                { email: 'caissier@example.com', password: 'password', role: 'caissier' },
+            ]);
+            console.log('Database seeded successfully with users.');
+        }
+
+    } catch (e) {
+        console.error("Error during seeding:", e)
+        throw new Error("Database seeding failed.");
+    }
+}
+
 
 async function connectDB() {
   if (cached.conn) {
@@ -33,26 +68,7 @@ async function connectDB() {
 
     cached.promise = mongoose.connect(MONGODB_URI, opts).then(async (mongoose) => {
       console.log('MongoDB connected');
-      // Seed data if the products collection is empty
-      try {
-        const productCount = await Product.countDocuments();
-        if (productCount === 0) {
-          console.log('No products found, seeding database...');
-          const productsToSeed = ourProductsData.map(p => {
-              const { id, ...rest } = p;
-              return {
-                  ...rest,
-                  _id: id, // Use original ID for consistency with links
-                  featured: ['op1', 'op2', 'op3', 'op4'].includes(id) 
-              };
-          });
-          await Product.insertMany(productsToSeed);
-          console.log('Database seeded successfully with products.');
-        }
-      } catch (e) {
-        console.error("Error during seeding:", e)
-      }
-
+      await seedDatabase();
       return mongoose;
     });
   }
