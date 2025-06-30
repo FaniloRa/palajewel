@@ -33,12 +33,12 @@ async function seedDatabase() {
 
         const userCount = await User.countDocuments();
         if (userCount === 0) {
-            console.log('No users found, seeding database...');
+            console.log('No users found, creating default admin and cashier users...');
             await User.create([
                 { email: 'admin@example.com', password: 'password', role: 'admin' },
                 { email: 'caissier@example.com', password: 'password', role: 'caissier' },
             ]);
-            console.log('Database seeded successfully with users.');
+            console.log('Database seeded successfully with default users.');
         }
 
     } catch (e) {
