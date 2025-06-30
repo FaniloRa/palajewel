@@ -1,17 +1,24 @@
 
 import Header from '@/components/Header';
 import JewelryCatalog from '@/components/JewelryCatalog';
-import { ourProductsData } from '@/data/ourProductsData';
 import Footer from '@/components/Footer';
 import CategoryBanner from '@/components/CategoryBanner';
 import { cn } from '@/lib/utils';
+import connectDB from '@/lib/mongoose';
+import Product from '@/models/Product';
+import type { OurProduct } from '@/types';
 
-export default function ShopPage({ searchParams }: { searchParams?: { category?: string } }) {
+export default async function ShopPage({ searchParams }: { searchParams?: { category?: string } }) {
   const category = searchParams?.category;
 
-  const displayedProducts = category
-    ? ourProductsData.filter(p => p.category === category)
-    : ourProductsData;
+  await connectDB();
+  
+  const filter: { status: 'active', category?: string } = { status: 'active' };
+  if (category) {
+    filter.category = category;
+  }
+
+  const displayedProducts: OurProduct[] = JSON.parse(JSON.stringify(await Product.find(filter).sort({ createdAt: -1 })));
 
   return (
     <main className="flex flex-col items-center min-h-screen bg-[#F0F4F5]">

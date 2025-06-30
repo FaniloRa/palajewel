@@ -1,11 +1,14 @@
 
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
-import { ourProductsData } from '@/data/ourProductsData';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Gift, Truck, Tag, ShieldCheck } from 'lucide-react';
+import connectDB from '@/lib/mongoose';
+import Product from '@/models/Product';
+import type { OurProduct } from '@/types';
+
 
 interface ProductPageProps {
   params: {
@@ -14,13 +17,17 @@ interface ProductPageProps {
 }
 
 export async function generateStaticParams() {
-  return ourProductsData.map((product) => ({
-    productId: product.id,
+  await connectDB();
+  const products = await Product.find({ status: 'active' }).select('_id').lean();
+  
+  return products.map((product) => ({
+    productId: product._id,
   }));
 }
 
-const ProductDetailPage = ({ params }: ProductPageProps) => {
-  const product = ourProductsData.find(p => p.id === params.productId);
+const ProductDetailPage = async ({ params }: ProductPageProps) => {
+  await connectDB();
+  const product: OurProduct | null = JSON.parse(JSON.stringify(await Product.findById(params.productId)));
 
   if (!product) {
     notFound();

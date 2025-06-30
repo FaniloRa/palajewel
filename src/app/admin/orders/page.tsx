@@ -1,6 +1,7 @@
 
 import { MoreHorizontal, PlusCircle } from "lucide-react"
 import Link from "next/link"
+import { format } from 'date-fns'
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -26,15 +27,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import connectDB from "@/lib/mongoose"
+import Order, { type IOrder } from "@/models/Order"
 
-const orders = [
-    { id: 'ORD001', customer: 'Liam Johnson', email: 'liam@example.com', date: '2023-06-23', amount: 250.00, status: 'Fulfilled' },
-    { id: 'ORD002', customer: 'Olivia Smith', email: 'olivia@example.com', date: '2023-06-24', amount: 150.00, status: 'Declined' },
-    { id: 'ORD003', customer: 'Noah Williams', email: 'noah@example.com', date: '2023-06-25', amount: 350.00, status: 'Fulfilled' },
-    { id: 'ORD004', customer: 'Emma Brown', email: 'emma@example.com', date: '2023-06-26', amount: 450.00, status: 'Pending' },
-]
 
-export default function OrdersPage() {
+export default async function OrdersPage() {
+    await connectDB();
+    const orders: IOrder[] = JSON.parse(JSON.stringify(await Order.find({}).sort({ createdAt: -1 })));
+
     return (
         <Card>
             <CardHeader className="flex flex-row items-center justify-between">
@@ -67,11 +67,11 @@ export default function OrdersPage() {
                     </TableHeader>
                     <TableBody>
                         {orders.map(order => (
-                        <TableRow key={order.id}>
+                        <TableRow key={order._id}>
                             <TableCell>
-                                <div className="font-medium">{order.customer}</div>
+                                <div className="font-medium">{order.customer.name}</div>
                                 <div className="hidden text-sm text-muted-foreground md:inline">
-                                    {order.email}
+                                    {order.customer.email}
                                 </div>
                             </TableCell>
                             <TableCell className="hidden sm:table-cell">Vente</TableCell>
@@ -80,8 +80,8 @@ export default function OrdersPage() {
                                     {order.status === 'Fulfilled' ? 'Livré' : order.status === 'Pending' ? 'En attente' : 'Refusé'}
                                 </Badge>
                             </TableCell>
-                            <TableCell className="hidden md:table-cell">{order.date}</TableCell>
-                            <TableCell className="text-right">{order.amount.toFixed(2)} €</TableCell>
+                            <TableCell className="hidden md:table-cell">{format(new Date(order.createdAt), 'yyyy-MM-dd')}</TableCell>
+                            <TableCell className="text-right">{order.summary.total.toFixed(2)} €</TableCell>
                              <TableCell>
                                 <DropdownMenu>
                                 <DropdownMenuTrigger asChild>

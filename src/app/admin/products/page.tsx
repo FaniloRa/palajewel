@@ -2,6 +2,7 @@
 import Image from 'next/image'
 import { MoreHorizontal, PlusCircle } from 'lucide-react'
 import Link from 'next/link'
+import { format } from 'date-fns'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -28,10 +29,14 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import connectDB from '@/lib/mongoose'
+import Product from '@/models/Product'
+import type { OurProduct } from '@/types'
 
-import { ourProductsData } from '@/data/ourProductsData'
+export default async function ProductsPage() {
+  await connectDB();
+  const products: OurProduct[] = JSON.parse(JSON.stringify(await Product.find({}).sort({ createdAt: -1 })));
 
-export default function ProductsPage() {
   return (
     <Card>
       <CardHeader>
@@ -70,7 +75,7 @@ export default function ProductsPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {ourProductsData.map((product) => (
+            {products.map((product) => (
             <TableRow key={product.id}>
               <TableCell className="hidden sm:table-cell">
                 <Image
@@ -91,7 +96,8 @@ export default function ProductsPage() {
               <TableCell>{product.price.toFixed(2)} €</TableCell>
               <TableCell className="hidden md:table-cell">{product.stock}</TableCell>
               <TableCell className="hidden md:table-cell">
-                2023-07-12 10:42 AM
+                {/* @ts-ignore */}
+                {format(new Date(product.createdAt), 'yyyy-MM-dd')}
               </TableCell>
               <TableCell>
                 <DropdownMenu>
@@ -115,7 +121,7 @@ export default function ProductsPage() {
       </CardContent>
       <CardFooter>
         <div className="text-xs text-muted-foreground">
-          Affichage de <strong>1-10</strong> sur <strong>{ourProductsData.length}</strong> produits
+          Affichage de <strong>1-{products.length}</strong> sur <strong>{products.length}</strong> produits
         </div>
       </CardFooter>
     </Card>

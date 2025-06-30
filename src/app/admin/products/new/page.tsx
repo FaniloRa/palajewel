@@ -3,7 +3,7 @@
 
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import React, { useEffect } from 'react'
 
 import { Button } from "@/components/ui/button"
 import {
@@ -15,34 +15,31 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
+import { useFormState } from "react-dom"
+import { addProduct } from "@/app/actions/productActions"
 
+const initialState = {
+    error: null,
+};
 
 export default function NewProductPage() {
-    const { toast } = useToast()
-    const router = useRouter()
+  const { toast } = useToast()
+  const [state, formAction] = useFormState(addProduct, initialState)
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault()
-        // Here you would typically handle form submission, e.g., send data to an API
-        console.log("Form submitted")
-        toast({
-            title: "Produit ajouté",
-            description: "Le nouveau produit a été sauvegardé avec succès.",
-        })
-        router.push("/admin/products")
+  useEffect(() => {
+    if (state?.error) {
+      toast({
+        title: "Erreur de validation",
+        description: state.error,
+        variant: "destructive",
+      })
     }
+  }, [state, toast])
 
   return (
-    <form onSubmit={handleSubmit} className="mx-auto grid w-full max-w-6xl flex-1 auto-rows-max gap-4">
+    <form action={formAction} className="mx-auto grid w-full max-w-6xl flex-1 auto-rows-max gap-4">
         <div className="flex items-center gap-4">
             <Button variant="outline" size="icon" className="h-7 w-7" asChild>
                 <Link href="/admin/products">
@@ -75,15 +72,18 @@ export default function NewProductPage() {
                     <Label htmlFor="name">Nom</Label>
                     <Input
                         id="name"
+                        name="name"
                         type="text"
                         className="w-full"
                         placeholder="Ex: Collier Élégance"
+                        required
                     />
                     </div>
                     <div className="grid gap-3">
                     <Label htmlFor="description">Description courte</Label>
                     <Textarea
                         id="description"
+                        name="description"
                         placeholder="Un collier fin et élégant pour toutes les occasions."
                         className="min-h-24"
                     />
@@ -92,6 +92,7 @@ export default function NewProductPage() {
                         <Label htmlFor="detailed-description">Description détaillée</Label>
                         <Textarea
                             id="detailed-description"
+                            name="detailed-description"
                             placeholder="Fabriqué en argent 925 et orné d'une pierre de lune..."
                             className="min-h-32"
                         />
@@ -110,20 +111,20 @@ export default function NewProductPage() {
                     <div className="grid gap-4">
                          <div className="grid gap-2">
                             <Label htmlFor="image-url">Image de la carte (vitrine)</Label>
-                            <Input id="image-url" type="text" placeholder="https://placehold.co/400x300.png" />
+                            <Input id="image-url" name="image-url" type="text" placeholder="https://placehold.co/400x300.png" required />
                          </div>
                          <div className="grid gap-2">
                             <Label htmlFor="main-image-url">Image principale (page produit)</Label>
-                            <Input id="main-image-url" type="text" placeholder="https://placehold.co/600x600.png" />
+                            <Input id="main-image-url" name="main-image-url" type="text" placeholder="https://placehold.co/600x600.png" required />
                          </div>
                          <div className="grid grid-cols-2 gap-4">
                             <div className="grid gap-2">
                                 <Label htmlFor="thumbnail1-url">Vignette 1</Label>
-                                <Input id="thumbnail1-url" type="text" placeholder="https://placehold.co/300x300.png" />
+                                <Input id="thumbnail1-url" name="thumbnail1-url" type="text" placeholder="https://placehold.co/300x300.png" required />
                             </div>
                             <div className="grid gap-2">
                                 <Label htmlFor="thumbnail2-url">Vignette 2</Label>
-                                <Input id="thumbnail2-url" type="text" placeholder="https://placehold.co/300x300.png" />
+                                <Input id="thumbnail2-url" name="thumbnail2-url" type="text" placeholder="https://placehold.co/300x300.png" required />
                             </div>
                          </div>
                     </div>
@@ -139,15 +140,15 @@ export default function NewProductPage() {
                 <div className="grid gap-6">
                     <div className="grid gap-3">
                     <Label htmlFor="status">Statut</Label>
-                    <Select defaultValue="active">
-                        <SelectTrigger id="status" aria-label="Sélectionner le statut">
-                        <SelectValue placeholder="Sélectionner le statut" />
-                        </SelectTrigger>
-                        <SelectContent>
-                        <SelectItem value="draft">Brouillon</SelectItem>
-                        <SelectItem value="active">Actif</SelectItem>
-                        </SelectContent>
-                    </Select>
+                    <select
+                        id="status"
+                        name="status"
+                        defaultValue="active"
+                        className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                        <option value="draft">Brouillon</option>
+                        <option value="active">Actif</option>
+                    </select>
                     </div>
                 </div>
                 </CardContent>
@@ -159,19 +160,19 @@ export default function NewProductPage() {
                 <CardContent>
                      <div className="grid gap-3">
                         <Label htmlFor="category">Catégorie</Label>
-                        <Select>
-                            <SelectTrigger id="category" aria-label="Sélectionner la catégorie">
-                                <SelectValue placeholder="Sélectionner la catégorie" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="Bague">Bague</SelectItem>
-                                <SelectItem value="Collier">Collier</SelectItem>
-                                <SelectItem value="Bracelet">Bracelet</SelectItem>
-                                <SelectItem value="Boucles d'oreilles">Boucles d'oreilles</SelectItem>
-                                <SelectItem value="Pendentif">Pendentif</SelectItem>
-                                <SelectItem value="Montre">Montre</SelectItem>
-                            </SelectContent>
-                        </Select>
+                        <select
+                            id="category"
+                            name="category"
+                            className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                            <option value="">Sélectionner...</option>
+                            <option value="Bague">Bague</option>
+                            <option value="Collier">Collier</option>
+                            <option value="Bracelet">Bracelet</option>
+                            <option value="Boucles d'oreilles">Boucles d'oreilles</option>
+                            <option value="Pendentif">Pendentif</option>
+                            <option value="Montre">Montre</option>
+                        </select>
                     </div>
                 </CardContent>
              </Card>
@@ -183,15 +184,15 @@ export default function NewProductPage() {
                     <div className="grid gap-4">
                          <div className="grid gap-3">
                             <Label htmlFor="price">Prix (€)</Label>
-                            <Input id="price" type="number" placeholder="199.00" />
+                            <Input id="price" name="price" type="number" step="0.01" placeholder="199.00" required />
                         </div>
                          <div className="grid gap-3">
                             <Label htmlFor="stock">Stock</Label>
-                            <Input id="stock" type="number" placeholder="25" />
+                            <Input id="stock" name="stock" type="number" placeholder="25" required />
                         </div>
                         <div className="grid gap-3">
                             <Label htmlFor="sku">SKU (Unité de gestion de stock)</Label>
-                            <Input id="sku" type="text" placeholder="PALA-001" />
+                            <Input id="sku" name="sku" type="text" placeholder="PALA-001" required />
                         </div>
                     </div>
                 </CardContent>
