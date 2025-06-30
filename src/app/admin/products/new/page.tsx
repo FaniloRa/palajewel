@@ -18,6 +18,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
 import { addProduct } from "@/app/actions/productActions"
+import ImageUpload from "@/components/ImageUpload"
 
 const initialState = {
     error: null,
@@ -31,7 +32,7 @@ export default function NewProductPage() {
     if (state?.error) {
       toast({
         title: "Erreur de validation",
-        description: state.error,
+        description: "Veuillez vérifier les champs saisis.",
         variant: "destructive",
       })
     }
@@ -103,27 +104,27 @@ export default function NewProductPage() {
                 <CardHeader>
                 <CardTitle>Images du produit</CardTitle>
                 <CardDescription>
-                    Ajoutez les URL des images de votre produit.
+                    Téléversez les images de votre produit.
                 </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <div className="grid gap-4">
-                         <div className="grid gap-2">
-                            <Label htmlFor="image-url">Image de la carte (vitrine)</Label>
-                            <Input id="image-url" name="image-url" type="text" placeholder="https://placehold.co/400x300.png" required />
+                    <div className="grid gap-6">
+                         <div className="grid gap-3">
+                            <Label>Image de la carte (vitrine)</Label>
+                            <ImageUpload id="image-url-upload" name="image-url" />
                          </div>
-                         <div className="grid gap-2">
-                            <Label htmlFor="main-image-url">Image principale (page produit)</Label>
-                            <Input id="main-image-url" name="main-image-url" type="text" placeholder="https://placehold.co/600x600.png" required />
+                         <div className="grid gap-3">
+                            <Label>Image principale (page produit)</Label>
+                            <ImageUpload id="main-image-url-upload" name="main-image-url" />
                          </div>
                          <div className="grid grid-cols-2 gap-4">
                             <div className="grid gap-2">
-                                <Label htmlFor="thumbnail1-url">Vignette 1</Label>
-                                <Input id="thumbnail1-url" name="thumbnail1-url" type="text" placeholder="https://placehold.co/300x300.png" required />
+                                <Label>Vignette 1</Label>
+                                <ImageUpload id="thumbnail1-url-upload" name="thumbnail1-url" />
                             </div>
                             <div className="grid gap-2">
-                                <Label htmlFor="thumbnail2-url">Vignette 2</Label>
-                                <Input id="thumbnail2-url" name="thumbnail2-url" type="text" placeholder="https://placehold.co/300x300.png" required />
+                                <Label>Vignette 2</Label>
+                                <ImageUpload id="thumbnail2-url-upload" name="thumbnail2-url" />
                             </div>
                          </div>
                     </div>
