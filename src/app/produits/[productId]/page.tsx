@@ -8,6 +8,7 @@ import { Gift, Truck, Tag, ShieldCheck } from 'lucide-react';
 import connectDB from '@/lib/mongoose';
 import Product from '@/models/Product';
 import type { OurProduct } from '@/types';
+import { ourProductsData } from '@/data/ourProductsData';
 
 
 interface ProductPageProps {
@@ -17,7 +18,10 @@ interface ProductPageProps {
 }
 
 export async function generateStaticParams() {
-  await connectDB();
+  const connection = await connectDB();
+  if (!connection) {
+    return ourProductsData.map((product) => ({ productId: product.id }));
+  }
   const products = await Product.find({ status: 'active' }).select('_id').lean();
   
   return products.map((product) => ({
@@ -26,8 +30,15 @@ export async function generateStaticParams() {
 }
 
 const ProductDetailPage = async ({ params }: ProductPageProps) => {
-  await connectDB();
-  const product: OurProduct | null = JSON.parse(JSON.stringify(await Product.findById(params.productId)));
+  const connection = await connectDB();
+  let product: OurProduct | null | undefined = null;
+
+  if (connection) {
+    product = JSON.parse(JSON.stringify(await Product.findById(params.productId)));
+  } else {
+    product = ourProductsData.find(p => p.id === params.productId);
+  }
+
 
   if (!product) {
     notFound();

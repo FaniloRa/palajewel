@@ -2,14 +2,6 @@ import mongoose from 'mongoose';
 import { ourProductsData } from '@/data/ourProductsData'; // For seeding
 import Product from '@/models/Product'; // For seeding
 
-const MONGODB_URI = process.env.MONGODB_URI;
-
-if (!MONGODB_URI) {
-  throw new Error(
-    'Please define the MONGODB_URI environment variable inside .env.local'
-  );
-}
-
 /**
  * Global is used here to maintain a cached connection across hot reloads
  * in development. This prevents connections from growing exponentially
@@ -25,13 +17,22 @@ async function connectDB() {
   if (cached.conn) {
     return cached.conn;
   }
+  
+  const MONGODB_URI = process.env.MONGODB_URI;
+
+  if (!MONGODB_URI) {
+    console.warn(
+      'La variable d\'environnement MONGODB_URI n\'est pas définie. L\'application utilisera des données statiques. Veuillez définir la variable MONGODB_URI dans votre fichier .env.local'
+    );
+    return null;
+  }
 
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
     };
 
-    cached.promise = mongoose.connect(MONGODB_URI!, opts).then(async (mongoose) => {
+    cached.promise = mongoose.connect(MONGODB_URI, opts).then(async (mongoose) => {
       console.log('MongoDB connected');
       // Seed data if the products collection is empty
       try {
@@ -59,9 +60,10 @@ async function connectDB() {
   
   try {
     cached.conn = await cached.promise;
-  } catch (e) {
+  } catch (e: any) {
     cached.promise = null;
-    throw e;
+    console.warn(`Échec de la connexion à MongoDB : ${e.message}. L'application utilisera des données statiques. Vérifiez votre MONGODB_URI.`);
+    return null;
   }
 
   return cached.conn;

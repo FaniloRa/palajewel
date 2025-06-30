@@ -32,10 +32,17 @@ import {
 import connectDB from '@/lib/mongoose'
 import Product from '@/models/Product'
 import type { OurProduct } from '@/types'
+import { ourProductsData } from '@/data/ourProductsData'
 
 export default async function ProductsPage() {
-  await connectDB();
-  const products: OurProduct[] = JSON.parse(JSON.stringify(await Product.find({}).sort({ createdAt: -1 })));
+  const connection = await connectDB();
+  let products: OurProduct[] = [];
+
+  if (connection) {
+    products = JSON.parse(JSON.stringify(await Product.find({}).sort({ createdAt: -1 })));
+  } else {
+    products = [...ourProductsData].sort((a,b) => b.id.localeCompare(a.id));
+  }
 
   return (
     <Card>
@@ -45,6 +52,7 @@ export default async function ProductsPage() {
                 <CardTitle>Produits</CardTitle>
                 <CardDescription>
                 Gérez vos produits et consultez leurs performances de vente.
+                {!connection && <span className="text-destructive block mt-1">Base de données non connectée. Les données affichées sont statiques.</span>}
                 </CardDescription>
             </div>
              <Button asChild size="sm" className="h-8 gap-1">
@@ -97,7 +105,7 @@ export default async function ProductsPage() {
               <TableCell className="hidden md:table-cell">{product.stock}</TableCell>
               <TableCell className="hidden md:table-cell">
                 {/* @ts-ignore */}
-                {format(new Date(product.createdAt), 'yyyy-MM-dd')}
+                {product.createdAt ? format(new Date(product.createdAt), 'yyyy-MM-dd') : 'N/A'}
               </TableCell>
               <TableCell>
                 <DropdownMenu>

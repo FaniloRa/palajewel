@@ -26,7 +26,12 @@ const ProductSchema = z.object({
 
 
 export async function addProduct(prevState: any, formData: FormData) {
-    await connectDB();
+    const connection = await connectDB();
+    if (!connection) {
+        return {
+            error: "La base de données n'est pas connectée. Impossible d'ajouter le produit.",
+        };
+    }
     
     // Generate a unique ID for the new product
     const newId = `op${(await Product.countDocuments()) + 15}`;
