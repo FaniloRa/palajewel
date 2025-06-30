@@ -3,15 +3,22 @@ import { v2 as cloudinary } from 'cloudinary';
 
 export async function getSignature() {
   const apiSecret = process.env.CLOUDINARY_API_SECRET;
+  const apiKey = process.env.CLOUDINARY_API_KEY;
+  const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
 
-  if (!apiSecret) {
-    throw new Error("La clé secrète de Cloudinary (CLOUDINARY_API_SECRET) n'est pas configurée dans votre fichier .env.local");
+  if (!apiSecret || !apiKey || !cloudName) {
+    const missingKeys = [];
+    if (!apiSecret) missingKeys.push('CLOUDINARY_API_SECRET');
+    if (!apiKey) missingKeys.push('CLOUDINARY_API_KEY');
+    if (!cloudName) missingKeys.push('CLOUDINARY_CLOUD_NAME');
+
+    throw new Error(`Les clés Cloudinary suivantes manquent dans votre fichier .env.local : ${missingKeys.join(', ')}`);
   }
 
   // Configure Cloudinary inside the action to ensure it's done on-demand
   cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
+    cloud_name: cloudName,
+    api_key: apiKey,
     api_secret: apiSecret,
   });
   
