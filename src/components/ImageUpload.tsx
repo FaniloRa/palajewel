@@ -22,6 +22,18 @@ export default function ImageUpload({ id, name, onUpload, initialUrl = '' }: Ima
     const file = event.target.files?.[0];
     if (!file) return;
 
+    const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+    const apiKey = process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY;
+
+    if (!cloudName || !apiKey) {
+      toast({
+        title: "Erreur de configuration",
+        description: "Les variables d'environnement Cloudinary côté client sont manquantes. Vérifiez NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME et NEXT_PUBLIC_CLOUDINARY_API_KEY.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -38,11 +50,11 @@ export default function ImageUpload({ id, name, onUpload, initialUrl = '' }: Ima
       
       const formData = new FormData();
       formData.append('file', file);
-      formData.append('api_key', process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY!);
+      formData.append('api_key', apiKey);
       formData.append('signature', signature);
       formData.append('timestamp', timestamp.toString());
       
-      const endpoint = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME!}/image/upload`;
+      const endpoint = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
       
       const response = await fetch(endpoint, {
         method: 'POST',
@@ -56,13 +68,14 @@ export default function ImageUpload({ id, name, onUpload, initialUrl = '' }: Ima
         onUpload?.(url);
         toast({ title: "Succès", description: "Image téléversée avec succès." });
       } else {
-          const errorData = await response.json();
-          console.error('Cloudinary upload error:', errorData);
-          toast({ title: "Erreur", description: "Échec du téléversement de l'image.", variant: "destructive" });
+          // The error response might not be JSON, so we read it as text.
+          const errorText = await response.text();
+          console.error('Cloudinary upload error:', errorText);
+          toast({ title: "Erreur de téléversement", description: "L'envoi a échoué. Vérifiez la console du navigateur pour les détails.", variant: "destructive" });
       }
     } catch (error) {
       console.error('Error uploading image:', error);
-      toast({ title: "Erreur", description: "Une erreur est survenue.", variant: "destructive" });
+      toast({ title: "Erreur", description: "Une erreur inattendue est survenue lors du téléversement.", variant: "destructive" });
     } finally {
       setLoading(false);
     }
