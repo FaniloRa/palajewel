@@ -1,4 +1,3 @@
-
 'use client'
 
 import Image from 'next/image'
@@ -146,7 +145,7 @@ export default function ProductsPageClient({ products: initialProducts }: Produc
                     <DropdownMenuContent align="end">
                       <DropdownMenuLabel>Actions</DropdownMenuLabel>
                       <DropdownMenuItem asChild className="cursor-pointer">
-                        <Link href={`/produits/${product.id}`} target="_blank">
+                        <Link href={`/admin/products/view/${product.id}`}>
                           <Eye className="mr-2 h-4 w-4" /> Voir les détails
                         </Link>
                       </DropdownMenuItem>
