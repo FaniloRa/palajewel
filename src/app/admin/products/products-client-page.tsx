@@ -1,3 +1,4 @@
+
 'use client'
 
 import Image from 'next/image'
@@ -45,6 +46,7 @@ import {
 import type { OurProduct } from '@/types'
 import { deleteProduct } from '@/app/actions/productActions'
 import { useToast } from '@/hooks/use-toast'
+import { cn } from '@/lib/utils'
 
 interface ProductsPageClientProps {
   products: OurProduct[];
@@ -111,7 +113,7 @@ export default function ProductsPageClient({ products: initialProducts }: Produc
             </TableHeader>
             <TableBody>
               {products.map((product) => (
-              <TableRow key={product.id}>
+              <TableRow key={product.id} className={cn(product.status === 'draft' && 'opacity-60')}>
                 <TableCell className="hidden sm:table-cell">
                   <Image
                     alt={product.name}
@@ -124,8 +126,8 @@ export default function ProductsPageClient({ products: initialProducts }: Produc
                 </TableCell>
                 <TableCell className="font-medium">{product.name}</TableCell>
                 <TableCell>
-                  <Badge variant={product.status === 'active' ? 'outline' : 'secondary'}>
-                    {product.status === 'active' ? 'Actif' : 'Brouillon'}
+                  <Badge variant={product.status === 'active' ? 'outline' : 'destructive'}>
+                    {product.status === 'active' ? 'Actif' : 'En rupture'}
                   </Badge>
                 </TableCell>
                 <TableCell>{product.price.toFixed(2)} €</TableCell>
