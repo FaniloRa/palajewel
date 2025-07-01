@@ -146,7 +146,7 @@ export default function OrderDetailPageClient({ order }: OrderDetailPageClientPr
             {/* Receipt Dialog */}
             <Dialog open={isReceiptOpen} onOpenChange={setIsReceiptOpen}>
                 <DialogContent className="max-w-sm p-0">
-                    <DialogHeader>
+                    <DialogHeader className="p-4">
                         <DialogTitle className="sr-only">Aperçu du ticket de caisse</DialogTitle>
                         <DialogDescription className="sr-only">
                             Aperçu du ticket de caisse pour la commande {order._id}.
@@ -193,77 +193,79 @@ export default function OrderDetailPageClient({ order }: OrderDetailPageClientPr
             {/* Invoice Dialog */}
             <Dialog open={isInvoiceOpen} onOpenChange={setIsInvoiceOpen}>
                 <DialogContent className="max-w-4xl p-0">
-                    <DialogHeader>
-                        <DialogTitle className="sr-only">Aperçu de la facture</DialogTitle>
-                        <DialogDescription className="sr-only">
-                           Aperçu de la facture pour la commande {order._id}.
-                        </DialogDescription>
-                    </DialogHeader>
-                    <div id="invoice-content" className="p-10 bg-white text-black font-sans">
-                        <header className="flex justify-between items-start mb-10">
-                            <div>
-                                <div className="flex items-center gap-2 mb-4">
-                                     <Gem className="h-8 w-8 text-slate-800" />
-                                     <span className="text-3xl font-bold text-slate-800">Pala Jewelry</span>
-                                </div>
-                                <p>10 Rue Ratsimilaho</p>
-                                <p>Antananarivo, 101</p>
-                                <p>Madagascar</p>
+                    <div className="flex flex-col max-h-[90vh]">
+                        <DialogHeader className="p-4 flex-shrink-0">
+                            <DialogTitle className="sr-only">Aperçu de la facture</DialogTitle>
+                            <DialogDescription className="sr-only">
+                            Aperçu de la facture pour la commande {order._id}.
+                            </DialogDescription>
+                        </DialogHeader>
+                        <div className="flex-grow overflow-y-auto">
+                            <div id="invoice-content" className="p-10 bg-white text-black font-sans">
+                                <header className="flex justify-between items-start mb-10">
+                                    <div>
+                                        <div className="flex items-center gap-2 mb-4">
+                                            <Gem className="h-8 w-8 text-slate-800" />
+                                            <span className="text-3xl font-bold text-slate-800">Pala Jewelry</span>
+                                        </div>
+                                        <p>10 Rue Ratsimilaho</p>
+                                        <p>Antananarivo, 101</p>
+                                        <p>Madagascar</p>
+                                    </div>
+                                    <div className="text-right">
+                                        <h1 className="text-4xl font-bold text-slate-800 mb-2">FACTURE</h1>
+                                        <p><strong>Numéro:</strong> {order._id}</p>
+                                        <p><strong>Date:</strong> {formattedInvoiceDate || '...'}</p>
+                                    </div>
+                                </header>
+                                <section className="mb-10">
+                                    <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-500 mb-2">Facturé à</h2>
+                                    <p className="font-medium">{order.customer.name}</p>
+                                    <p>{order.customer.email}</p>
+                                </section>
+                                <section>
+                                    <table className="w-full text-left">
+                                        <thead className="bg-slate-50">
+                                            <tr>
+                                                <th className="p-3 text-sm font-semibold">Description</th>
+                                                <th className="p-3 text-sm font-semibold text-center">Qté</th>
+                                                <th className="p-3 text-sm font-semibold text-right">Prix Unitaire</th>
+                                                <th className="p-3 text-sm font-semibold text-right">Montant</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {order.items.map((item, index) => (
+                                            <tr key={index} className="border-b">
+                                                <td className="p-3">{item.name}</td>
+                                                <td className="p-3 text-center">{item.quantity}</td>
+                                                <td className="p-3 text-right">{item.price.toFixed(2)} €</td>
+                                                <td className="p-3 text-right">{(item.quantity * item.price).toFixed(2)} €</td>
+                                            </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </section>
+                                <section className="flex justify-end mt-6">
+                                    <div className="w-full max-w-xs space-y-2">
+                                        <div className="flex justify-between"><span className="text-slate-600">Sous-total</span><span>{order.summary.subtotal.toFixed(2)} €</span></div>
+                                        <div className="flex justify-between"><span className="text-slate-600">TVA (20%)</span><span>{order.summary.tax.toFixed(2)} €</span></div>
+                                        <div className="border-t my-2"></div>
+                                        <div className="flex justify-between text-xl font-bold"><span >TOTAL</span><span>{order.summary.total.toFixed(2)} €</span></div>
+                                    </div>
+                                </section>
+                                <footer className="mt-20 text-center text-xs text-slate-500 border-t pt-4">
+                                    <p>Payé par {order.paymentMethod === 'cash' ? 'Espèce' : 'Visa'}.</p>
+                                    <p>Merci de votre confiance. Pala Jewelry - contact@palajewelry.com</p>
+                                </footer>
                             </div>
-                            <div className="text-right">
-                                <h1 className="text-4xl font-bold text-slate-800 mb-2">FACTURE</h1>
-                                <p><strong>Numéro:</strong> {order._id}</p>
-                                <p><strong>Date:</strong> {formattedInvoiceDate || '...'}</p>
-                            </div>
-                        </header>
-                        <section className="mb-10">
-                            <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-500 mb-2">Facturé à</h2>
-                            <p className="font-medium">{order.customer.name}</p>
-                            <p>{order.customer.email}</p>
-                        </section>
-                        <section>
-                            <table className="w-full text-left">
-                                <thead className="bg-slate-50">
-                                    <tr>
-                                        <th className="p-3 text-sm font-semibold">Description</th>
-                                        <th className="p-3 text-sm font-semibold text-center">Qté</th>
-                                        <th className="p-3 text-sm font-semibold text-right">Prix Unitaire</th>
-                                        <th className="p-3 text-sm font-semibold text-right">Montant</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {order.items.map((item, index) => (
-                                    <tr key={index} className="border-b">
-                                        <td className="p-3">{item.name}</td>
-                                        <td className="p-3 text-center">{item.quantity}</td>
-                                        <td className="p-3 text-right">{item.price.toFixed(2)} €</td>
-                                        <td className="p-3 text-right">{(item.quantity * item.price).toFixed(2)} €</td>
-                                    </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </section>
-                        <section className="flex justify-end mt-6">
-                            <div className="w-full max-w-xs space-y-2">
-                                <div className="flex justify-between"><span className="text-slate-600">Sous-total</span><span>{order.summary.subtotal.toFixed(2)} €</span></div>
-                                <div className="flex justify-between"><span className="text-slate-600">TVA (20%)</span><span>{order.summary.tax.toFixed(2)} €</span></div>
-                                <div className="border-t my-2"></div>
-                                <div className="flex justify-between text-xl font-bold"><span >TOTAL</span><span>{order.summary.total.toFixed(2)} €</span></div>
-                            </div>
-                        </section>
-                        <footer className="mt-20 text-center text-xs text-slate-500 border-t pt-4">
-                            <p>Payé par {order.paymentMethod === 'cash' ? 'Espèce' : 'Visa'}.</p>
-                            <p>Merci de votre confiance. Pala Jewelry - contact@palajewelry.com</p>
-                        </footer>
+                        </div>
+                        <DialogFooter className="sm:justify-end gap-2 p-4 border-t bg-muted flex-shrink-0">
+                            <Button variant="outline" onClick={() => setIsInvoiceOpen(false)}>Fermer</Button>
+                            <Button onClick={() => handlePrint('invoice-content', 'invoice')}><Printer className="mr-2 h-4 w-4" /> Imprimer</Button>
+                        </DialogFooter>
                     </div>
-                    <DialogFooter className="sm:justify-end gap-2 p-4 border-t bg-muted">
-                        <Button variant="outline" onClick={() => setIsInvoiceOpen(false)}>Fermer</Button>
-                        <Button onClick={() => handlePrint('invoice-content', 'invoice')}><Printer className="mr-2 h-4 w-4" /> Imprimer</Button>
-                    </DialogFooter>
                 </DialogContent>
             </Dialog>
         </>
     );
 }
-
-    
