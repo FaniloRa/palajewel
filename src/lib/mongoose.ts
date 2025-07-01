@@ -1,3 +1,4 @@
+
 import mongoose from 'mongoose';
 import { ourProductsData } from '@/data/ourProductsData'; // For seeding
 import Product from '@/models/Product'; // For seeding
@@ -16,15 +17,15 @@ if (!cached) {
 
 async function seedDatabase() {
     try {
-        const adminUser = await User.findOne({ email: 'admin@example.com' });
-        if (!adminUser) {
+        const adminUserCount = await User.countDocuments({ email: 'admin@example.com' });
+        if (adminUserCount === 0) {
             console.log('Creating default admin user...');
             await User.create({ email: 'admin@example.com', password: 'password', role: 'admin' });
             console.log('Default admin user created.');
         }
 
-        const cashierUser = await User.findOne({ email: 'caissier@example.com' });
-        if (!cashierUser) {
+        const cashierUserCount = await User.countDocuments({ email: 'caissier@example.com' });
+        if (cashierUserCount === 0) {
             console.log('Creating default cashier user...');
             await User.create({ email: 'caissier@example.com', password: 'password', role: 'caissier' });
             console.log('Default cashier user created.');
@@ -61,31 +62,31 @@ async function connectDB() {
     );
   }
 
-  // Connect if not already connected
-  if (!cached.conn) {
-    if (!cached.promise) {
-      const opts = {
-        bufferCommands: false,
-      };
-      cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-        return mongoose;
-      });
-    }
-    
-    try {
-      cached.conn = await cached.promise;
-    } catch (e) {
-      cached.promise = null;
-      throw e;
-    }
+  // If a connection is already cached, return it.
+  if (cached.conn) {
+    return cached.conn;
   }
 
-  // After ensuring a connection, attempt to seed the database.
-  // The seedDatabase function is idempotent, meaning it won't create
-  // duplicate users or products, so it's safe to run.
-  // This ensures that even if the app was run once before the seeding
-  // logic was complete, the default users will be created.
-  await seedDatabase();
+  // If there's no connection promise, create one. This prevents multiple
+  // concurrent connection attempts.
+  if (!cached.promise) {
+    const opts = {
+      bufferCommands: false,
+    };
+    cached.promise = mongoose.connect(MONGODB_URI, opts).then(async (mongoose) => {
+      // The seeding logic is now part of the connection promise,
+      // ensuring it runs only once when the connection is first established.
+      await seedDatabase();
+      return mongoose;
+    });
+  }
+  
+  try {
+    cached.conn = await cached.promise;
+  } catch (e) {
+    cached.promise = null; // In case of a connection error, reset the promise
+    throw e;
+  }
 
   return cached.conn;
 }
