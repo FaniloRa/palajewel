@@ -1,5 +1,5 @@
 
-import { MoreHorizontal, PlusCircle } from "lucide-react"
+import { MoreHorizontal, PlusCircle, Eye } from "lucide-react"
 import Link from "next/link"
 import { format } from 'date-fns'
 
@@ -99,8 +99,12 @@ export default async function OrdersPage() {
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end">
                                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                    <DropdownMenuItem>Voir la commande</DropdownMenuItem>
-                                    <DropdownMenuItem>Voir le client</DropdownMenuItem>
+                                    <DropdownMenuItem asChild>
+                                      <Link href={`/admin/orders/${order._id}`} className="cursor-pointer">
+                                          <Eye className="mr-2 h-4 w-4" />
+                                          Voir la commande
+                                      </Link>
+                                    </DropdownMenuItem>
                                 </DropdownMenuContent>
                                 </DropdownMenu>
                             </TableCell>
