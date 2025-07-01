@@ -2,7 +2,7 @@
 'use client'
 
 import Image from 'next/image'
-import { MoreHorizontal, PlusCircle, Trash2, Pencil, Eye } from 'lucide-react'
+import { MoreHorizontal, PlusCircle, Trash2, Pencil, Eye, Loader2 } from 'lucide-react'
 import Link from 'next/link'
 import { format } from 'date-fns'
 import { useState, useTransition } from 'react'
@@ -190,6 +190,7 @@ export default function ProductsPageClient({ products: initialProducts }: Produc
               disabled={isPending}
               className="bg-destructive hover:bg-destructive/90"
             >
+              {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               {isPending ? "Suppression..." : "Supprimer"}
             </AlertDialogAction>
           </AlertDialogFooter>

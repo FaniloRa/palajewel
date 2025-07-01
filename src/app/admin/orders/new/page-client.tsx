@@ -3,7 +3,7 @@
 
 import { useState, useMemo } from 'react';
 import Image from 'next/image';
-import { Search, Plus, Minus, Trash2, Wallet, CreditCard, Printer, X } from 'lucide-react';
+import { Search, Plus, Minus, Trash2, Wallet, CreditCard, Printer, X, Loader2 } from 'lucide-react';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
@@ -66,6 +66,7 @@ export default function NewOrderClientPage({ products }: NewOrderClientPageProps
   const [customerName, setCustomerName] = useState('');
   const [customerEmail, setCustomerEmail] = useState('');
   
+  const [isLoading, setIsLoading] = useState(false);
   const [isPaymentDialogOpen, setIsPaymentDialogOpen] = useState(false);
   const [isCashConfirmationDialogOpen, setIsCashConfirmationDialogOpen] = useState(false);
   const [isReceiptDialogOpen, setIsReceiptDialogOpen] = useState(false);
@@ -145,6 +146,7 @@ export default function NewOrderClientPage({ products }: NewOrderClientPageProps
   };
   
   const processOrder = async (paymentMethod: 'cash' | 'visa') => {
+    setIsLoading(true);
     const orderInput = {
         customer: { name: customerName, email: customerEmail },
         cart: cart, // Server action will handle this structure
@@ -153,6 +155,7 @@ export default function NewOrderClientPage({ products }: NewOrderClientPageProps
     };
     
     const result = await createOrder(orderInput);
+    setIsLoading(false);
     
     if (result.error) {
         toast({ title: 'Erreur de commande', description: result.error, variant: 'destructive' });
@@ -338,13 +341,22 @@ export default function NewOrderClientPage({ products }: NewOrderClientPageProps
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="flex-col gap-2 pt-4 sm:flex-col sm:justify-center">
-            <Button size="lg" onClick={() => handleConfirmPayment('visa')}>
-              <CreditCard className="mr-2 h-5 w-5" /> Payer par Visa
+            <Button size="lg" onClick={() => handleConfirmPayment('visa')} disabled={isLoading}>
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                  Traitement...
+                </>
+              ) : (
+                <>
+                  <CreditCard className="mr-2 h-5 w-5" /> Payer par Visa
+                </>
+              )}
             </Button>
-            <Button size="lg" variant="secondary" onClick={() => { setIsPaymentDialogOpen(false); setIsCashConfirmationDialogOpen(true); }}>
+            <Button size="lg" variant="secondary" onClick={() => { setIsPaymentDialogOpen(false); setIsCashConfirmationDialogOpen(true); }} disabled={isLoading}>
               <Wallet className="mr-2 h-5 w-5" /> Payer en espèce
             </Button>
-            <AlertDialogCancel className="mt-2">Annuler</AlertDialogCancel>
+            <AlertDialogCancel className="mt-2" disabled={isLoading}>Annuler</AlertDialogCancel>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
@@ -368,12 +380,14 @@ export default function NewOrderClientPage({ products }: NewOrderClientPageProps
                     onChange={(e) => setCashReceivedAmount(e.target.value)}
                     className="text-lg text-right"
                     min={total.toString()}
+                    disabled={isLoading}
                 />
             </div>
             <AlertDialogFooter>
-                <AlertDialogCancel onClick={() => setCashReceivedAmount('')}>Annuler</AlertDialogCancel>
-                <Button onClick={handleCashPayment}>
-                    Payer
+                <AlertDialogCancel onClick={() => setCashReceivedAmount('')} disabled={isLoading}>Annuler</AlertDialogCancel>
+                <Button onClick={handleCashPayment} disabled={isLoading}>
+                    {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    {isLoading ? 'Traitement...' : 'Payer'}
                 </Button>
             </AlertDialogFooter>
         </AlertDialogContent>

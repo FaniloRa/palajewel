@@ -1,9 +1,10 @@
 
 'use client'
 
-import { ArrowLeft } from "lucide-react"
+import { ArrowLeft, Loader2 } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useActionState } from 'react'
+import { useFormStatus } from "react-dom"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -23,6 +24,16 @@ import ImageUpload from "@/components/ImageUpload"
 const initialState = {
     error: null,
 };
+
+const SubmitButton = () => {
+    const { pending } = useFormStatus();
+    return (
+        <Button size="sm" type="submit" disabled={pending}>
+            {pending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            Sauvegarder
+        </Button>
+    )
+}
 
 export default function NewProductPageClient() {
   const { toast } = useToast()
@@ -63,7 +74,7 @@ export default function NewProductPageClient() {
                 <Button variant="outline" size="sm" asChild>
                     <Link href="/admin/products">Annuler</Link>
                 </Button>
-                <Button size="sm" type="submit">Sauvegarder</Button>
+                <SubmitButton />
             </div>
         </div>
         <div className="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">
@@ -192,7 +203,7 @@ export default function NewProductPageClient() {
             <Button variant="outline" size="sm" asChild>
                 <Link href="/admin/products">Annuler</Link>
             </Button>
-            <Button size="sm" type="submit">Sauvegarder</Button>
+            <SubmitButton />
         </div>
     </form>
   )

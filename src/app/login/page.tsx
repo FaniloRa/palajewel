@@ -2,8 +2,9 @@
 'use client';
 
 import { useEffect, useActionState } from 'react';
+import { useFormStatus } from 'react-dom';
 import Link from 'next/link';
-import { Gem } from 'lucide-react';
+import { Gem, Loader2 } from 'lucide-react';
 
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -17,6 +18,16 @@ import { loginUser } from '@/app/actions/authActions';
 const initialState = {
   error: null,
 };
+
+const SubmitButton = () => {
+  const { pending } = useFormStatus();
+  return (
+    <Button type="submit" className="w-full" disabled={pending}>
+      {pending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+      Se connecter
+    </Button>
+  )
+}
 
 export default function LoginPage() {
   const { toast } = useToast();
@@ -74,7 +85,7 @@ export default function LoginPage() {
               </div>
             </CardContent>
             <CardFooter>
-              <Button type="submit" className="w-full">Se connecter</Button>
+              <SubmitButton />
             </CardFooter>
           </form>
         </Card>
