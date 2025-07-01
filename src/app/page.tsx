@@ -15,8 +15,14 @@ import type { OurProduct, FeaturedProduct } from '@/types';
 export default async function Home() {
   await connectDB();
   
-  const ourProducts: OurProduct[] = JSON.parse(JSON.stringify(await Product.find({ status: 'active' }).limit(4).sort({ createdAt: -1 })));
-  const featuredProductsDb: OurProduct[] = JSON.parse(JSON.stringify(await Product.find({ featured: true, status: 'active' }).limit(5)));
+  // By populating the 'category', we ensure the data is complete before serialization.
+  // This can prevent issues where unresolved ObjectIds cause BSON errors during stringification.
+  const ourProductsDocs = await Product.find({ status: 'active' }).populate('category').limit(4).sort({ createdAt: -1 });
+  const featuredProductsDocs = await Product.find({ featured: true, status: 'active' }).populate('category').limit(5);
+  
+  // JSON.parse(JSON.stringify(...)) is a safe way to deep-clone and serialize Mongoose documents for Next.js Server Components.
+  const ourProducts: OurProduct[] = JSON.parse(JSON.stringify(ourProductsDocs));
+  const featuredProductsDb: OurProduct[] = JSON.parse(JSON.stringify(featuredProductsDocs));
   
   const featuredProducts: FeaturedProduct[] = featuredProductsDb.map((product) => ({
     id: product.id,
