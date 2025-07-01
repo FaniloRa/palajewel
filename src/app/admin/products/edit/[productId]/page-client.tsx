@@ -175,10 +175,18 @@ export default function EditProductPageClient({ product }: EditProductPageClient
             <Card>
                 <CardHeader>
                     <CardTitle>Prix et Inventaire</CardTitle>
-                     <CardDescription>Le statut du produit (Actif/Brouillon) est automatiquement mis à jour en fonction du stock.</CardDescription>
+                     <CardDescription>Le statut est automatiquement mis à jour en fonction de la valeur du stock.</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <div className="grid gap-4">
+                        <div className="grid gap-3">
+                            <Label htmlFor="status">Statut actuel</Label>
+                            <Input
+                                id="status"
+                                value={product.status === 'active' ? 'Actif' : 'En rupture'}
+                                disabled
+                            />
+                        </div>
                          <div className="grid gap-3">
                             <Label htmlFor="price">Prix (€)</Label>
                             <Input id="price" name="price" type="number" step="0.01" defaultValue={product.price} required />
