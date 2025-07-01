@@ -3,7 +3,7 @@
 
 import { type ReactNode, useState, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 import {
   Home,
   ShoppingCart,
@@ -34,6 +34,7 @@ import { cn } from '@/lib/utils';
 export default function AdminLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const router = useRouter();
 
   // Start with a consistent default role to prevent hydration mismatch.
   const [role, setRole] = useState<'admin' | 'caissier'>('caissier');
@@ -81,6 +82,20 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     }
     // The <Link> component will handle the navigation to /login
   };
+  
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const term = e.target.value;
+    const params = new URLSearchParams(searchParams.toString());
+    if (term) {
+        params.set('search', term);
+    } else {
+        params.delete('search');
+    }
+    // Using replace to avoid polluting browser history
+    router.replace(`${pathname}?${params.toString()}`);
+  };
+
+  const isSearchablePage = ['/admin/customers', '/admin/orders', '/admin/products'].includes(pathname);
 
 
   return (
@@ -168,8 +183,11 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
               type="search"
-              placeholder="Search..."
+              placeholder="Rechercher..."
               className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]"
+              defaultValue={searchParams.get('search') || ''}
+              onChange={handleSearchChange}
+              disabled={!isSearchablePage}
             />
           </div>
           <DropdownMenu>

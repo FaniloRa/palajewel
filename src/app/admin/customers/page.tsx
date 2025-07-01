@@ -36,11 +36,11 @@ const getInitials = (name: string) => {
 };
 
 
-export default async function CustomersPage() {
+export default async function CustomersPage({ searchParams }: { searchParams?: { search?: string } }) {
     await connectDB();
-    
-    const customerData: CustomerProfile[] = JSON.parse(JSON.stringify(
-      await Order.aggregate([
+    const searchTerm = searchParams?.search || '';
+
+    const pipeline: any[] = [
         {
           $group: {
             _id: "$customer.email",
@@ -53,8 +53,20 @@ export default async function CustomersPage() {
         {
           $sort: { lastOrderDate: -1 }, // Sort by most recent customers
         },
-      ])
-    ));
+    ];
+
+    if (searchTerm) {
+        pipeline.splice(1, 0, { // Insert match stage after the group stage
+             $match: {
+                $or: [
+                    { name: { $regex: searchTerm, $options: 'i' } },
+                    { _id: { $regex: searchTerm, $options: 'i' } }, // _id is the email after grouping
+                ],
+            },
+        });
+    }
+
+    const customerData: CustomerProfile[] = JSON.parse(JSON.stringify(await Order.aggregate(pipeline)));
 
     return (
         <Card>
@@ -78,7 +90,7 @@ export default async function CustomersPage() {
                          {customerData.length === 0 ? (
                             <TableRow>
                                 <TableCell colSpan={4} className="h-24 text-center">
-                                    Aucun client trouvé.
+                                    {searchTerm ? `Aucun client trouvé pour "${searchTerm}".` : "Aucun client trouvé."}
                                 </TableCell>
                             </TableRow>
                         ) : (
