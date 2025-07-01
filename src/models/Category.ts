@@ -5,6 +5,8 @@ import mongoose, { Schema, models, model, Document } from 'mongoose';
 export interface ICategory extends Document {
     id: string;
     name: string;
+    createdAt?: Date;
+    updatedAt?: Date;
 }
 
 const CategorySchema = new Schema<ICategory>({
