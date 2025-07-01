@@ -52,6 +52,7 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { addCategory, updateCategory, deleteCategory } from '@/app/actions/categoryActions';
 import type { ICategory } from '@/models/Category';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface CategoriesClientPageProps {
   categories: ICategory[];
@@ -67,10 +68,9 @@ const AddCategoryButton = () => {
     )
 }
 
-export default function CategoriesClientPage({ categories: initialCategories }: CategoriesClientPageProps) {
+export default function CategoriesClientPage({ categories }: CategoriesClientPageProps) {
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
-  const [categories, setCategories] = useState<ICategory[]>(initialCategories);
 
   // State for modals
   const [categoryToDelete, setCategoryToDelete] = useState<ICategory | null>(null);
@@ -86,7 +86,7 @@ export default function CategoriesClientPage({ categories: initialCategories }: 
     }
     if (addState.success) {
         toast({ title: 'Succès', description: addState.success });
-        // We rely on revalidation triggered by the server action
+        // We rely on revalidation triggered by the server action, which will re-render the parent page.
         const form = document.getElementById('add-category-form') as HTMLFormElement;
         form?.reset();
     }
@@ -99,9 +99,7 @@ export default function CategoriesClientPage({ categories: initialCategories }: 
       const result = await updateCategory(categoryToEdit.id, editedName);
       if (result.success) {
         toast({ title: 'Succès', description: result.success });
-        setCategories(prev =>
-          prev.map(cat => (cat.id === categoryToEdit.id ? { ...cat, name: editedName } : cat))
-        );
+        // No client-side state update needed, revalidation will handle it.
         closeEditModal();
       } else {
         toast({ title: 'Erreur', description: result.error, variant: 'destructive' });
@@ -116,7 +114,7 @@ export default function CategoriesClientPage({ categories: initialCategories }: 
       const result = await deleteCategory(categoryToDelete.id);
       if (result.success) {
         toast({ title: 'Succès', description: result.success });
-        setCategories(prev => prev.filter(p => p.id !== categoryToDelete.id));
+         // No client-side state update needed, revalidation will handle it.
       } else {
         toast({ title: 'Erreur', description: result.error, variant: 'destructive' });
       }
@@ -145,46 +143,48 @@ export default function CategoriesClientPage({ categories: initialCategories }: 
             <CardDescription>Gérez les catégories de vos produits.</CardDescription>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Nom</TableHead>
-                  <TableHead className="hidden md:table-cell">Date de Création</TableHead>
-                  <TableHead>
-                    <span className="sr-only">Actions</span>
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {categories.map((category) => (
-                  <TableRow key={category.id}>
-                    <TableCell className="font-medium">{category.name}</TableCell>
-                    <TableCell className="hidden md:table-cell">
-                      {new Date(category.createdAt!).toLocaleDateString('fr-FR')}
-                    </TableCell>
-                    <TableCell>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button aria-haspopup="true" size="icon" variant="ghost">
-                            <MoreHorizontal className="h-4 w-4" />
-                            <span className="sr-only">Menu</span>
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                          <DropdownMenuItem onClick={() => openEditModal(category)} className="cursor-pointer">
-                            <Pencil className="mr-2 h-4 w-4" /> Modifier
-                          </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => setCategoryToDelete(category)} className="text-destructive focus:text-destructive focus:bg-destructive/10 cursor-pointer">
-                            <Trash2 className="mr-2 h-4 w-4" /> Supprimer
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <ScrollArea className="h-96">
+                <Table>
+                <TableHeader>
+                    <TableRow>
+                    <TableHead>Nom</TableHead>
+                    <TableHead className="hidden md:table-cell">Date de Création</TableHead>
+                    <TableHead>
+                        <span className="sr-only">Actions</span>
+                    </TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {categories.map((category) => (
+                    <TableRow key={category.id}>
+                        <TableCell className="font-medium">{category.name}</TableCell>
+                        <TableCell className="hidden md:table-cell">
+                        {new Date(category.createdAt!).toLocaleDateString('fr-FR')}
+                        </TableCell>
+                        <TableCell>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                            <Button aria-haspopup="true" size="icon" variant="ghost">
+                                <MoreHorizontal className="h-4 w-4" />
+                                <span className="sr-only">Menu</span>
+                            </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                            <DropdownMenuItem onClick={() => openEditModal(category)} className="cursor-pointer">
+                                <Pencil className="mr-2 h-4 w-4" /> Modifier
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => setCategoryToDelete(category)} className="text-destructive focus:text-destructive focus:bg-destructive/10 cursor-pointer">
+                                <Trash2 className="mr-2 h-4 w-4" /> Supprimer
+                            </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                        </TableCell>
+                    </TableRow>
+                    ))}
+                </TableBody>
+                </Table>
+            </ScrollArea>
           </CardContent>
         </Card>
 
