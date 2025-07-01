@@ -1,3 +1,4 @@
+
 import mongoose, { Schema, models, model, Document } from 'mongoose';
 import type { OurProduct } from '@/types';
 
@@ -9,7 +10,7 @@ const ProductSchema = new Schema<IProduct>({
     name: { type: String, required: true },
     description: { type: String, required: true },
     price: { type: Number, required: true },
-    category: { type: String, required: true },
+    category: { type: Schema.Types.ObjectId, ref: 'Category', required: true },
     imageUrl: { type: String, required: true },
     imageAlt: { type: String, required: true },
     dataAiHint: { type: String, required: true },
@@ -26,6 +27,10 @@ const ProductSchema = new Schema<IProduct>({
     toJSON: {
         transform(doc, ret) {
             ret.id = ret._id;
+            if (ret.category && typeof ret.category === 'object' && ret.category._id) {
+                ret.category.id = ret.category._id.toString();
+                delete ret.category._id;
+            }
             delete ret._id;
             delete ret.__v;
         }

@@ -17,7 +17,9 @@ export default async function ViewProductPage({ params }: ViewProductPageProps) 
     if (!params.productId.match(/^[0-9a-fA-F]{24}$/) && !params.productId.startsWith('op')) {
         notFound();
     }
-    const product: OurProduct | null = JSON.parse(JSON.stringify(await Product.findById(params.productId)));
+    const product: OurProduct | null = JSON.parse(JSON.stringify(
+        await Product.findById(params.productId).populate('category')
+    ));
 
     if (!product) {
         notFound();

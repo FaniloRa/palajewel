@@ -27,6 +27,13 @@ export interface FeaturedProduct {
   dataAiHint: string;
 }
 
+export interface ICategory {
+  id: string;
+  name: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 export interface OurProduct {
   id:string;
   name: string;
@@ -36,11 +43,12 @@ export interface OurProduct {
   imageAlt: string;
   dataAiHint: string;
   sku: string;
-  category: string;
+  category: ICategory | string;
   detailedDescription?: string; // For longer description on product page
   mainImageUrl: string; // For product detail page
   thumbnailImageUrl1: string; // For product detail page
   thumbnailImageUrl2: string; // For product detail page
   stock: number;
   status: 'active' | 'draft';
+  createdAt?: string;
 }

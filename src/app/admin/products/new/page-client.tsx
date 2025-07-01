@@ -20,6 +20,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
 import { addProduct } from "@/app/actions/productActions"
 import ImageUpload from "@/components/ImageUpload"
+import type { ICategory } from "@/types"
 
 const initialState = {
     error: null,
@@ -35,7 +36,11 @@ const SubmitButton = () => {
     )
 }
 
-export default function NewProductPageClient() {
+interface NewProductPageClientProps {
+    categories: ICategory[];
+}
+
+export default function NewProductPageClient({ categories }: NewProductPageClientProps) {
   const { toast } = useToast()
   const [state, formAction] = useActionState(addProduct, initialState)
 
@@ -162,15 +167,13 @@ export default function NewProductPageClient() {
                         <select
                             id="category"
                             name="category"
+                            required
                             className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                         >
                             <option value="">Sélectionner...</option>
-                            <option value="Bague">Bague</option>
-                            <option value="Collier">Collier</option>
-                            <option value="Bracelet">Bracelet</option>
-                            <option value="Boucles d'oreilles">Boucles d'oreilles</option>
-                            <option value="Pendentif">Pendentif</option>
-                            <option value="Montre">Montre</option>
+                            {categories.map((cat) => (
+                                <option key={cat.id} value={cat.id}>{cat.name}</option>
+                            ))}
                         </select>
                     </div>
                 </CardContent>

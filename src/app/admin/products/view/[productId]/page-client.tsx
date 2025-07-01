@@ -1,3 +1,4 @@
+
 'use client'
 
 import { ArrowLeft, Pencil } from "lucide-react"
@@ -15,7 +16,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import type { OurProduct } from "@/types"
+import type { OurProduct, ICategory } from "@/types"
 
 // A simple component to display an image in a read-only view
 function ImageViewer({ url, alt }: { url?: string; alt: string }) {
@@ -37,6 +38,9 @@ interface ViewProductPageClientProps {
 }
 
 export default function ViewProductPageClient({ product }: ViewProductPageClientProps) {
+    const categoryName = typeof product.category === 'object' && product.category !== null 
+        ? (product.category as ICategory).name 
+        : 'Non définie';
 
   return (
     <div className="mx-auto grid w-full max-w-6xl flex-1 auto-rows-max gap-4">
@@ -133,23 +137,6 @@ export default function ViewProductPageClient({ product }: ViewProductPageClient
             </Card>
             </div>
             <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
-            <Card>
-                <CardHeader>
-                <CardTitle>Statut du produit</CardTitle>
-                </CardHeader>
-                <CardContent>
-                <div className="grid gap-6">
-                    <div className="grid gap-3">
-                    <Label htmlFor="status">Statut</Label>
-                    <Input
-                        id="status"
-                        defaultValue={product.status === 'active' ? 'Actif' : 'Brouillon'}
-                        disabled
-                    />
-                    </div>
-                </div>
-                </CardContent>
-            </Card>
              <Card>
                 <CardHeader>
                     <CardTitle>Organisation</CardTitle>
@@ -159,7 +146,7 @@ export default function ViewProductPageClient({ product }: ViewProductPageClient
                         <Label htmlFor="category">Catégorie</Label>
                         <Input
                             id="category"
-                            defaultValue={product.category}
+                            defaultValue={categoryName}
                             disabled
                         />
                     </div>
@@ -171,6 +158,14 @@ export default function ViewProductPageClient({ product }: ViewProductPageClient
                 </CardHeader>
                 <CardContent>
                     <div className="grid gap-4">
+                        <div className="grid gap-3">
+                            <Label htmlFor="status">Statut</Label>
+                            <Input
+                                id="status"
+                                value={product.status === 'active' ? 'Actif' : 'En rupture'}
+                                disabled
+                            />
+                        </div>
                          <div className="grid gap-3">
                             <Label htmlFor="price">Prix (€)</Label>
                             <Input id="price" type="number" defaultValue={product.price} disabled />

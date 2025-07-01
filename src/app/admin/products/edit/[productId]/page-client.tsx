@@ -20,7 +20,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
 import { updateProduct } from "@/app/actions/productActions"
 import ImageUpload from "@/components/ImageUpload"
-import type { OurProduct } from "@/types"
+import type { OurProduct, ICategory } from "@/types"
 
 
 const initialState = {
@@ -39,9 +39,10 @@ const SubmitButton = () => {
 
 interface EditProductPageClientProps {
     product: OurProduct;
+    categories: ICategory[];
 }
 
-export default function EditProductPageClient({ product }: EditProductPageClientProps) {
+export default function EditProductPageClient({ product, categories }: EditProductPageClientProps) {
   const { toast } = useToast()
   
   const updateProductWithId = updateProduct.bind(null, product.id);
@@ -64,6 +65,8 @@ export default function EditProductPageClient({ product }: EditProductPageClient
       })
     }
   }, [state, toast])
+
+  const categoryId = typeof product.category === 'object' && product.category !== null ? (product.category as ICategory).id : product.category;
 
   return (
     <form action={formAction} className="mx-auto grid w-full max-w-6xl flex-1 auto-rows-max gap-4">
@@ -169,16 +172,14 @@ export default function EditProductPageClient({ product }: EditProductPageClient
                         <select
                             id="category"
                             name="category"
-                            defaultValue={product.category}
+                            defaultValue={categoryId}
+                            required
                             className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                         >
                             <option value="">Sélectionner...</option>
-                            <option value="Bague">Bague</option>
-                            <option value="Collier">Collier</option>
-                            <option value="Bracelet">Bracelet</option>
-                            <option value="Boucles d'oreilles">Boucles d'oreilles</option>
-                            <option value="Pendentif">Pendentif</option>
-                            <option value="Montre">Montre</option>
+                            {categories.map((cat) => (
+                                <option key={cat.id} value={cat.id}>{cat.name}</option>
+                            ))}
                         </select>
                     </div>
                 </CardContent>
@@ -194,7 +195,7 @@ export default function EditProductPageClient({ product }: EditProductPageClient
                             <Label htmlFor="status">Statut actuel</Label>
                             <Input
                                 id="status"
-                                value={product.status === 'active' ? 'Actif' : 'En rupture'}
+                                value={product.stock > 0 ? 'Actif' : 'En rupture'}
                                 disabled
                             />
                         </div>

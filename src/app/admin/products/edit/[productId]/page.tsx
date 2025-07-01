@@ -2,7 +2,8 @@
 import { notFound } from 'next/navigation';
 import connectDB from '@/lib/mongoose';
 import Product from '@/models/Product';
-import type { OurProduct } from '@/types';
+import Category from '@/models/Category';
+import type { OurProduct, ICategory } from '@/types';
 import EditProductPageClient from './page-client';
 
 
@@ -18,11 +19,14 @@ export default async function EditProductPage({ params }: EditProductPageProps) 
     if (!params.productId.match(/^[0-9a-fA-F]{24}$/) && !params.productId.startsWith('op')) {
         notFound();
     }
-    const product: OurProduct | null = JSON.parse(JSON.stringify(await Product.findById(params.productId)));
+    const product: OurProduct | null = JSON.parse(JSON.stringify(
+        await Product.findById(params.productId).populate('category')
+    ));
+    const categories: ICategory[] = JSON.parse(JSON.stringify(await Category.find({}).sort({ name: 1 })));
 
     if (!product) {
         notFound();
     }
     
-    return <EditProductPageClient product={product} />;
+    return <EditProductPageClient product={product} categories={categories} />;
 }
