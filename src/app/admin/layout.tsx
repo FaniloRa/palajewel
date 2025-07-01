@@ -192,19 +192,16 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button
-                variant="outline"
-                size="icon"
-                className="overflow-hidden rounded-full"
-              >
-                <Avatar className="h-9 w-9">
+              <Button variant="secondary" className="flex items-center gap-2 rounded-full px-3 py-1 h-auto">
+                <Avatar className="h-8 w-8">
                     <AvatarImage src="https://placehold.co/40x40.png" alt="@admin" data-ai-hint="person portrait" />
                     <AvatarFallback>{role === 'admin' ? 'AD' : 'CA'}</AvatarFallback>
                 </Avatar>
+                <span className="capitalize hidden md:block">{role}</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Mon Compte</DropdownMenuLabel>
+              <DropdownMenuLabel>Compte {role === 'admin' ? 'Administrateur' : 'Caissier'}</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>Paramètres</DropdownMenuItem>
               <DropdownMenuSeparator />
