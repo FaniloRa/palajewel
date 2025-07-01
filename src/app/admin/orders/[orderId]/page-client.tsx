@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, Printer, FileText, Gem } from 'lucide-react';
@@ -23,6 +23,20 @@ interface OrderDetailPageClientProps {
 export default function OrderDetailPageClient({ order }: OrderDetailPageClientProps) {
     const [isReceiptOpen, setIsReceiptOpen] = useState(false);
     const [isInvoiceOpen, setIsInvoiceOpen] = useState(false);
+
+    // State for client-side rendered dates to prevent hydration errors
+    const [formattedCardDate, setFormattedCardDate] = useState('');
+    const [formattedReceiptDate, setFormattedReceiptDate] = useState('');
+    const [formattedInvoiceDate, setFormattedInvoiceDate] = useState('');
+
+    useEffect(() => {
+        // This effect runs only on the client, after hydration, avoiding the mismatch.
+        const orderDate = new Date(order.createdAt);
+        setFormattedCardDate(format(orderDate, 'dd/MM/yyyy HH:mm'));
+        setFormattedReceiptDate(orderDate.toLocaleString('fr-FR'));
+        setFormattedInvoiceDate(format(orderDate, 'dd/MM/yyyy'));
+    }, [order.createdAt]);
+
 
     const handlePrint = (contentId: string, format: 'receipt' | 'invoice') => {
         const element = document.getElementById(contentId);
@@ -76,7 +90,7 @@ export default function OrderDetailPageClient({ order }: OrderDetailPageClientPr
                     <div>
                         <CardTitle>Commande #{order._id.substring(order._id.length - 7).toUpperCase()}</CardTitle>
                         <CardDescription>
-                            Date: {format(new Date(order.createdAt), 'dd/MM/yyyy HH:mm')}
+                            Date: {formattedCardDate || '...'}
                         </CardDescription>
                     </div>
                     <div className="text-right">
@@ -132,9 +146,9 @@ export default function OrderDetailPageClient({ order }: OrderDetailPageClientPr
             {/* Receipt Dialog */}
             <Dialog open={isReceiptOpen} onOpenChange={setIsReceiptOpen}>
                 <DialogContent className="max-w-sm p-0">
-                    <DialogHeader className="sr-only">
-                        <DialogTitle>Aperçu du ticket de caisse</DialogTitle>
-                        <DialogDescription>
+                    <DialogHeader>
+                        <DialogTitle className="sr-only">Aperçu du ticket de caisse</DialogTitle>
+                        <DialogDescription className="sr-only">
                             Aperçu du ticket de caisse pour la commande {order._id}.
                         </DialogDescription>
                     </DialogHeader>
@@ -142,7 +156,7 @@ export default function OrderDetailPageClient({ order }: OrderDetailPageClientPr
                         <div className="text-center mb-4">
                             <h3 className="text-lg font-bold">Pala Jewelry</h3>
                             <p>10 Rue Ratsimilaho, Antananarivo</p>
-                            <p>{new Date(order.createdAt).toLocaleString('fr-FR')}</p>
+                            <p>{formattedReceiptDate || '...'}</p>
                             <p>Reçu No: {order._id}</p>
                         </div>
                         <div className="mb-4">
@@ -179,9 +193,9 @@ export default function OrderDetailPageClient({ order }: OrderDetailPageClientPr
             {/* Invoice Dialog */}
             <Dialog open={isInvoiceOpen} onOpenChange={setIsInvoiceOpen}>
                 <DialogContent className="max-w-4xl p-0">
-                    <DialogHeader className="sr-only">
-                        <DialogTitle>Aperçu de la facture</DialogTitle>
-                        <DialogDescription>
+                    <DialogHeader>
+                        <DialogTitle className="sr-only">Aperçu de la facture</DialogTitle>
+                        <DialogDescription className="sr-only">
                            Aperçu de la facture pour la commande {order._id}.
                         </DialogDescription>
                     </DialogHeader>
@@ -199,7 +213,7 @@ export default function OrderDetailPageClient({ order }: OrderDetailPageClientPr
                             <div className="text-right">
                                 <h1 className="text-4xl font-bold text-slate-800 mb-2">FACTURE</h1>
                                 <p><strong>Numéro:</strong> {order._id}</p>
-                                <p><strong>Date:</strong> {format(new Date(order.createdAt), 'dd/MM/yyyy')}</p>
+                                <p><strong>Date:</strong> {formattedInvoiceDate || '...'}</p>
                             </div>
                         </header>
                         <section className="mb-10">
@@ -251,3 +265,5 @@ export default function OrderDetailPageClient({ order }: OrderDetailPageClientPr
         </>
     );
 }
+
+    
