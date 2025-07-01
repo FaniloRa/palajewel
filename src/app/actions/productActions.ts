@@ -19,9 +19,11 @@ const ProductSchema = z.object({
     thumbnailImageUrl1: z.string().url({ message: "L'URL de la vignette 1 est requise et doit être valide" }).min(1, "L'URL de la vignette 1 est requise"),
     thumbnailImageUrl2: z.string().url({ message: "L'URL de la vignette 2 est requise et doit être valide" }).min(1, "L'URL de la vignette 2 est requise"),
     stock: z.coerce.number().int().min(0, "Le stock ne peut pas être négatif"),
-    status: z.enum(['active', 'draft']),
     sku: z.string().min(1, "Le SKU est requis"),
 });
+
+// We remove 'status' from the form validation, as it's now automated.
+const ProductFormSchema = ProductSchema;
 
 
 export async function addProduct(prevState: any, formData: FormData) {
@@ -36,7 +38,7 @@ export async function addProduct(prevState: any, formData: FormData) {
     // Generate a unique ID for the new product
     const newId = `op${(await Product.countDocuments()) + 15}`;
 
-    const validatedFields = ProductSchema.safeParse({
+    const validatedFields = ProductFormSchema.safeParse({
         name: formData.get('name'),
         description: formData.get('description'),
         detailedDescription: formData.get('detailed-description'),
@@ -47,7 +49,6 @@ export async function addProduct(prevState: any, formData: FormData) {
         thumbnailImageUrl1: formData.get('thumbnail1-url'),
         thumbnailImageUrl2: formData.get('thumbnail2-url'),
         stock: formData.get('stock'),
-        status: formData.get('status'),
         sku: formData.get('sku'),
     });
 
@@ -57,9 +58,13 @@ export async function addProduct(prevState: any, formData: FormData) {
         };
     }
 
+    // Automatically determine status based on stock
+    const status = validatedFields.data.stock > 0 ? 'active' : 'draft';
+
     const productData = {
         _id: newId,
         ...validatedFields.data,
+        status: status, // Set automated status
         imageAlt: `Image pour ${validatedFields.data.name}`,
         dataAiHint: 'jewelry fashion', // Generic hint
     };
@@ -94,7 +99,7 @@ export async function updateProduct(productId: string, prevState: any, formData:
         };
     }
 
-    const validatedFields = ProductSchema.safeParse({
+    const validatedFields = ProductFormSchema.safeParse({
         name: formData.get('name'),
         description: formData.get('description'),
         detailedDescription: formData.get('detailed-description'),
@@ -105,7 +110,6 @@ export async function updateProduct(productId: string, prevState: any, formData:
         thumbnailImageUrl1: formData.get('thumbnail1-url'),
         thumbnailImageUrl2: formData.get('thumbnail2-url'),
         stock: formData.get('stock'),
-        status: formData.get('status'),
         sku: formData.get('sku'),
     });
 
@@ -115,8 +119,12 @@ export async function updateProduct(productId: string, prevState: any, formData:
         };
     }
 
+    // Automatically determine status based on stock
+    const status = validatedFields.data.stock > 0 ? 'active' : 'draft';
+
     const productData = {
         ...validatedFields.data,
+        status: status, // Set automated status
         imageAlt: `Image pour ${validatedFields.data.name}`,
         dataAiHint: 'jewelry fashion', // Generic hint
     };

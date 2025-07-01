@@ -55,15 +55,23 @@ export async function createOrder(data: CreateOrderInput) {
         });
         await newOrder.save();
         
-        // Decrease stock for each product
+        // Decrease stock for each product and update status if needed
         for (const item of cart) {
-            await Product.findByIdAndUpdate(item.product.id, {
+            const updatedProduct = await Product.findByIdAndUpdate(item.product.id, {
                 $inc: { stock: -item.quantity },
-            });
+            }, { new: true });
+
+            // If stock is now 0 or less, set status to draft
+            if (updatedProduct && updatedProduct.stock <= 0) {
+                updatedProduct.status = 'draft';
+                await updatedProduct.save();
+            }
         }
         
         revalidatePath('/admin/orders');
         revalidatePath('/admin/products'); // to reflect stock changes
+        revalidatePath('/shop');
+        revalidatePath('/');
         
         // The saved order object is already in a good shape.
         // We just need to serialize it correctly for the client.

@@ -1,3 +1,4 @@
+
 'use client'
 
 import { ArrowLeft } from "lucide-react"
@@ -140,27 +141,6 @@ export default function NewProductPageClient() {
             </Card>
             </div>
             <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
-            <Card>
-                <CardHeader>
-                <CardTitle>Statut du produit</CardTitle>
-                </CardHeader>
-                <CardContent>
-                <div className="grid gap-6">
-                    <div className="grid gap-3">
-                    <Label htmlFor="status">Statut</Label>
-                    <select
-                        id="status"
-                        name="status"
-                        defaultValue="active"
-                        className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                        >
-                        <option value="draft">Brouillon</option>
-                        <option value="active">Actif</option>
-                    </select>
-                    </div>
-                </div>
-                </CardContent>
-            </Card>
              <Card>
                 <CardHeader>
                     <CardTitle>Organisation</CardTitle>
@@ -187,6 +167,7 @@ export default function NewProductPageClient() {
             <Card>
                 <CardHeader>
                     <CardTitle>Prix et Inventaire</CardTitle>
+                    <CardDescription>Le statut du produit (Actif/Brouillon) est automatiquement mis à jour en fonction du stock.</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <div className="grid gap-4">

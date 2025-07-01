@@ -89,8 +89,12 @@ const ProductDetailPage = async ({ params }: ProductPageProps) => {
               <p>{product.detailedDescription || product.description}</p>
             </div>
             
-            <Button size="lg" className="w-full mb-8 bg-primary hover:bg-primary/90 text-primary-foreground py-6 text-base">
-              AJOUTER DANS LE PANIER
+            <Button 
+              size="lg" 
+              className="w-full mb-8 bg-primary hover:bg-primary/90 text-primary-foreground py-6 text-base"
+              disabled={product.stock <= 0}
+            >
+              {product.stock > 0 ? 'AJOUTER DANS LE PANIER' : 'EN RUPTURE DE STOCK'}
             </Button>
             
             <div className="space-y-3 font-body">
