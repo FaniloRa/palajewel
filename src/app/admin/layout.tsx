@@ -1,7 +1,7 @@
 
 'use client';
 
-import type { ReactNode } from 'react';
+import { type ReactNode, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import {
@@ -34,7 +34,31 @@ import { cn } from '@/lib/utils';
 export default function AdminLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const role = searchParams.get('role') === 'admin' ? 'admin' : 'caissier';
+
+  const [role, setRole] = useState<'admin' | 'caissier'>(() => {
+    // Initialize state from localStorage on the client, if available.
+    if (typeof window !== 'undefined') {
+      const storedRole = localStorage.getItem('userRole');
+      if (storedRole === 'admin' || storedRole === 'caissier') {
+        return storedRole;
+      }
+    }
+    // Default for SSR or if no role is in storage.
+    return 'caissier';
+  });
+
+  // This effect synchronizes the URL's role with our persistent state.
+  useEffect(() => {
+    const roleFromUrl = searchParams.get('role');
+    if (roleFromUrl === 'admin' || roleFromUrl === 'caissier') {
+      // If the URL specifies a role, it's the source of truth.
+      // Update state and localStorage.
+      setRole(roleFromUrl);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('userRole', roleFromUrl);
+      }
+    }
+  }, [searchParams]);
 
   const allNavLinks = [
     { href: '/admin', label: 'Dashboard', icon: Home, roles: ['admin', 'caissier'] },
@@ -47,6 +71,14 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   const navLinks = allNavLinks.filter(link => link.roles.includes(role));
 
   const addRoleQuery = (href: string) => `${href}?role=${role}`;
+
+  const handleLogout = () => {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('userRole');
+    }
+    // The <Link> component will handle the navigation to /login
+  };
+
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
@@ -78,6 +110,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
             <div className="mt-auto p-4">
                <Link
                   href="/login"
+                  onClick={handleLogout}
                   className="flex items-center gap-3 rounded-lg px-3 py-2 text-primary-foreground/70 transition-all hover:text-primary-foreground hover:bg-primary-foreground/10"
                 >
                   <LogOut className="h-4 w-4" />
@@ -119,6 +152,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                 ))}
                  <Link
                     href="/login"
+                    onClick={handleLogout}
                     className="mt-auto flex items-center gap-4 px-2.5 text-primary-foreground/70 hover:text-primary-foreground"
                  >
                     <LogOut className="h-5 w-5" />
@@ -154,7 +188,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
               <DropdownMenuItem>Paramètres</DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
-                <Link href="/login" className="w-full cursor-pointer">
+                <Link href="/login" onClick={handleLogout} className="w-full cursor-pointer">
                   <LogOut className="mr-2 h-4 w-4" />
                   <span>Déconnexion</span>
                 </Link>
