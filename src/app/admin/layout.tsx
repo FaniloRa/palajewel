@@ -35,28 +35,24 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const [role, setRole] = useState<'admin' | 'caissier'>(() => {
-    // Initialize state from localStorage on the client, if available.
-    if (typeof window !== 'undefined') {
-      const storedRole = localStorage.getItem('userRole');
-      if (storedRole === 'admin' || storedRole === 'caissier') {
-        return storedRole;
-      }
-    }
-    // Default for SSR or if no role is in storage.
-    return 'caissier';
-  });
+  // Start with a consistent default role to prevent hydration mismatch.
+  const [role, setRole] = useState<'admin' | 'caissier'>('caissier');
 
-  // This effect synchronizes the URL's role with our persistent state.
+  // This effect runs only on the client after the initial render, preventing hydration errors.
   useEffect(() => {
     const roleFromUrl = searchParams.get('role');
+    
+    // Priority 1: Role from URL parameter. This is the source of truth upon login/navigation.
     if (roleFromUrl === 'admin' || roleFromUrl === 'caissier') {
-      // If the URL specifies a role, it's the source of truth.
-      // Update state and localStorage.
       setRole(roleFromUrl);
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('userRole', roleFromUrl);
+      localStorage.setItem('userRole', roleFromUrl);
+    } else {
+      // Priority 2: Role from localStorage if no URL parameter is present.
+      const storedRole = localStorage.getItem('userRole');
+      if (storedRole === 'admin' || storedRole === 'caissier') {
+        setRole(storedRole);
       }
+      // If neither is present, it stays as the default 'caissier'.
     }
   }, [searchParams]);
 
@@ -70,7 +66,14 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   
   const navLinks = allNavLinks.filter(link => link.roles.includes(role));
 
-  const addRoleQuery = (href: string) => `${href}?role=${role}`;
+  const addRoleQuery = (href: string) => {
+    // To maintain the role across navigation, we append it if it's not already there.
+    // This is a fallback, as localStorage should handle most cases.
+    if (href.includes('?')) {
+        return `${href}&role=${role}`;
+    }
+    return `${href}?role=${role}`;
+  }
 
   const handleLogout = () => {
     if (typeof window !== 'undefined') {
