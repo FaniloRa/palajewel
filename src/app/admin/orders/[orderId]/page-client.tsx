@@ -13,7 +13,7 @@ import type { IOrder } from '@/models/Order';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Dialog, DialogContent, DialogFooter } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Separator } from '@/components/ui/separator';
 
 interface OrderDetailPageClientProps {
@@ -132,6 +132,12 @@ export default function OrderDetailPageClient({ order }: OrderDetailPageClientPr
             {/* Receipt Dialog */}
             <Dialog open={isReceiptOpen} onOpenChange={setIsReceiptOpen}>
                 <DialogContent className="max-w-sm p-0">
+                    <DialogHeader className="sr-only">
+                        <DialogTitle>Aperçu du ticket de caisse</DialogTitle>
+                        <DialogDescription>
+                            Aperçu du ticket de caisse pour la commande {order._id}.
+                        </DialogDescription>
+                    </DialogHeader>
                     <div id="receipt-content" className="text-sm font-mono p-6 bg-white text-black">
                         <div className="text-center mb-4">
                             <h3 className="text-lg font-bold">Pala Jewelry</h3>
@@ -173,6 +179,12 @@ export default function OrderDetailPageClient({ order }: OrderDetailPageClientPr
             {/* Invoice Dialog */}
             <Dialog open={isInvoiceOpen} onOpenChange={setIsInvoiceOpen}>
                 <DialogContent className="max-w-4xl p-0">
+                    <DialogHeader className="sr-only">
+                        <DialogTitle>Aperçu de la facture</DialogTitle>
+                        <DialogDescription>
+                           Aperçu de la facture pour la commande {order._id}.
+                        </DialogDescription>
+                    </DialogHeader>
                     <div id="invoice-content" className="p-10 bg-white text-black font-sans">
                         <header className="flex justify-between items-start mb-10">
                             <div>
