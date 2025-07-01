@@ -153,7 +153,7 @@ export const ourProductsData: OurProduct[] = [
     thumbnailImageUrl1: 'https://placehold.co/300x300.png',
     thumbnailImageUrl2: 'https://placehold.co/300x300.png',
     stock: 50,
-    status: 'draft',
+    status: 'active',
   },
   {
     id: 'op10',
