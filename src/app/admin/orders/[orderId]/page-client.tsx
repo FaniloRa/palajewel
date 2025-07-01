@@ -56,7 +56,7 @@ export default function OrderDetailPageClient({ order }: OrderDetailPageClientPr
                 const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
                 
                 pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-                pdf.save(`${format}-${order.customer.name.replace(/\s+/g, '_')}-${order._id}.pdf`);
+                pdf.save(`${format}-${order.customer.name.replace(/\s+/g, '_')}-${order.id}.pdf`);
             });
         }
     };
@@ -88,7 +88,7 @@ export default function OrderDetailPageClient({ order }: OrderDetailPageClientPr
             <Card>
                 <CardHeader className="flex flex-row items-start justify-between gap-4">
                     <div>
-                        <CardTitle>Commande #{order._id.substring(order._id.length - 7).toUpperCase()}</CardTitle>
+                        <CardTitle>Commande #{order.id.substring(order.id.length - 7).toUpperCase()}</CardTitle>
                         <CardDescription>
                             Date: {formattedCardDate || '...'}
                         </CardDescription>
@@ -149,7 +149,7 @@ export default function OrderDetailPageClient({ order }: OrderDetailPageClientPr
                     <DialogHeader className="p-4">
                         <DialogTitle className="sr-only">Aperçu du ticket de caisse</DialogTitle>
                         <DialogDescription className="sr-only">
-                            Aperçu du ticket de caisse pour la commande {order._id}.
+                            Aperçu du ticket de caisse pour la commande {order.id}.
                         </DialogDescription>
                     </DialogHeader>
                     <div id="receipt-content" className="text-sm font-mono p-6 bg-white text-black">
@@ -157,7 +157,7 @@ export default function OrderDetailPageClient({ order }: OrderDetailPageClientPr
                             <h3 className="text-lg font-bold">Pala Jewelry</h3>
                             <p>10 Rue Ratsimilaho, Antananarivo</p>
                             <p>{formattedReceiptDate || '...'}</p>
-                            <p>Reçu No: {order._id}</p>
+                            <p>Reçu No: {order.id}</p>
                         </div>
                         <div className="mb-4">
                             <p><strong>Client:</strong> {order.customer.name}</p>
@@ -197,7 +197,7 @@ export default function OrderDetailPageClient({ order }: OrderDetailPageClientPr
                         <DialogHeader className="p-4 flex-shrink-0">
                             <DialogTitle className="sr-only">Aperçu de la facture</DialogTitle>
                             <DialogDescription className="sr-only">
-                            Aperçu de la facture pour la commande {order._id}.
+                            Aperçu de la facture pour la commande {order.id}.
                             </DialogDescription>
                         </DialogHeader>
                         <div className="flex-grow overflow-y-auto">
@@ -214,7 +214,7 @@ export default function OrderDetailPageClient({ order }: OrderDetailPageClientPr
                                     </div>
                                     <div className="text-right">
                                         <h1 className="text-4xl font-bold text-slate-800 mb-2">FACTURE</h1>
-                                        <p><strong>Numéro:</strong> {order._id}</p>
+                                        <p><strong>Numéro:</strong> {order.id}</p>
                                         <p><strong>Date:</strong> {formattedInvoiceDate || '...'}</p>
                                     </div>
                                 </header>

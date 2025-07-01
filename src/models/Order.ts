@@ -11,6 +11,7 @@ interface OrderItem {
 
 // Interface for the Order document
 export interface IOrder extends Document {
+    id: string;
     customer: {
         name: string;
         email: string;
@@ -50,6 +51,13 @@ const OrderSchema = new Schema<IOrder>({
     status: { type: String, enum: ['Pending', 'Fulfilled', 'Declined'], default: 'Pending' },
 }, {
     timestamps: true,
+    toJSON: {
+        transform(doc, ret) {
+            ret.id = ret._id.toString();
+            delete ret._id;
+            delete ret.__v;
+        }
+    }
 });
 
 const Order = models.Order || model<IOrder>('Order', OrderSchema);

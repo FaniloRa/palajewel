@@ -26,7 +26,7 @@ const ProductSchema = new Schema<IProduct>({
     timestamps: true,
     toJSON: {
         transform(doc, ret) {
-            ret.id = ret._id;
+            ret.id = ret._id.toString();
             if (ret.category && typeof ret.category === 'object' && ret.category._id) {
                 ret.category.id = ret.category._id.toString();
                 delete ret.category._id;

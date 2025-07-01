@@ -41,7 +41,7 @@ interface CartItem {
 }
 
 interface FinalizedOrder {
-  _id: string;
+  id: string;
   customer: { name: string; email: string };
   items: Array<{
     productId: string;
@@ -215,7 +215,7 @@ export default function NewOrderClientPage({ products }: NewOrderClientPageProps
           pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
           
           const customerNameForFile = finalizedOrder?.customer.name.replace(/\s+/g, '_') || 'commande';
-          pdf.save(`recu-${customerNameForFile}-${finalizedOrder?._id}.pdf`);
+          pdf.save(`recu-${customerNameForFile}-${finalizedOrder?.id}.pdf`);
         });
     }
   };
@@ -408,7 +408,7 @@ export default function NewOrderClientPage({ products }: NewOrderClientPageProps
                       <h3 className="text-lg font-bold">Pala Jewelry</h3>
                       <p>10 Rue Ratsimilaho, Antananarivo</p>
                       <p>{new Date(finalizedOrder.createdAt).toLocaleString('fr-FR')}</p>
-                      <p>Reçu No: {finalizedOrder._id}</p>
+                      <p>Reçu No: {finalizedOrder.id}</p>
                   </div>
                   <div className="mb-4">
                       <p><strong>Client:</strong> {finalizedOrder.customer.name}</p>

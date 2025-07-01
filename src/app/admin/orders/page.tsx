@@ -74,7 +74,7 @@ export default async function OrdersPage() {
                             </TableRow>
                         )}
                         {orders.map(order => (
-                        <TableRow key={order._id}>
+                        <TableRow key={order.id}>
                             <TableCell>
                                 <div className="font-medium">{order.customer.name}</div>
                                 <div className="hidden text-sm text-muted-foreground md:inline">
@@ -100,7 +100,7 @@ export default async function OrdersPage() {
                                 <DropdownMenuContent align="end">
                                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                     <DropdownMenuItem asChild>
-                                      <Link href={`/admin/orders/${order._id}`} className="cursor-pointer">
+                                      <Link href={`/admin/orders/${order.id}`} className="cursor-pointer">
                                           <Eye className="mr-2 h-4 w-4" />
                                           Voir la commande
                                       </Link>
