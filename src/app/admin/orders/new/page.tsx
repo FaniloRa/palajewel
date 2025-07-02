@@ -5,7 +5,7 @@ import type { OurProduct } from '@/types';
 
 export default async function NewOrderPage() {
     await connectDB();
-    const products: OurProduct[] = JSON.parse(JSON.stringify(await Product.find({ status: 'active' }).sort({ name: 1 })));
+    const products: OurProduct[] = JSON.parse(JSON.stringify(await Product.find({ status: 'active' }).populate('category').sort({ name: 1 })));
     
     return <NewOrderClientPage products={products} />;
 }
