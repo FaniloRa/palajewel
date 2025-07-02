@@ -1,8 +1,7 @@
-
 'use client';
 
-import { useState, useTransition, useActionState, useEffect } from 'react';
-import { useFormStatus } from 'react-dom';
+import { useState, useTransition, useEffect } from 'react';
+import { useFormStatus, useFormState } from 'react-dom';
 
 import { MoreHorizontal, Trash2, Pencil, Loader2 } from 'lucide-react';
 
@@ -78,7 +77,7 @@ export default function CategoriesClientPage({ categories }: CategoriesClientPag
   const [editedName, setEditedName] = useState('');
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
-  const [addState, addFormAction] = useActionState(addCategory, { error: null, success: null });
+  const [addState, addFormAction] = useFormState(addCategory, { error: null, success: null });
 
   useEffect(() => {
     if (addState.error) {

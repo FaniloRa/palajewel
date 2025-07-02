@@ -1,10 +1,9 @@
-
 'use client'
 
 import { ArrowLeft, Loader2 } from "lucide-react"
 import Link from "next/link"
-import { useEffect, useActionState } from 'react'
-import { useFormStatus } from "react-dom"
+import { useEffect } from 'react'
+import { useFormState, useFormStatus } from "react-dom"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -42,7 +41,7 @@ interface NewProductPageClientProps {
 
 export default function NewProductPageClient({ categories }: NewProductPageClientProps) {
   const { toast } = useToast()
-  const [state, formAction] = useActionState(addProduct, initialState)
+  const [state, formAction] = useFormState(addProduct, initialState)
 
   useEffect(() => {
     if (state?.error) {

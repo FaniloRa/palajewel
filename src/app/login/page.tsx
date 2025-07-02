@@ -1,8 +1,7 @@
-
 'use client';
 
-import { useEffect, useActionState } from 'react';
-import { useFormStatus } from 'react-dom';
+import { useEffect } from 'react';
+import { useFormState, useFormStatus } from 'react-dom';
 import Link from 'next/link';
 import { Gem, Loader2 } from 'lucide-react';
 
@@ -31,7 +30,7 @@ const SubmitButton = () => {
 
 export default function LoginPage() {
   const { toast } = useToast();
-  const [state, formAction] = useActionState(loginUser, initialState);
+  const [state, formAction] = useFormState(loginUser, initialState);
 
   useEffect(() => {
     if (state?.error) {

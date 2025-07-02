@@ -1,10 +1,9 @@
-
 'use client'
 
 import { ArrowLeft, Loader2 } from "lucide-react"
 import Link from "next/link"
-import { useEffect, useActionState } from 'react'
-import { useFormStatus } from "react-dom"
+import { useEffect } from 'react'
+import { useFormState, useFormStatus } from "react-dom"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -46,7 +45,7 @@ export default function EditProductPageClient({ product, categories }: EditProdu
   const { toast } = useToast()
   
   const updateProductWithId = updateProduct.bind(null, product.id);
-  const [state, formAction] = useActionState(updateProductWithId, initialState);
+  const [state, formAction] = useFormState(updateProductWithId, initialState);
 
   useEffect(() => {
     if (state?.error) {
