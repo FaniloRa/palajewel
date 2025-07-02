@@ -29,7 +29,7 @@ const styleCardsData: StyleCardItem[] = [
     imageUrl: anneauxImageFromFile,
     imageAlt: 'Modèle portant des anneaux PALA',
     buttonText: 'Découvrir maintenant',
-    buttonLink: '/shop?category=Bague',
+    buttonLink: '/shop?category=Anneaux',
     logoTextLine1: 'PALA',
     logoTextLine2: 'Créateur Joaillier',
     dataAiHint: 'rings jewelry model',

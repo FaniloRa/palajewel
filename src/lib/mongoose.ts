@@ -35,7 +35,7 @@ async function seedDatabase() {
         const categoryCount = await Category.countDocuments();
         if (categoryCount === 0) {
             console.log('Seeding categories...');
-            const categories = ["Bague", "Collier", "Bracelet", "Boucles d'oreilles", "Pendentif", "Montre"].map(name => ({ name }));
+            const categories = ["Anneaux", "Collier", "Bracelet", "Boucles d'oreilles", "Pendentif", "Montre"].map(name => ({ name }));
             await Category.insertMany(categories);
             console.log('Categories seeded successfully.');
         }
