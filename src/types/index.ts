@@ -1,5 +1,4 @@
 
-
 export interface Jewelry {
   id: string;
   name: string;
@@ -52,4 +51,9 @@ export interface OurProduct {
   status: 'active' | 'draft';
   featured?: boolean;
   createdAt?: string;
+}
+
+export interface CartItem {
+  product: OurProduct;
+  quantity: number;
 }

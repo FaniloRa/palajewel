@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { Toaster } from "@/components/ui/toaster"; // Import Toaster
+import { Toaster } from "@/components/ui/toaster";
+import { CartProvider } from '@/context/CartContext';
 
 export const metadata: Metadata = {
   title: 'Pala Jewelry',
@@ -20,8 +21,10 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=PT+Sans:wght@400;700&family=Snippet&family=Seoul+Hangang:wght@400;700&family=Kantumruy+Pro:wght@400;700&family=Nunito+Sans:wght@400;700&family=Kanit:wght@400;700&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased">
-        {children}
-        <Toaster />
+        <CartProvider>
+            {children}
+            <Toaster />
+        </CartProvider>
       </body>
     </html>
   );

@@ -1,9 +1,15 @@
 
-// src/components/Header.tsx
+'use client';
+
 import Link from 'next/link';
 import { Search, ShoppingBag, User, Menu } from 'lucide-react';
 import Image from 'next/image';
-import palabiglogo from '@/app/palabiglogo.png'; // Importation de la nouvelle image du logo
+import palabiglogo from '@/app/palabiglogo.png';
+import { useCart } from '@/context/CartContext';
+import { Badge } from '@/components/ui/badge';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { Cart } from '@/components/Cart';
+import { cn } from '@/lib/utils';
 
 const navLinks = [
   { href: '/', label: 'Accueil' },
@@ -17,23 +23,24 @@ interface HeaderProps {
 }
 
 const Header = ({ themeVariant = 'default' }: HeaderProps) => {
+  const { cartCount } = useCart();
   const textClass = themeVariant === 'onLightBg' ? 'text-accent-foreground' : 'text-accent';
   const hoverTextClass = themeVariant === 'onLightBg' ? 'hover:text-accent-foreground/80' : 'hover:text-accent/80';
 
   return (
     <header className="absolute top-0 left-0 right-0 z-20 py-4 md:py-6">
-      <nav className={`container mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between ${textClass} font-kanit`}>
+      <nav className={cn("container mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between font-kanit", textClass)}>
         {/* Left: Nav Links (Desktop) / Hamburger (Mobile) */}
         <div className="flex-1 flex justify-start">
           <div className="hidden md:flex items-center space-x-5 lg:space-x-7 mt-1">
             {navLinks.map((link) => (
-              <Link key={link.label} href={link.href} className={`font-body text-sm ${hoverTextClass} transition-colors`}>
+              <Link key={link.label} href={link.href} className={cn("font-body text-sm transition-colors", hoverTextClass)}>
                   {link.label}
               </Link>
             ))}
           </div>
           <div className="md:hidden">
-            <button aria-label="Open menu" className={`focus:outline-none mt-1 ${hoverTextClass}`}> {/* Ensured hover class and base inherited class */}
+            <button aria-label="Open menu" className={cn("focus:outline-none mt-1", hoverTextClass)}>
                  <Menu size={24} />
             </button>
           </div>
@@ -43,10 +50,10 @@ const Header = ({ themeVariant = 'default' }: HeaderProps) => {
         <div className="flex-shrink-0 mx-auto">
           <Link href="/" className="group">
             <Image
-              src={palabiglogo} // Utilisation de l'image importée
+              src={palabiglogo}
               alt="Pala Jewelry Logo"
-              width={120} // Vous pouvez ajuster la largeur
-              height={60}  // Vous pouvez ajuster la hauteur
+              width={120}
+              height={60}
               className="group-hover:opacity-80 transition-opacity"
               priority
             />
@@ -56,13 +63,27 @@ const Header = ({ themeVariant = 'default' }: HeaderProps) => {
         {/* Right: Icon Buttons */}
         <div className="flex-1 flex justify-end">
           <div className="flex items-center space-x-3 sm:space-x-4 mt-1">
-            <button aria-label="Search" className={`${hoverTextClass} transition-colors p-1`}>
+            <button aria-label="Search" className={cn("transition-colors p-1", hoverTextClass)}>
               <Search size={18} />
             </button>
-            <button aria-label="Shopping Bag" className={`${hoverTextClass} transition-colors p-1`}>
-              <ShoppingBag size={18} />
-            </button>
-            <Link href="/login" aria-label="User Account" className={`${hoverTextClass} transition-colors p-1`}>
+            
+            <Sheet>
+              <SheetTrigger asChild>
+                <button aria-label="Shopping Bag" className={cn("transition-colors p-1 relative", hoverTextClass)}>
+                  <ShoppingBag size={18} />
+                  {cartCount > 0 && (
+                    <Badge variant="destructive" className="absolute -top-2 -right-2 h-5 w-5 justify-center rounded-full p-0 text-xs">
+                        {cartCount}
+                    </Badge>
+                  )}
+                </button>
+              </SheetTrigger>
+              <SheetContent className="w-[400px] sm:w-[540px] p-0">
+                  <Cart />
+              </SheetContent>
+            </Sheet>
+
+            <Link href="/login" aria-label="User Account" className={cn("transition-colors p-1", hoverTextClass)}>
               <User size={18} />
             </Link>
           </div>
