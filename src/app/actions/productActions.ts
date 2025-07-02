@@ -20,6 +20,7 @@ const ProductSchema = z.object({
     thumbnailImageUrl2: z.string().url({ message: "L'URL de la vignette 2 est requise et doit être valide" }).min(1, "L'URL de la vignette 2 est requise"),
     stock: z.coerce.number().int().min(0, "Le stock ne peut pas être négatif"),
     sku: z.string().min(1, "Le SKU est requis"),
+    featured: z.boolean().default(false),
 });
 
 // We remove 'status' from the form validation, as it's now automated.
@@ -35,6 +36,17 @@ export async function addProduct(prevState: any, formData: FormData) {
         };
     }
     
+    const isFeatured = formData.get('featured') === 'on';
+
+    if (isFeatured) {
+        const featuredCount = await Product.countDocuments({ featured: true });
+        if (featuredCount >= 5) {
+            return {
+                error: "Limite de 5 produits en promotion atteinte. Veuillez d'abord en désactiver un autre.",
+            };
+        }
+    }
+
     // Generate a unique ID for the new product
     const newId = `op${(await Product.countDocuments()) + 15}`;
 
@@ -50,6 +62,7 @@ export async function addProduct(prevState: any, formData: FormData) {
         thumbnailImageUrl2: formData.get('thumbnail2-url'),
         stock: formData.get('stock'),
         sku: formData.get('sku'),
+        featured: isFeatured,
     });
 
     if (!validatedFields.success) {
@@ -99,6 +112,17 @@ export async function updateProduct(productId: string, prevState: any, formData:
         };
     }
 
+    const isFeatured = formData.get('featured') === 'on';
+
+    if (isFeatured) {
+        const featuredCount = await Product.countDocuments({ featured: true, _id: { $ne: productId } });
+        if (featuredCount >= 5) {
+            return {
+                error: "Limite de 5 produits en promotion atteinte. Veuillez d'abord en désactiver un autre.",
+            };
+        }
+    }
+
     const validatedFields = ProductFormSchema.safeParse({
         name: formData.get('name'),
         description: formData.get('description'),
@@ -111,6 +135,7 @@ export async function updateProduct(productId: string, prevState: any, formData:
         thumbnailImageUrl2: formData.get('thumbnail2-url'),
         stock: formData.get('stock'),
         sku: formData.get('sku'),
+        featured: isFeatured,
     });
 
     if (!validatedFields.success) {

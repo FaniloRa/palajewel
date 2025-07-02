@@ -20,6 +20,7 @@ import { useToast } from "@/hooks/use-toast"
 import { updateProduct } from "@/app/actions/productActions"
 import ImageUpload from "@/components/ImageUpload"
 import type { OurProduct, ICategory } from "@/types"
+import { Switch } from "@/components/ui/switch"
 
 
 const initialState = {
@@ -180,6 +181,15 @@ export default function EditProductPageClient({ product, categories }: EditProdu
                                 <option key={cat.id} value={cat.id}>{cat.name}</option>
                             ))}
                         </select>
+                    </div>
+                    <div className="grid gap-3 pt-4">
+                        <div className="flex items-center space-x-2">
+                            <Switch id="featured" name="featured" defaultChecked={product.featured} />
+                            <Label htmlFor="featured">Mettre en avant</Label>
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                            Le produit apparaîtra sur la page d'accueil. Limité à 5 produits.
+                        </p>
                     </div>
                 </CardContent>
              </Card>

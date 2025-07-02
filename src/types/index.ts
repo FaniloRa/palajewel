@@ -50,5 +50,6 @@ export interface OurProduct {
   thumbnailImageUrl2: string; // For product detail page
   stock: number;
   status: 'active' | 'draft';
+  featured?: boolean;
   createdAt?: string;
 }
