@@ -21,13 +21,13 @@ export async function generateStaticParams() {
   const products = await Product.find({ status: 'active' }).select('_id').lean();
   
   return products.map((product) => ({
-    productId: product._id,
+    productId: product._id.toString(),
   }));
 }
 
 const ProductDetailPage = async ({ params }: ProductPageProps) => {
   await connectDB();
-  const product: OurProduct | null = JSON.parse(JSON.stringify(await Product.findById(params.productId)));
+  const product: OurProduct | null = JSON.parse(JSON.stringify(await Product.findById(params.productId).populate('category')));
 
 
   if (!product) {
