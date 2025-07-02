@@ -1,4 +1,3 @@
-
 'use client'
 
 import Image from 'next/image'
@@ -124,7 +123,12 @@ export default function ProductsPageClient({ products: initialProducts }: Produc
                     data-ai-hint={product.dataAiHint}
                   />
                 </TableCell>
-                <TableCell className="font-medium">{product.name}</TableCell>
+                <TableCell className="font-medium">
+                  <div className="flex items-center gap-2">
+                    <span>{product.name}</span>
+                    {product.featured && <Badge variant="secondary">En avant</Badge>}
+                  </div>
+                </TableCell>
                 <TableCell>
                   <Badge variant={product.status === 'active' ? 'outline' : 'destructive'}>
                     {product.status === 'active' ? 'Actif' : 'En rupture'}
