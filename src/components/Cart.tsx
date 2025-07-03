@@ -1,4 +1,3 @@
-
 'use client';
 
 import Image from 'next/image';
@@ -86,9 +85,11 @@ export function Cart() {
                 </div>
                 <p className="mt-0.5 text-sm text-muted-foreground">Taxes et frais de port calculés à la caisse.</p>
                 <div className="mt-6">
-                    <Button size="lg" className="w-full">
-                        Passer à la caisse
-                    </Button>
+                    <SheetClose asChild>
+                        <Button asChild size="lg" className="w-full">
+                            <Link href="/checkout">Passer à la caisse</Link>
+                        </Button>
+                    </SheetClose>
                 </div>
                 <div className="mt-4 flex justify-center text-center text-sm text-muted-foreground">
                     <p>
