@@ -33,6 +33,20 @@ export interface ICategory {
   updatedAt?: string;
 }
 
+export interface IPromoCode {
+  id: string;
+  code: string;
+  discountType: 'percentage' | 'fixed';
+  discountValue: number;
+  expiresAt?: string;
+  isActive: boolean;
+  minPurchase: number;
+  usageLimit?: number;
+  timesUsed: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 export interface OurProduct {
   id:string;
   name: string;

@@ -1,9 +1,10 @@
 
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { Loader2 } from 'lucide-react';
 
 import { useCart } from '@/context/CartContext';
 import Header from '@/components/Header';
@@ -12,10 +13,19 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
+import { useToast } from '@/hooks/use-toast';
+import { applyPromoCode } from '@/app/actions/promoCodeActions';
 
 export default function CheckoutPage() {
   const { cart, totalPrice, cartCount } = useCart();
   const router = useRouter();
+  const { toast } = useToast();
+  
+  const [isApplying, startTransition] = useTransition();
+  const [promoCodeInput, setPromoCodeInput] = useState('');
+  const [appliedDiscount, setAppliedDiscount] = useState(0);
+  const [promoMessage, setPromoMessage] = useState('');
+
 
   // Redirect to shop if cart is empty. This runs on the client.
   useEffect(() => {
@@ -23,6 +33,21 @@ export default function CheckoutPage() {
       router.replace('/shop');
     }
   }, [cartCount, router]);
+
+  const handleApplyPromoCode = async () => {
+    startTransition(async () => {
+      const result = await applyPromoCode(promoCodeInput, totalPrice);
+      if (result.error) {
+        toast({ title: 'Erreur', description: result.error, variant: 'destructive' });
+        setAppliedDiscount(0);
+        setPromoMessage('');
+      } else if (result.success && result.discount !== undefined) {
+        toast({ title: 'Succès', description: result.message });
+        setAppliedDiscount(result.discount);
+        setPromoMessage(result.message || '');
+      }
+    });
+  };
 
   // Render a loading/placeholder state while redirecting
   if (cartCount === 0) {
@@ -39,6 +64,7 @@ export default function CheckoutPage() {
 
   const shippingCost = 5.00; // Example shipping cost
   const totalWithShipping = totalPrice + shippingCost;
+  const finalTotal = totalWithShipping - appliedDiscount;
 
   return (
     <div className="flex flex-col min-h-screen bg-[#F0F4F5]">
@@ -129,6 +155,23 @@ export default function CheckoutPage() {
                     ))}
                 </div>
                 <Separator className="my-6" />
+                <div className="flex items-start gap-4">
+                    <div className="grid gap-2 flex-grow">
+                        <Label htmlFor="promo-code">Code promo</Label>
+                        <Input 
+                            id="promo-code" 
+                            placeholder="Entrer le code" 
+                            value={promoCodeInput}
+                            onChange={(e) => setPromoCodeInput(e.target.value)}
+                            disabled={isApplying}
+                        />
+                    </div>
+                    <Button onClick={handleApplyPromoCode} disabled={isApplying || !promoCodeInput} className="self-end">
+                        {isApplying ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Appliquer'}
+                    </Button>
+                </div>
+                 {promoMessage && <p className="text-sm text-green-600 mt-2">{promoMessage}</p>}
+                <Separator className="my-6" />
                 <div className="space-y-2">
                     <div className="flex justify-between">
                         <p className="text-muted-foreground">Sous-total</p>
@@ -138,11 +181,17 @@ export default function CheckoutPage() {
                         <p className="text-muted-foreground">Livraison</p>
                         <p>{shippingCost.toFixed(2)} €</p>
                     </div>
+                    {appliedDiscount > 0 && (
+                      <div className="flex justify-between text-green-600">
+                          <p>Réduction</p>
+                          <p>-{appliedDiscount.toFixed(2)} €</p>
+                      </div>
+                    )}
                 </div>
                 <Separator className="my-6" />
                  <div className="flex justify-between font-bold text-lg">
                     <p>Total</p>
-                    <p>{totalWithShipping.toFixed(2)} €</p>
+                    <p>{finalTotal.toFixed(2)} €</p>
                 </div>
             </div>
           </div>

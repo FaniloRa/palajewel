@@ -16,6 +16,7 @@ import {
   FileText,
   Gem,
   Tag,
+  TicketPercent,
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -63,6 +64,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     { href: '/admin/orders', label: 'Commandes', icon: ShoppingCart, roles: ['admin', 'caissier'] },
     { href: '/admin/products', label: 'Produits', icon: Package, roles: ['admin'] },
     { href: '/admin/categories', label: 'Catégories', icon: Tag, roles: ['admin'] },
+    { href: '/admin/promo-codes', label: 'Codes Promo', icon: TicketPercent, roles: ['admin'] },
     { href: '/admin/content', label: 'Contenu', icon: FileText, roles: ['admin'] },
     { href: '/admin/customers', label: 'Clients', icon: Users2, roles: ['admin'] },
   ];
