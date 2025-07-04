@@ -48,5 +48,5 @@ export async function loginUser(prevState: any, formData: FormData) {
     }
     
     // Redirect to the transition page which will then redirect to the dashboard
-    redirect(`/admin/loading-transition?role=${user.role}`);
+    redirect(`/loading-transition?role=${user.role}`);
 }
