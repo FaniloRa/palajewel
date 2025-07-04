@@ -18,6 +18,7 @@ import {
   Tag,
   TicketPercent,
   UserCog,
+  CalendarClock,
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -63,12 +64,13 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   const allNavLinks = [
     { href: '/admin', label: 'Dashboard', icon: Home, roles: ['admin', 'caissier'] },
     { href: '/admin/orders', label: 'Commandes', icon: ShoppingCart, roles: ['admin', 'caissier'] },
+    { href: '/admin/appointments', label: 'Rendez-vous', icon: CalendarClock, roles: ['admin'] },
     { href: '/admin/products', label: 'Produits', icon: Package, roles: ['admin'] },
     { href: '/admin/categories', label: 'Catégories', icon: Tag, roles: ['admin'] },
     { href: '/admin/promo-codes', label: 'Codes Promo', icon: TicketPercent, roles: ['admin'] },
-    { href: '/admin/content', label: 'Contenu', icon: FileText, roles: ['admin'] },
     { href: '/admin/customers', label: 'Clients', icon: Users2, roles: ['admin'] },
     { href: '/admin/users', label: 'Utilisateurs', icon: UserCog, roles: ['admin'] },
+    { href: '/admin/content', label: 'Contenu', icon: FileText, roles: ['admin'] },
   ];
   
   const navLinks = allNavLinks.filter(link => link.roles.includes(role));

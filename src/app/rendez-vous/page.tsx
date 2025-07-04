@@ -5,8 +5,40 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { InlineWidget } from "react-calendly";
 import { Card, CardContent } from '@/components/ui/card';
+import { useToast } from '@/hooks/use-toast';
+import { createAppointment } from '@/app/actions/appointmentActions';
 
 export default function RendezVousPage() {
+    const { toast } = useToast();
+
+    const handleEventScheduled = async (e: any) => {
+        // e.data.payload contains event and invitee information
+        const eventData = e.data.payload;
+        
+        const appointmentDetails = {
+            name: eventData.invitee.name,
+            email: eventData.invitee.email,
+            eventUri: eventData.event.uri,
+            eventType: eventData.event.name,
+            scheduledAt: eventData.event.start_time,
+        };
+
+        const result = await createAppointment(appointmentDetails);
+
+        if (result.success) {
+            toast({
+                title: "Rendez-vous confirmé !",
+                description: "Votre rendez-vous a bien été enregistré. Nous vous attendons.",
+            });
+        } else {
+            toast({
+                title: "Erreur",
+                description: result.error || "Une erreur est survenue lors de la sauvegarde de votre rendez-vous.",
+                variant: "destructive",
+            });
+        }
+    };
+
     return (
         <div className="flex flex-col min-h-screen bg-[#F0F4F5]">
             <Header themeVariant="onLightBg" />
@@ -32,6 +64,7 @@ export default function RendezVousPage() {
                             styles={{
                                 height: '700px'
                             }}
+                            onEventScheduled={handleEventScheduled}
                         />
                     </CardContent>
                 </Card>

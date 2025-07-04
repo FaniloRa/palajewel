@@ -1,4 +1,5 @@
 
+
 export interface Jewelry {
   id: string;
   name: string;
@@ -70,6 +71,18 @@ export interface OurProduct {
 export interface CartItem {
   product: OurProduct;
   quantity: number;
+}
+
+export interface IAppointment {
+  id: string;
+  name: string;
+  email: string;
+  eventUri: string;
+  eventType: string;
+  scheduledAt: string; // use string for client-side serialization
+  status: 'scheduled' | 'completed' | 'canceled';
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface IUser {
