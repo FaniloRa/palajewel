@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, Printer, FileText, Gem } from 'lucide-react';
-import { format } from 'date-fns';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
@@ -31,9 +30,29 @@ export default function OrderDetailPageClient({ order }: OrderDetailPageClientPr
     useEffect(() => {
         // This effect runs only on the client, after hydration, avoiding the mismatch.
         const orderDate = new Date(order.createdAt);
-        setFormattedCardDate(format(orderDate, 'dd/MM/yyyy HH:mm'));
-        setFormattedReceiptDate(orderDate.toLocaleString('fr-FR'));
-        setFormattedInvoiceDate(format(orderDate, 'dd/MM/yyyy'));
+        const timeZone = 'Indian/Antananarivo';
+
+        const cardDateStr = orderDate.toLocaleDateString('fr-FR', {
+            timeZone,
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+        });
+        const cardTimeStr = orderDate.toLocaleTimeString('fr-FR', {
+            timeZone,
+            hour: '2-digit',
+            minute: '2-digit',
+        });
+        setFormattedCardDate(`${cardDateStr} ${cardTimeStr}`);
+
+        setFormattedReceiptDate(orderDate.toLocaleString('fr-FR', { timeZone }));
+
+        setFormattedInvoiceDate(orderDate.toLocaleDateString('fr-FR', {
+            timeZone,
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        }));
     }, [order.createdAt]);
 
 
