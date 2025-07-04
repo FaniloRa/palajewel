@@ -38,16 +38,19 @@ export default function LoadingTransitionPage() {
   }, [progress, router, searchParams]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-background">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-primary">
       <div className="flex flex-col items-center gap-6">
-        <div className="flex items-center gap-3 text-primary">
+        <div className="flex flex-col items-center text-primary-foreground">
             <Gem className="h-10 w-10 animate-pulse" />
-            <span className="text-4xl font-headline tracking-wider uppercase">Pala</span>
+            <span className="text-4xl font-headline tracking-wider uppercase mt-2">Pala</span>
         </div>
         <div className="w-64">
-            <Progress value={progress} className="w-full" />
+            <Progress 
+              value={progress} 
+              className="w-full h-2 bg-primary-foreground/20 [&>div]:bg-primary-foreground" 
+            />
         </div>
-        <p className="text-sm text-muted-foreground">Connexion en cours...</p>
+        <p className="text-sm text-primary-foreground/70">Connexion en cours...</p>
       </div>
     </div>
   );
