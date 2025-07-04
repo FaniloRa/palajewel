@@ -1,135 +1,111 @@
 
-'use client'
+import connectDB from '@/lib/mongoose';
+import Order from '@/models/Order';
+import DashboardClient from './dashboard-client';
+import { startOfMonth, subMonths, format } from 'date-fns';
+import { fr } from 'date-fns/locale';
+import type { IOrder } from '@/models/Order';
 
-import {
-  Activity,
-  CreditCard,
-  DollarSign,
-  Users,
-} from 'lucide-react'
-import {
-  CartesianGrid,
-  Legend,
-  Line,
-  LineChart,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-  Cell
-} from 'recharts'
+interface MonthlySales {
+    _id: { year: number; month: number };
+    totalSales: number;
+}
 
-import { Badge } from '@/components/ui/badge'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+interface CategorySales {
+    _id: string; // Category Name
+    totalQuantity: number;
+}
 
-const salesData = [
-  { name: 'Jan', Ventes: 4000, },
-  { name: 'Feb', Ventes: 3000, },
-  { name: 'Mar', Ventes: 5000, },
-  { name: 'Apr', Ventes: 4500, },
-  { name: 'May', Ventes: 6000, },
-  { name: 'Jun', Ventes: 5500, },
-];
+// Function to get the last 6 months labels
+const getLast6Months = () => {
+    const months = [];
+    const now = new Date();
+    for (let i = 5; i >= 0; i--) {
+        const d = subMonths(now, i);
+        const monthName = format(d, 'MMM', { locale: fr });
+        months.push(monthName.charAt(0).toUpperCase() + monthName.slice(1));
+    }
+    return months;
+};
 
-const categoryData = [
-    { name: 'Bagues', value: 400 },
-    { name: 'Colliers', value: 300 },
-    { name: 'Bracelets', value: 300 },
-    { name: 'Montres', value: 200 },
-];
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+export default async function Dashboard() {
+    await connectDB();
 
-export default function Dashboard() {
-  return (
-    <>
-      <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total des Revenus</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">45,231.89 €</div>
-            <p className="text-xs text-muted-foreground">+20.1% depuis le mois dernier</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Abonnements</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">+2350</div>
-            <p className="text-xs text-muted-foreground">+180.1% depuis le mois dernier</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Ventes</CardTitle>
-            <CreditCard className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">+12,234</div>
-            <p className="text-xs text-muted-foreground">+19% depuis le mois dernier</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Actifs Maintenant</CardTitle>
-            <Activity className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">+573</div>
-            <p className="text-xs text-muted-foreground">+201 depuis la dernière heure</p>
-          </CardContent>
-        </Card>
-      </div>
-      <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
-        <Card className="xl:col-span-2">
-          <CardHeader>
-            <CardTitle>Performance des Ventes</CardTitle>
-          </CardHeader>
-          <CardContent>
-             <ResponsiveContainer width="100%" height={300}>
-                <LineChart data={salesData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
-                    <Line type="monotone" dataKey="Ventes" stroke="#8884d8" activeDot={{ r: 8 }} />
-                </LineChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Catégories Populaires</CardTitle>
-            <CardDescription>Les catégories de produits les plus vendues ce mois-ci.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-                <PieChart>
-                    <Pie data={categoryData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={60} outerRadius={80} fill="#8884d8" paddingAngle={5} label>
-                         {categoryData.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                        ))}
-                    </Pie>
-                    <Tooltip />
-                    <Legend />
-                </PieChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-      </div>
-    </>
-  )
+    const today = new Date();
+    const sixMonthsAgo = subMonths(today, 6);
+    const thisMonthStart = startOfMonth(today);
+
+    // Fetch all orders in one go for efficiency
+    const allOrders: IOrder[] = await Order.find({}).lean();
+    const recentOrders: IOrder[] = allOrders.filter(order => new Date(order.createdAt) >= sixMonthsAgo);
+
+    // --- Card Stats ---
+    const totalRevenue = allOrders.reduce((sum, order) => sum + order.summary.total, 0);
+    const totalSales = allOrders.length;
+    
+    const customers = new Set(allOrders.map(order => order.customer.email));
+    const totalCustomers = customers.size;
+    
+    const salesThisMonth = allOrders.filter(order => new Date(order.createdAt) >= thisMonthStart).length;
+    
+    // --- Sales Performance Chart ---
+    const salesData = getLast6Months().map(monthName => ({ name: monthName, Ventes: 0 }));
+
+    recentOrders.forEach(order => {
+        const orderDate = new Date(order.createdAt);
+        // Ensure we are comparing dates in a consistent timezone (local server timezone)
+        const monthName = format(orderDate, 'MMM', { locale: fr });
+        const capitalizedMonthName = monthName.charAt(0).toUpperCase() + monthName.slice(1);
+        const index = salesData.findIndex(d => d.name === capitalizedMonthName);
+        if (index !== -1) {
+            salesData[index].Ventes += order.summary.total;
+        }
+    });
+
+    // --- Popular Categories Chart (using aggregation for efficiency) ---
+    const categorySales: CategorySales[] = await Order.aggregate([
+        { $unwind: '$items' },
+        {
+            $lookup: {
+                from: 'products',
+                localField: 'items.productId',
+                foreignField: '_id',
+                as: 'productInfo'
+            }
+        },
+        { $unwind: '$productInfo' },
+        {
+            $lookup: {
+                from: 'categories',
+                localField: 'productInfo.category',
+                foreignField: '_id',
+                as: 'categoryInfo'
+            }
+        },
+        { $unwind: '$categoryInfo' },
+        {
+            $group: {
+                _id: '$categoryInfo.name', // Group by category name
+                totalQuantity: { $sum: '$items.quantity' }
+            }
+        },
+        { $sort: { totalQuantity: -1 } },
+        { $limit: 4 }
+    ]);
+
+    const categoryData = categorySales.map(cat => ({
+        name: cat._id,
+        value: cat.totalQuantity
+    }));
+    
+    return (
+        <DashboardClient
+            totalRevenue={totalRevenue}
+            totalCustomers={totalCustomers}
+            totalSales={totalSales}
+            salesThisMonth={salesThisMonth}
+            salesData={salesData}
+            categoryData={categoryData}
+        />
+    );
 }
