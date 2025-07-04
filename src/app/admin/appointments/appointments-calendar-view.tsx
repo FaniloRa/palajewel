@@ -18,7 +18,7 @@ interface AppointmentsCalendarViewProps {
 export default function AppointmentsCalendarView({ appointments }: AppointmentsCalendarViewProps) {
     const events: EventInput[] = appointments.map(app => ({
         id: app.id,
-        title: `${app.name} - ${app.eventType}`,
+        title: `${app.name} - ${app.type === 'visio' ? 'Visio' : 'Présentiel'}`,
         start: new Date(app.scheduledAt),
         allDay: false,
         extendedProps: {

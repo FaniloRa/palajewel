@@ -5,8 +5,7 @@ export interface IAppointment extends Document {
     id: string;
     name: string;
     email: string;
-    eventUri: string;
-    eventType: string;
+    type: 'presentiel' | 'visio';
     scheduledAt: Date;
     status: 'scheduled' | 'completed' | 'canceled';
     createdAt: Date;
@@ -16,9 +15,8 @@ export interface IAppointment extends Document {
 const AppointmentSchema = new Schema<IAppointment>({
     name: { type: String, required: true },
     email: { type: String, required: true },
-    eventUri: { type: String, required: true, unique: true },
-    eventType: { type: String, required: true },
-    scheduledAt: { type: Date, required: true },
+    type: { type: String, enum: ['presentiel', 'visio'], required: true },
+    scheduledAt: { type: Date, required: true, unique: true },
     status: { type: String, enum: ['scheduled', 'completed', 'canceled'], default: 'scheduled' },
 }, {
     timestamps: true,

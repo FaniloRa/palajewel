@@ -77,8 +77,7 @@ export interface IAppointment {
   id: string;
   name: string;
   email: string;
-  eventUri: string;
-  eventType: string;
+  type: 'presentiel' | 'visio';
   scheduledAt: string; // use string for client-side serialization
   status: 'scheduled' | 'completed' | 'canceled';
   createdAt?: string;
