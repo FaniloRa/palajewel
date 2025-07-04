@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import JewelryCatalog from '@/components/JewelryCatalog';
 import Footer from '@/components/Footer';
 import ShopFilters from '@/components/ShopFilters';
+import CategoryBanner from '@/components/CategoryBanner';
 import { cn } from '@/lib/utils';
 import connectDB from '@/lib/mongoose';
 import Product from '@/models/Product';
@@ -76,6 +77,7 @@ export default async function ShopPage({
       <div className={cn(
         "w-full flex-grow pt-24 md:pt-32"
       )}>
+        <CategoryBanner />
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-10 md:pb-16">
           <div className="text-center mb-12">
             <h1 className="font-headline text-4xl md:text-5xl lg:text-6xl font-bold text-primary">
