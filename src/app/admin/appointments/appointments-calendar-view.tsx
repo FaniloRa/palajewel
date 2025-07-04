@@ -8,7 +8,7 @@ import listPlugin from '@fullcalendar/list';
 import frLocale from '@fullcalendar/core/locales/fr';
 import type { EventInput } from '@fullcalendar/core';
 
-import type { IAppointment } from "@/models/Appointment";
+import type { IAppointment } from "@/types";
 import './calendar.css';
 
 interface AppointmentsCalendarViewProps {
