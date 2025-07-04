@@ -16,7 +16,15 @@ const UserSchema = new Schema<IUser>({
     password: { type: String, required: true, select: false }, // Hide password by default
     role: { type: String, enum: ['admin', 'caissier'], required: true },
 }, {
-    timestamps: true
+    timestamps: true,
+    toJSON: {
+        transform(doc, ret) {
+            ret.id = ret._id.toString();
+            delete ret._id;
+            delete ret.__v;
+            delete ret.password; // Explicitly remove password from serialized object
+        }
+    }
 });
 
 // Hash password before saving

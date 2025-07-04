@@ -17,6 +17,7 @@ import {
   Gem,
   Tag,
   TicketPercent,
+  UserCog,
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -67,6 +68,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     { href: '/admin/promo-codes', label: 'Codes Promo', icon: TicketPercent, roles: ['admin'] },
     { href: '/admin/content', label: 'Contenu', icon: FileText, roles: ['admin'] },
     { href: '/admin/customers', label: 'Clients', icon: Users2, roles: ['admin'] },
+    { href: '/admin/users', label: 'Utilisateurs', icon: UserCog, roles: ['admin'] },
   ];
   
   const navLinks = allNavLinks.filter(link => link.roles.includes(role));

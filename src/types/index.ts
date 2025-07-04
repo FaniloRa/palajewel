@@ -71,3 +71,11 @@ export interface CartItem {
   product: OurProduct;
   quantity: number;
 }
+
+export interface IUser {
+  id: string;
+  email: string;
+  role: 'admin' | 'caissier';
+  createdAt?: string;
+  updatedAt?: string;
+}
