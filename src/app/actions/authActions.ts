@@ -47,6 +47,6 @@ export async function loginUser(prevState: any, formData: FormData) {
         return { error: "Une erreur est survenue lors de la connexion. " + error.message };
     }
     
-    // Redirect is called outside the try-catch block to avoid the NEXT_REDIRECT error
-    redirect(`/admin?role=${user.role}`);
+    // Redirect to the transition page which will then redirect to the dashboard
+    redirect(`/admin/loading-transition?role=${user.role}`);
 }
