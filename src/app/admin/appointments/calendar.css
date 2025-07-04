@@ -1,0 +1,63 @@
+
+/* Ensure the calendar container doesn't have conflicting styles */
+.calendar-container {
+    --fc-border-color: hsl(var(--border));
+    --fc-today-bg-color: hsla(var(--primary), 0.1);
+    --fc-button-bg-color: hsl(var(--primary));
+    --fc-button-text-color: hsl(var(--primary-foreground));
+    --fc-button-border-color: hsl(var(--primary));
+    --fc-button-hover-bg-color: hsl(var(--primary) / 0.9);
+    --fc-button-hover-border-color: hsl(var(--primary) / 0.9);
+    --fc-button-active-bg-color: hsl(var(--primary) / 0.9);
+    --fc-button-active-border-color: hsl(var(--primary) / 0.9);
+    --fc-event-bg-color: hsl(var(--primary));
+    --fc-event-border-color: hsl(var(--primary));
+    --fc-event-text-color: hsl(var(--primary-foreground));
+}
+
+/* Adjust button styles to match ShadCN */
+.fc .fc-button {
+    border-radius: var(--radius);
+    font-size: 0.875rem; /* text-sm */
+    padding: 0.5rem 1rem; /* Adjust padding to match ShadCN's sm/default button */
+    line-height: 1; /* Helps with vertical alignment */
+    text-transform: capitalize; /* Match button style */
+}
+
+/* Fix for buttons in a group */
+.fc .fc-button-group > .fc-button {
+  border-radius: 0;
+}
+.fc .fc-button-group > .fc-button:first-child {
+  border-top-left-radius: var(--radius);
+  border-bottom-left-radius: var(--radius);
+}
+.fc .fc-button-group > .fc-button:last-child {
+  border-top-right-radius: var(--radius);
+  border-bottom-right-radius: var(--radius);
+}
+
+
+/* Text color for header and day names */
+.fc .fc-toolbar-title,
+.fc .fc-col-header-cell-cushion,
+.fc .fc-daygrid-day-number,
+.fc .fc-list-day-text,
+.fc .fc-list-day-side-text {
+    color: hsl(var(--foreground));
+}
+
+.fc-direction-ltr .fc-list-day-text, 
+.fc-direction-rtl .fc-list-day-side-text {
+    font-weight: 600;
+}
+
+/* Customizing event appearance */
+.fc-event {
+    cursor: pointer;
+    border-width: 1px !important; /* Ensure border is visible */
+}
+
+.fc-event:hover {
+    opacity: 0.9;
+}
