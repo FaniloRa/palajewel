@@ -44,6 +44,8 @@ export default function AppointmentsCalendarView({ appointments }: AppointmentsC
                 height="auto"
                 editable={false} // Prevent dragging and resizing
                 selectable={false}
+                slotMinTime="08:00:00"
+                slotMaxTime="16:00:00"
                 eventTimeFormat={{
                     hour: '2-digit',
                     minute: '2-digit',
