@@ -6,6 +6,7 @@ import connectDB from '@/lib/mongoose';
 import Appointment from '@/models/Appointment';
 import { z } from 'zod';
 import { startOfDay, endOfDay } from 'date-fns';
+import mongoose from 'mongoose';
 
 const AppointmentFormSchema = z.object({
     name: z.string().min(2, "Le nom est requis."),
@@ -50,6 +51,7 @@ export async function createAppointment(prevState: any, formData: FormData) {
             type,
             scheduledAt,
             status: 'scheduled',
+            eventUri: new mongoose.Types.ObjectId().toString(),
         }).save();
         
         revalidatePath('/admin/appointments');
@@ -58,6 +60,15 @@ export async function createAppointment(prevState: any, formData: FormData) {
 
     } catch (error: any) {
         console.error("Failed to create appointment:", error);
+        // Improved error handling for duplicate keys
+        if (error.code === 11000) {
+            if (error.keyPattern?.scheduledAt) {
+                 return { error: 'Ce créneau est déjà réservé. Veuillez en choisir un autre.' };
+            }
+            if (error.keyPattern?.eventUri) {
+                 return { error: 'Une erreur technique est survenue (ID duplicaté). Veuillez réessayer.' };
+            }
+        }
         return { error: 'Échec de la sauvegarde du rendez-vous. ' + error.message };
     }
 }
@@ -84,7 +95,7 @@ export async function getBookedSlotsForDate(date: Date) {
         });
         
         return { success: true, bookedTimes };
-    } catch (error) {
+    } catch (error: any) {
         console.error("Failed to fetch booked slots:", error);
         return { success: false, error: 'Impossible de récupérer les créneaux.' };
     }
