@@ -133,7 +133,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                 ))}
               </nav>
             </div>
-            <div className="mt-auto p-4">
+          +  <div className="mt-auto p-4">
                <Link
                   href="/login"
                   onClick={handleLogout}
