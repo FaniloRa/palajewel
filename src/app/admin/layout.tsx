@@ -71,6 +71,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     { href: '/admin/customers', label: 'Clients', icon: Users2, roles: ['admin'] },
     { href: '/admin/users', label: 'Utilisateurs', icon: UserCog, roles: ['admin'] },
     { href: '/admin/content', label: 'Contenu', icon: FileText, roles: ['admin'] },
+    { href: '/admin/settings', label: 'Paramètres', icon: Settings, roles: ['admin'] },
   ];
   
   const navLinks = allNavLinks.filter(link => link.roles.includes(role));
@@ -133,7 +134,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                 ))}
               </nav>
             </div>
-          +  <div className="mt-auto p-4">
+           <div className="mt-auto p-4">
                <Link
                   href="/login"
                   onClick={handleLogout}
@@ -211,7 +212,12 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Compte {role === 'admin' ? 'Administrateur' : 'Caissier'}</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Paramètres</DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href={addRoleQuery("/admin/settings")} className="w-full cursor-pointer">
+                    <Settings className="mr-2 h-4 w-4" />
+                    Paramètres
+                </Link>
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
                 <Link href="/login" onClick={handleLogout} className="w-full cursor-pointer">
