@@ -1,16 +1,13 @@
 
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import connectDB from '@/lib/mongoose';
+import { getSetting } from '@/app/actions/settingActions';
+import SettingsClientPage from './settings-client-page';
 
-export default function SettingsPage() {
+export default async function SettingsPage() {
+    await connectDB();
+    const exchangeRate = await getSetting('exchangeRateEuroToMGA');
+
     return (
-        <Card>
-            <CardHeader>
-                <CardTitle>Paramètres</CardTitle>
-                <CardDescription>Gérez les paramètres généraux de votre application.</CardDescription>
-            </CardHeader>
-            <CardContent>
-                <p>La fonctionnalité de gestion des paramètres sera bientôt disponible.</p>
-            </CardContent>
-        </Card>
+        <SettingsClientPage currentRate={exchangeRate} />
     );
 }
