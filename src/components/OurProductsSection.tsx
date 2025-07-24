@@ -1,13 +1,22 @@
+
+
+'use client';
+
 import Image from 'next/image';
 import type { OurProduct } from '@/types';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { useCurrency } from '@/hooks/useCurrency';
 
 interface OurProductsSectionProps {
   products: OurProduct[];
+  country: string | null;
+  exchangeRate: number | null;
 }
 
-const OurProductsSection: React.FC<OurProductsSectionProps> = ({ products }) => {
+const OurProductsSection: React.FC<OurProductsSectionProps> = ({ products, country, exchangeRate }) => {
+  const { formatPrice, isLoading } = useCurrency(country, exchangeRate);
+  
   return (
     <section id="nos-produits-section" className="w-full py-12 md:py-16 lg:py-20 bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -21,7 +30,7 @@ const OurProductsSection: React.FC<OurProductsSectionProps> = ({ products }) => 
             <div className="w-16 h-0.5 bg-primary/50"></div>
         </div>
         <p className="font-body text-sm text-slate-700 mb-10 md:mb-12 max-w-2xl mx-auto">
-          Découvrez des créations uniques et laissez-vous séduire par l&apos;élégance de nos bijoux faits à la main.
+          Découvrez des créations uniques et laissez-vous séduire par l'élégance de nos bijoux faits à la main.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10">
           {products.slice(0, 4).map((product) => (
@@ -39,7 +48,9 @@ const OurProductsSection: React.FC<OurProductsSectionProps> = ({ products }) => 
                 </div>
                 <h3 className="font-headline text-lg font-medium mb-1">{product.name}</h3>
                 <p className="font-body text-xs text-slate-600 mb-1">{product.description}</p>
-                <p className="font-body text-base font-semibold text-primary mt-auto">{product.price.toFixed(2)} €</p>
+                <p className="font-body text-base font-semibold text-primary mt-auto">
+                    {isLoading ? '...' : formatPrice(product.price)}
+                </p>
               </div>
             </Link>
           ))}

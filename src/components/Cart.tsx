@@ -1,16 +1,24 @@
+
 'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
 import { X, Plus, Minus, Trash2 } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
+import { useCurrency } from '@/hooks/useCurrency';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { SheetClose } from '@/components/ui/sheet';
 
-export function Cart() {
+interface CartProps {
+    country?: string | null;
+    exchangeRate?: number | null;
+}
+
+export function Cart({ country, exchangeRate }: CartProps) {
   const { cart, removeFromCart, updateQuantity, cartCount, totalPrice } = useCart();
+  const { formatPrice, isLoading } = useCurrency(country, exchangeRate);
 
   return (
     <div className="h-full flex flex-col">
@@ -49,11 +57,13 @@ export function Cart() {
                                             <div>
                                                 <div className="flex justify-between text-base font-medium text-foreground">
                                                     <h3>
-                                                        <Link href={`/produits/${item.product.id}`}>{item.product.name}</Link>
+                                                        <SheetClose asChild>
+                                                            <Link href={`/produits/${item.product.id}`}>{item.product.name}</Link>
+                                                        </SheetClose>
                                                     </h3>
-                                                    <p className="ml-4">{(item.product.price * item.quantity).toFixed(2)} €</p>
+                                                    <p className="ml-4">{formatPrice(item.product.price * item.quantity)}</p>
                                                 </div>
-                                                <p className="mt-1 text-sm text-muted-foreground">{item.product.price.toFixed(2)} €</p>
+                                                <p className="mt-1 text-sm text-muted-foreground">{formatPrice(item.product.price)}</p>
                                             </div>
                                             <div className="flex flex-1 items-end justify-between text-sm">
                                                 <div className="flex items-center gap-2">
@@ -81,7 +91,7 @@ export function Cart() {
             <div className="border-t border-border px-6 py-4">
                 <div className="flex justify-between text-base font-medium text-foreground">
                     <p>Sous-total</p>
-                    <p>{totalPrice.toFixed(2)} €</p>
+                    <p>{isLoading ? '...' : formatPrice(totalPrice)}</p>
                 </div>
                 <p className="mt-0.5 text-sm text-muted-foreground">Taxes et frais de port calculés à la caisse.</p>
                 <div className="mt-6">

@@ -1,5 +1,7 @@
 
+
 import mongoose from 'mongoose';
+import { headers } from 'next/headers';
 import Header from '@/components/Header';
 import JewelryCatalog from '@/components/JewelryCatalog';
 import Footer from '@/components/Footer';
@@ -9,6 +11,7 @@ import { cn } from '@/lib/utils';
 import connectDB from '@/lib/mongoose';
 import Product from '@/models/Product';
 import Category from '@/models/Category';
+import { getSetting } from '@/app/actions/settingActions';
 import type { OurProduct, ICategory } from '@/types';
 
 export default async function ShopPage({ 
@@ -23,6 +26,11 @@ export default async function ShopPage({
     } 
 }) {
   await connectDB();
+
+  // Get user location and currency info
+  const country = headers().get('x-vercel-ip-country') || null;
+  const rateStr = await getSetting('exchangeRateEuroToMGA');
+  const exchangeRate = rateStr ? parseFloat(rateStr) : null;
 
   // Prepare filters from search params
   const { search, category: categoryName, minPrice, maxPrice, sort } = searchParams || {};
@@ -71,7 +79,7 @@ export default async function ShopPage({
   return (
     <main className="flex flex-col items-center min-h-screen bg-[#F0F4F5]">
       <div className="w-full">
-        <Header themeVariant="onLightBg" />
+        <Header themeVariant="onLightBg" country={country} exchangeRate={exchangeRate} />
       </div>
       
       <div className={cn(
@@ -88,7 +96,7 @@ export default async function ShopPage({
             </p>
           </div>
           <ShopFilters categories={categories} maxPrice={maxPriceForSlider} />
-          <JewelryCatalog jewelries={products} />
+          <JewelryCatalog jewelries={products} country={country} exchangeRate={exchangeRate} />
         </div>
       </div>
 

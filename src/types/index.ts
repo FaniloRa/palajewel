@@ -1,5 +1,11 @@
 
 
+export type Currency = 'EUR' | 'MGA';
+
+export interface CurrencyInfo {
+    code: Currency;
+    symbol: string;
+}
 export interface Jewelry {
   id: string;
   name: string;

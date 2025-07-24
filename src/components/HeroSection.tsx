@@ -1,14 +1,20 @@
 
+
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/Header';
 import { ArrowRight } from 'lucide-react';
 import heroImage from '@/app/hero.png'; // Importation de l'image locale
 
-const HeroSection = () => {
+interface HeroSectionProps {
+    country?: string | null;
+    exchangeRate?: number | null;
+}
+
+const HeroSection = ({ country, exchangeRate }: HeroSectionProps) => {
   return (
     <section className="relative dark w-full h-screen flex flex-col text-accent bg-hero-gradient">
-      <Header />
+      <Header country={country} exchangeRate={exchangeRate} />
       <div className="flex-grow flex container mx-auto px-4 sm:px-6 lg:px-4 items-center pt-24 md:pt-32 md:gap-8"> {/* Added md:gap-8 */}
         {/* Left Content Area */}
         <div className="w-full md:w-1/2 lg:w-1/2 xl:w-2/5 flex flex-col justify-center text-left pt-8 pb-10 z-10 animate-fade-in-hero-left">

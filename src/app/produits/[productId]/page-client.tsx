@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import Image from 'next/image';
@@ -6,15 +7,19 @@ import { Gift, Truck, Tag, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/context/CartContext';
 import { useToast } from '@/hooks/use-toast';
+import { useCurrency } from '@/hooks/useCurrency';
 import type { OurProduct } from '@/types';
 
 interface ProductDetailPageClientProps {
     product: OurProduct;
+    country: string | null;
+    exchangeRate: number | null;
 }
 
-export default function ProductDetailPageClient({ product }: ProductDetailPageClientProps) {
+export default function ProductDetailPageClient({ product, country, exchangeRate }: ProductDetailPageClientProps) {
   const { addToCart } = useCart();
   const { toast } = useToast();
+  const { formatPrice, isLoading } = useCurrency(country, exchangeRate);
 
   const handleAddToCart = () => {
     addToCart(product);
@@ -67,7 +72,9 @@ export default function ProductDetailPageClient({ product }: ProductDetailPageCl
       <div className="py-4">
         <h1 className="text-3xl lg:text-4xl font-headline text-primary mb-2">{product.name}</h1>
         <p className="text-sm text-muted-foreground mb-1">RÉF. {product.sku}</p>
-        <p className="text-3xl lg:text-4xl font-bold text-accent-foreground mb-6">{product.price.toFixed(2)} €</p>
+        <p className="text-3xl lg:text-4xl font-bold text-accent-foreground mb-6">
+            {isLoading ? '...' : formatPrice(product.price)}
+        </p>
         
         <div className="prose prose-sm lg:prose-base text-accent-foreground/80 mb-8 font-body">
           <p>{product.detailedDescription || product.description}</p>

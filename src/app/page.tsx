@@ -1,4 +1,6 @@
 
+
+import { headers } from 'next/headers';
 import HeroSection from '@/components/HeroSection';
 import QualitySection from '@/components/QualitySection';
 import FeaturedProducts from '@/components/FeaturedProducts';
@@ -10,10 +12,16 @@ import NewsletterSection from '@/components/NewsletterSection';
 import Footer from '@/components/Footer';
 import connectDB from '@/lib/mongoose';
 import Product from '@/models/Product';
+import { getSetting } from '@/app/actions/settingActions';
 import type { OurProduct, FeaturedProduct } from '@/types';
 
 export default async function Home() {
   await connectDB();
+  
+  // Get user location and currency info
+  const country = headers().get('x-vercel-ip-country') || null;
+  const rateStr = await getSetting('exchangeRateEuroToMGA');
+  const exchangeRate = rateStr ? parseFloat(rateStr) : null;
   
   // By populating the 'category', we ensure the data is complete before serialization.
   // This can prevent issues where unresolved ObjectIds cause BSON errors during stringification.
@@ -36,12 +44,12 @@ export default async function Home() {
 
   return (
     <main className="flex flex-col items-center min-h-screen">
-      <HeroSection />
+      <HeroSection country={country} exchangeRate={exchangeRate} />
       <QualitySection />
       <StyleComposerSection />
       <FeaturedProducts products={featuredProducts} />
       <CraftsmanshipSection />
-      <OurProductsSection products={ourProducts} />
+      <OurProductsSection products={ourProducts} country={country} exchangeRate={exchangeRate} />
       <StorefrontSection />
       <NewsletterSection />
       <Footer />

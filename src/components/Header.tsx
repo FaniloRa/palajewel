@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import Link from 'next/link';
@@ -20,9 +21,11 @@ const navLinks = [
 
 interface HeaderProps {
   themeVariant?: 'default' | 'onLightBg';
+  country?: string | null;
+  exchangeRate?: number | null;
 }
 
-const Header = ({ themeVariant = 'default' }: HeaderProps) => {
+const Header = ({ themeVariant = 'default', country, exchangeRate }: HeaderProps) => {
   const { cartCount } = useCart();
   const textClass = themeVariant === 'onLightBg' ? 'text-accent-foreground' : 'text-accent';
   const hoverTextClass = themeVariant === 'onLightBg' ? 'hover:text-accent-foreground/80' : 'hover:text-accent/80';
@@ -79,7 +82,7 @@ const Header = ({ themeVariant = 'default' }: HeaderProps) => {
                 </button>
               </SheetTrigger>
               <SheetContent className="w-[400px] sm:w-[540px] p-0">
-                  <Cart />
+                  <Cart country={country} exchangeRate={exchangeRate} />
               </SheetContent>
             </Sheet>
 

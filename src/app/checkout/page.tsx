@@ -1,7 +1,8 @@
 
+
 'use client';
 
-import { useEffect, useState, useTransition } from 'react';
+import { useEffect, useState, useTransition, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Loader2 } from 'lucide-react';
@@ -15,11 +16,52 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import { applyPromoCode } from '@/app/actions/promoCodeActions';
+import { useCurrency } from '@/hooks/useCurrency';
+
+// Mock fetching currency data on the client side for checkout
+// In a real app, this might come from a layout or parent component
+function useClientCurrency() {
+  const [country, setCountry] = useState<string | null>(null);
+  const [exchangeRate, setExchangeRate] = useState<number | null>(null);
+
+  useEffect(() => {
+    // This is a simplified client-side fetch.
+    // We assume the settings are available via an API or are pre-fetched.
+    async function fetchData() {
+        try {
+            // This is a placeholder for how you might fetch these values
+            const countryRes = await fetch('/api/get-country'); // FAKE API
+            const countryData = await countryRes.json();
+            setCountry(countryData.country);
+
+            const rateRes = await fetch('/api/get-rate'); // FAKE API
+            const rateData = await rateRes.json();
+            setExchangeRate(rateData.rate);
+
+        } catch (e) {
+            // Fallback to EUR if APIs fail
+            setCountry(null);
+            setExchangeRate(null);
+            console.error("Could not fetch client-side currency data", e)
+        }
+    }
+    // In this mocked example, we just set them.
+    // A real implementation would fetch or receive this data.
+    setCountry(null); // Default to EUR for this example
+    setExchangeRate(4750); // Mock rate
+  }, []);
+
+  return { country, exchangeRate };
+}
+
 
 export default function CheckoutPage() {
   const { cart, totalPrice, cartCount } = useCart();
   const router = useRouter();
   const { toast } = useToast();
+
+  const { country, exchangeRate } = useClientCurrency();
+  const { formatPrice, currency, isLoading: isCurrencyLoading } = useCurrency(country, exchangeRate);
   
   const [isApplying, startTransition] = useTransition();
   const [promoCodeInput, setPromoCodeInput] = useState('');
@@ -43,32 +85,46 @@ export default function CheckoutPage() {
         setPromoMessage('');
       } else if (result.success && result.discount !== undefined) {
         toast({ title: 'Succès', description: result.message });
-        setAppliedDiscount(result.discount);
+        setAppliedDiscount(result.discount); // Discount is always in EUR from backend
         setPromoMessage(result.message || '');
       }
     });
   };
 
+  const shippingCost = useMemo(() => {
+      return currency.code === 'MGA' ? 20000 : 5.00;
+  }, [currency]);
+
+
+  const finalTotal = useMemo(() => {
+      const subtotalInEur = totalPrice;
+      const discountInEur = appliedDiscount;
+      const shippingInEur = currency.code === 'MGA' && exchangeRate ? (shippingCost / exchangeRate) : shippingCost;
+
+      const totalInEur = subtotalInEur - discountInEur + shippingInEur;
+      
+      if (currency.code === 'MGA' && exchangeRate) {
+          return totalInEur * exchangeRate;
+      }
+      return totalInEur;
+  }, [totalPrice, appliedDiscount, shippingCost, currency, exchangeRate]);
+
   // Render a loading/placeholder state while redirecting
-  if (cartCount === 0) {
+  if (cartCount === 0 || isCurrencyLoading) {
     return (
         <div className="flex flex-col min-h-screen bg-[#F0F4F5]">
             <Header themeVariant="onLightBg" />
             <main className="flex-grow flex items-center justify-center">
-                <p>Votre panier est vide. Redirection vers la boutique...</p>
+                <p>Chargement de votre commande...</p>
             </main>
             <Footer />
         </div>
     );
   }
 
-  const shippingCost = 5.00; // Example shipping cost
-  const totalWithShipping = totalPrice + shippingCost;
-  const finalTotal = totalWithShipping - appliedDiscount;
-
   return (
     <div className="flex flex-col min-h-screen bg-[#F0F4F5]">
-      <Header themeVariant="onLightBg" />
+      <Header themeVariant="onLightBg" country={country} exchangeRate={exchangeRate} />
 
       <main className="flex-grow container mx-auto px-4 py-24 md:py-32">
         <div className="text-center mb-12">
@@ -150,7 +206,7 @@ export default function CheckoutPage() {
                                     <p className="text-xs text-muted-foreground">Qté: {item.quantity}</p>
                                 </div>
                             </div>
-                            <p className="font-medium text-sm">{(item.product.price * item.quantity).toFixed(2)} €</p>
+                            <p className="font-medium text-sm">{formatPrice(item.product.price * item.quantity)}</p>
                         </div>
                     ))}
                 </div>
@@ -175,23 +231,23 @@ export default function CheckoutPage() {
                 <div className="space-y-2">
                     <div className="flex justify-between">
                         <p className="text-muted-foreground">Sous-total</p>
-                        <p>{totalPrice.toFixed(2)} €</p>
+                        <p>{formatPrice(totalPrice)}</p>
                     </div>
                     <div className="flex justify-between">
                         <p className="text-muted-foreground">Livraison</p>
-                        <p>{shippingCost.toFixed(2)} €</p>
+                        <p>{currency.code === 'MGA' ? `${shippingCost.toLocaleString('fr-FR')} Ar` : `${shippingCost.toFixed(2)} €`}</p>
                     </div>
                     {appliedDiscount > 0 && (
                       <div className="flex justify-between text-green-600">
                           <p>Réduction</p>
-                          <p>-{appliedDiscount.toFixed(2)} €</p>
+                          <p>-{formatPrice(appliedDiscount)}</p>
                       </div>
                     )}
                 </div>
                 <Separator className="my-6" />
                  <div className="flex justify-between font-bold text-lg">
                     <p>Total</p>
-                    <p>{finalTotal.toFixed(2)} €</p>
+                    <p>{currency.code === 'MGA' ? `${Math.round(finalTotal).toLocaleString('fr-FR')} Ar` : `${finalTotal.toFixed(2)} €`}</p>
                 </div>
             </div>
           </div>
