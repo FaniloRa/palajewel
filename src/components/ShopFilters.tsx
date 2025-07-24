@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect, useTransition, useCallback } from 'react';
+import { useState, useEffect, useTransition, useCallback, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Search, X } from 'lucide-react';
 
@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
 import { ICategory } from '@/types';
+import { useCurrency } from '@/hooks/useCurrency';
 
 interface ShopFiltersProps {
   categories: ICategory[];
@@ -28,20 +29,37 @@ export default function ShopFilters({ categories, maxPrice }: ShopFiltersProps) 
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
 
-  const [searchTerm, setSearchTerm] = useState(searchParams.get('search') || '');
-  const [category, setCategory] = useState(searchParams.get('category') || 'all');
+  const { currency, convertPrice, isLoading } = useCurrency();
+
+  // The component's internal state for price range is always stored in EUR.
   const [priceRange, setPriceRange] = useState<[number, number]>([
     Number(searchParams.get('minPrice')) || 0,
     Number(searchParams.get('maxPrice')) || maxPrice,
   ]);
+  
+  const [searchTerm, setSearchTerm] = useState(searchParams.get('search') || '');
+  const [category, setCategory] = useState(searchParams.get('category') || 'all');
   const [sort, setSort] = useState(searchParams.get('sort') || 'createdAt_desc');
+
+  // Convert values for display and for the slider component itself
+  const displayMaxPrice = useMemo(() => {
+    return Math.ceil(convertPrice(maxPrice));
+  }, [maxPrice, convertPrice]);
+  
+  const displayPriceRange = useMemo(() => {
+    return [
+        Math.round(convertPrice(priceRange[0])),
+        Math.round(convertPrice(priceRange[1]))
+    ] as [number, number];
+  }, [priceRange, convertPrice]);
+
 
   const createQueryString = useCallback(
     (paramsToUpdate: Record<string, string | number | null>) => {
       const current = new URLSearchParams(Array.from(searchParams.entries()));
 
       for (const [key, value] of Object.entries(paramsToUpdate)) {
-          if (value === null || value === '' || value === 'all') {
+          if (value === null || value === '' || value === 'all' || (key === 'maxPrice' && value === maxPrice)) {
               current.delete(key);
           } else {
               current.set(key, String(value));
@@ -49,7 +67,7 @@ export default function ShopFilters({ categories, maxPrice }: ShopFiltersProps) 
       }
       return current.toString();
     },
-    [searchParams]
+    [searchParams, maxPrice]
   );
   
   // Debounce search term to avoid too many requests
@@ -74,7 +92,8 @@ export default function ShopFilters({ categories, maxPrice }: ShopFiltersProps) 
   }
 
   const handlePriceCommit = (newRange: [number, number]) => {
-    const query = createQueryString({ minPrice: newRange[0], maxPrice: newRange[1] === maxPrice ? null : newRange[1] });
+    // When committing, we use the internal EUR values.
+    const query = createQueryString({ minPrice: newRange[0] || null, maxPrice: newRange[1] === maxPrice ? null : newRange[1] });
     startTransition(() => {
         router.push(`/shop?${query}`);
     });
@@ -127,16 +146,40 @@ export default function ShopFilters({ categories, maxPrice }: ShopFiltersProps) 
                 <div className="flex justify-between items-center mb-2">
                     <Label>Gamme de prix</Label>
                     <span className="text-sm font-medium text-primary">
-                        {priceRange[0]} € - {priceRange[1] === maxPrice ? `${maxPrice}+` : `${priceRange[1]}`} €
+                      {isLoading ? '...' : 
+                        currency.code === 'MGA' 
+                          ? `${displayPriceRange[0].toLocaleString('fr-FR')} - ${displayPriceRange[1].toLocaleString('fr-FR')} Ar`
+                          : `${priceRange[0]} - ${priceRange[1]} €`
+                      }
                     </span>
                 </div>
                 <Slider
                     min={0}
-                    max={maxPrice}
-                    step={10}
-                    value={priceRange}
-                    onValueChange={(value) => setPriceRange(value as [number, number])}
-                    onValueCommit={handlePriceCommit}
+                    max={currency.code === 'MGA' ? displayMaxPrice : maxPrice}
+                    step={currency.code === 'MGA' ? 1000 : 10}
+                    value={currency.code === 'MGA' ? displayPriceRange : priceRange}
+                    onValueChange={(value) => {
+                      if(currency.code === 'MGA') {
+                        // If we are in MGA, we don't update the internal EUR state on every slide.
+                        // We only do it on commit. So here we can just update a temporary display state.
+                        // For simplicity, we just let the slider control its visual state based on displayPriceRange.
+                      } else {
+                        setPriceRange(value as [number, number])
+                      }
+                    }}
+                    onValueCommit={(value) => {
+                       // The value from the slider is always in the displayed currency.
+                       // We must convert it back to EUR before updating the state and URL.
+                       if(currency.code === 'MGA' && exchangeRate) {
+                          const newEurRange = [ value[0] / exchangeRate, value[1] / exchangeRate ] as [number, number];
+                          setPriceRange(newEurRange);
+                          handlePriceCommit(newEurRange);
+                       } else {
+                          setPriceRange(value as [number, number]);
+                          handlePriceCommit(value as [number, number]);
+                       }
+                    }}
+                    disabled={isLoading}
                 />
             </div>
         </div>
