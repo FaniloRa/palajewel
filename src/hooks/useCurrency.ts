@@ -16,68 +16,54 @@ const currencies: Record<Currency, CurrencyInfo> = {
     MGA: { code: 'MGA', symbol: 'Ar' },
 };
 
-// This hook is now self-sufficient and fetches its own data on the client.
-// It removes the need to pass down country and exchangeRate props everywhere.
 export function useCurrency(): UseCurrencyReturn {
     const [isLoading, setIsLoading] = useState(true);
     const [currencyInfo, setCurrencyInfo] = useState<CurrencyInfo>(currencies.EUR);
     const [exchangeRate, setExchangeRate] = useState<number | null>(null);
 
     useEffect(() => {
-        async function fetchCurrencyData() {
+        // This effect runs only on the client side
+        function determineCurrency() {
             try {
-                // In a real app, these would be API calls.
-                // We simulate this by accessing localStorage or having defaults.
-                // For this project, we'll mimic fetching settings.
-                const country = localStorage.getItem('userCountry') || 'FR'; // Default to FR
-                const rateStr = localStorage.getItem('exchangeRate');
-
-                const rate = rateStr ? parseFloat(rateStr) : null;
-                setExchangeRate(rate);
-                
-                if (country === 'MG' && rate) {
-                    setCurrencyInfo(currencies.MGA);
-                } else {
-                    setCurrencyInfo(currencies.EUR);
+                // 1. Prioritize user's explicit choice from localStorage
+                const userChoice = localStorage.getItem('userCurrency') as Currency | null;
+                if (userChoice && currencies[userChoice]) {
+                    setCurrencyInfo(currencies[userChoice]);
+                    return; // Stop if we have a user choice
                 }
-            } catch (error) {
-                console.error("Failed to determine currency data, defaulting to EUR.", error);
+
+                // 2. Fallback to automatic detection via sessionStorage (set by Header)
+                const countryFromServer = sessionStorage.getItem('detectedCountry');
+                if (countryFromServer === 'MG') {
+                    setCurrencyInfo(currencies.MGA);
+                    return;
+                }
+                
+                // 3. Default to EUR
                 setCurrencyInfo(currencies.EUR);
-            } finally {
-                setIsLoading(false);
+
+            } catch (error) {
+                console.error("Failed to determine currency, defaulting to EUR.", error);
+                setCurrencyInfo(currencies.EUR);
             }
         }
-
-        // A mock to simulate data being available from server components setting it
-        // In a real complex app, this might come from a context provider at the root.
-        const countryFromServer = sessionStorage.getItem('detectedCountry');
-        const rateFromServer = sessionStorage.getItem('exchangeRate');
-
-        if (countryFromServer && rateFromServer) {
-             const rate = parseFloat(rateFromServer);
-             setExchangeRate(rate);
-             if (countryFromServer === 'MG') {
-                 setCurrencyInfo(currencies.MGA);
-             } else {
-                 setCurrencyInfo(currencies.EUR);
-             }
-             setIsLoading(false);
-        } else {
-            // Fallback for components where data isn't pre-loaded, e.g., checkout
-            fetchCurrencyData();
+        
+        const rateStr = sessionStorage.getItem('exchangeRate');
+        if (rateStr) {
+            setExchangeRate(parseFloat(rateStr));
         }
+
+        determineCurrency();
+        setIsLoading(false);
 
     }, []);
 
     const convertPrice = useCallback((priceInEur: number): number => {
-        if (isLoading || !exchangeRate) {
-            return priceInEur;
-        }
-        if (currencyInfo.code === 'MGA') {
+        if (currencyInfo.code === 'MGA' && exchangeRate) {
             return priceInEur * exchangeRate;
         }
         return priceInEur;
-    }, [currencyInfo.code, exchangeRate, isLoading]);
+    }, [currencyInfo.code, exchangeRate]);
 
     const formatPrice = useCallback((priceInEur: number, options: { style?: 'decimal' | 'currency' } = {}): string => {
         const { style = 'currency' } = options;
@@ -95,7 +81,6 @@ export function useCurrency(): UseCurrencyReturn {
             }).format(convertedPrice);
         }
         
-        // For currency formatting
         const formatter = new Intl.NumberFormat('fr-FR', {
             style: 'currency',
             currency: currencyInfo.code,
@@ -104,9 +89,10 @@ export function useCurrency(): UseCurrencyReturn {
             maximumFractionDigits: currencyInfo.code === 'MGA' ? 0 : 2,
         });
         
-        // Manual override for Ariary symbol placement
         if (currencyInfo.code === 'MGA') {
-            return `${formatter.format(convertedPrice).replace('Ar', '').trim()} Ar`;
+            const formatted = formatter.format(convertedPrice);
+            // Handle potential inconsistencies in symbol placement by browsers
+            return `${formatted.replace(currencyInfo.symbol, '').trim()} ${currencyInfo.symbol}`;
         }
         
         return formatter.format(convertedPrice);

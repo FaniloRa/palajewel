@@ -3,15 +3,23 @@
 'use client';
 
 import Link from 'next/link';
-import { Search, ShoppingBag, User, Menu } from 'lucide-react';
+import { Search, ShoppingBag, User, Menu, ChevronDown } from 'lucide-react';
 import Image from 'next/image';
 import palabiglogo from '@/app/palabiglogo.png';
 import { useCart } from '@/context/CartContext';
+import { useCurrency } from '@/hooks/useCurrency';
 import { Badge } from '@/components/ui/badge';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Cart } from '@/components/Cart';
 import { cn } from '@/lib/utils';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Button } from './ui/button';
 
 const navLinks = [
   { href: '/', label: 'Accueil' },
@@ -28,18 +36,26 @@ interface HeaderProps {
 
 const Header = ({ themeVariant = 'default', country, exchangeRate }: HeaderProps) => {
   const { cartCount } = useCart();
+  const { currency, isLoading } = useCurrency(); // Get currency state from hook
   const textClass = themeVariant === 'onLightBg' ? 'text-accent-foreground' : 'text-accent';
   const hoverTextClass = themeVariant === 'onLightBg' ? 'hover:text-accent-foreground/80' : 'hover:text-accent/80';
 
   // Store server-provided data in session storage for client-side hooks to access
   useEffect(() => {
-    if (country) {
+    // Only set these if they haven't been set by the user's explicit choice
+    if (country && !localStorage.getItem('userCurrency')) {
       sessionStorage.setItem('detectedCountry', country);
     }
     if (exchangeRate) {
       sessionStorage.setItem('exchangeRate', String(exchangeRate));
     }
   }, [country, exchangeRate]);
+
+  const handleCurrencyChange = (newCurrency: 'EUR' | 'MGA') => {
+    localStorage.setItem('userCurrency', newCurrency);
+    // Reload the page to apply the new currency everywhere
+    window.location.reload();
+  };
 
   return (
     <header className="absolute top-0 left-0 right-0 z-20 py-4 md:py-6">
@@ -93,7 +109,6 @@ const Header = ({ themeVariant = 'default', country, exchangeRate }: HeaderProps
                 </button>
               </SheetTrigger>
               <SheetContent className="w-[400px] sm:w-[540px] p-0">
-                  {/* The useCurrency hook inside Cart will now work because data is in session storage */}
                   <Cart />
               </SheetContent>
             </Sheet>
@@ -101,6 +116,24 @@ const Header = ({ themeVariant = 'default', country, exchangeRate }: HeaderProps
             <Link href="/login" aria-label="User Account" className={cn("transition-colors p-1", hoverTextClass)}>
               <User size={18} />
             </Link>
+
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                 <Button variant="ghost" className={cn("flex items-center gap-1 p-1 h-auto font-body text-sm", hoverTextClass)}>
+                    {isLoading ? '...' : currency.code}
+                    <ChevronDown size={16} />
+                 </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem onSelect={() => handleCurrencyChange('EUR')}>
+                  EUR (€)
+                </DropdownMenuItem>
+                <DropdownMenuItem onSelect={() => handleCurrencyChange('MGA')}>
+                  MGA (Ar)
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
           </div>
         </div>
       </nav>

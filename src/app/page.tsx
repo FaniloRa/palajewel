@@ -18,7 +18,7 @@ import type { OurProduct, FeaturedProduct } from '@/types';
 export default async function Home() {
   await connectDB();
   
-  // Get user location and currency info
+  // Get user location and currency info to pass to the header
   const country = headers().get('x-vercel-ip-country') || null;
   const rateStr = await getSetting('exchangeRateEuroToMGA');
   const exchangeRate = rateStr ? parseFloat(rateStr) : null;
@@ -49,7 +49,7 @@ export default async function Home() {
       <StyleComposerSection />
       <FeaturedProducts products={featuredProducts} />
       <CraftsmanshipSection />
-      {/* The useCurrency hook inside OurProductsSection will handle conversion */}
+      {/* The useCurrency hook inside OurProductsSection will now handle conversion autonomously */}
       <OurProductsSection products={ourProducts} />
       <StorefrontSection />
       <NewsletterSection />

@@ -35,7 +35,7 @@ const ProductDetailPage = async ({ params }: ProductPageProps) => {
     notFound();
   }
 
-  // Get user location and currency info
+  // Get user location and currency info for the header
   const country = headers().get('x-vercel-ip-country') || null;
   const rateStr = await getSetting('exchangeRateEuroToMGA');
   const exchangeRate = rateStr ? parseFloat(rateStr) : null;
@@ -44,6 +44,7 @@ const ProductDetailPage = async ({ params }: ProductPageProps) => {
   return (
     <main className="flex flex-col items-center min-h-screen bg-accent text-accent-foreground">
       <div className="w-full">
+        {/* Pass props to Header so it can set session storage for the currency hook */}
         <Header themeVariant="onLightBg" country={country} exchangeRate={exchangeRate} />
       </div>
       

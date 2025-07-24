@@ -27,7 +27,7 @@ export default async function ShopPage({
 }) {
   await connectDB();
 
-  // Get user location and currency info
+  // Get user location and currency info for the header
   const country = headers().get('x-vercel-ip-country') || null;
   const rateStr = await getSetting('exchangeRateEuroToMGA');
   const exchangeRate = rateStr ? parseFloat(rateStr) : null;
@@ -79,6 +79,7 @@ export default async function ShopPage({
   return (
     <main className="flex flex-col items-center min-h-screen bg-[#F0F4F5]">
       <div className="w-full">
+        {/* Pass props to Header so it can set session storage for the currency hook */}
         <Header themeVariant="onLightBg" country={country} exchangeRate={exchangeRate} />
       </div>
       
