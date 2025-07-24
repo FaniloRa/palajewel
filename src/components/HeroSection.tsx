@@ -22,12 +22,12 @@ const HeroSection = ({ country, exchangeRate }: HeroSectionProps) => {
             EDITION LIMITEE
           </span>
           <h1 className="font-seoulhangang text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-[#F6D5BE] mb-4 sm:mb-6 leading-tight">
-            L&apos;Excellence<br />
+            L'Excellence<br />
             <span className="text-accent">Intemporelle</span>
           </h1>
           <p className="font-kantumruy text-sm sm:text-base text-accent/90 mb-6 sm:mb-8 max-w-md">
-            Chaque pièce, fruit d&apos;un savoir-faire centenaire, incarne la
-            quintessence de l&apos;horlogerie suisse. Une invitation à posséder
+            Chaque pièce, fruit d'un savoir-faire centenaire, incarne la
+            quintessence de l'horlogerie suisse. Une invitation à posséder
             non pas une montre, mais un héritage.
           </p>
           <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 mb-6 sm:mb-8">
