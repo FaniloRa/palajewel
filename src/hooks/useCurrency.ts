@@ -16,19 +16,58 @@ const currencies: Record<Currency, CurrencyInfo> = {
     MGA: { code: 'MGA', symbol: 'Ar' },
 };
 
-export function useCurrency(country: string | null, exchangeRate: number | null): UseCurrencyReturn {
+// This hook is now self-sufficient and fetches its own data on the client.
+// It removes the need to pass down country and exchangeRate props everywhere.
+export function useCurrency(): UseCurrencyReturn {
     const [isLoading, setIsLoading] = useState(true);
     const [currencyInfo, setCurrencyInfo] = useState<CurrencyInfo>(currencies.EUR);
+    const [exchangeRate, setExchangeRate] = useState<number | null>(null);
 
     useEffect(() => {
-        // Default to EUR if anything is missing
-        if (country === 'MG' && exchangeRate) {
-            setCurrencyInfo(currencies.MGA);
-        } else {
-            setCurrencyInfo(currencies.EUR);
+        async function fetchCurrencyData() {
+            try {
+                // In a real app, these would be API calls.
+                // We simulate this by accessing localStorage or having defaults.
+                // For this project, we'll mimic fetching settings.
+                const country = localStorage.getItem('userCountry') || 'FR'; // Default to FR
+                const rateStr = localStorage.getItem('exchangeRate');
+
+                const rate = rateStr ? parseFloat(rateStr) : null;
+                setExchangeRate(rate);
+                
+                if (country === 'MG' && rate) {
+                    setCurrencyInfo(currencies.MGA);
+                } else {
+                    setCurrencyInfo(currencies.EUR);
+                }
+            } catch (error) {
+                console.error("Failed to determine currency data, defaulting to EUR.", error);
+                setCurrencyInfo(currencies.EUR);
+            } finally {
+                setIsLoading(false);
+            }
         }
-        setIsLoading(false);
-    }, [country, exchangeRate]);
+
+        // A mock to simulate data being available from server components setting it
+        // In a real complex app, this might come from a context provider at the root.
+        const countryFromServer = sessionStorage.getItem('detectedCountry');
+        const rateFromServer = sessionStorage.getItem('exchangeRate');
+
+        if (countryFromServer && rateFromServer) {
+             const rate = parseFloat(rateFromServer);
+             setExchangeRate(rate);
+             if (countryFromServer === 'MG') {
+                 setCurrencyInfo(currencies.MGA);
+             } else {
+                 setCurrencyInfo(currencies.EUR);
+             }
+             setIsLoading(false);
+        } else {
+            // Fallback for components where data isn't pre-loaded, e.g., checkout
+            fetchCurrencyData();
+        }
+
+    }, []);
 
     const convertPrice = useCallback((priceInEur: number): number => {
         if (isLoading || !exchangeRate) {

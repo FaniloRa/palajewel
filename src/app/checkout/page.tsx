@@ -18,50 +18,13 @@ import { useToast } from '@/hooks/use-toast';
 import { applyPromoCode } from '@/app/actions/promoCodeActions';
 import { useCurrency } from '@/hooks/useCurrency';
 
-// Mock fetching currency data on the client side for checkout
-// In a real app, this might come from a layout or parent component
-function useClientCurrency() {
-  const [country, setCountry] = useState<string | null>(null);
-  const [exchangeRate, setExchangeRate] = useState<number | null>(null);
-
-  useEffect(() => {
-    // This is a simplified client-side fetch.
-    // We assume the settings are available via an API or are pre-fetched.
-    async function fetchData() {
-        try {
-            // This is a placeholder for how you might fetch these values
-            const countryRes = await fetch('/api/get-country'); // FAKE API
-            const countryData = await countryRes.json();
-            setCountry(countryData.country);
-
-            const rateRes = await fetch('/api/get-rate'); // FAKE API
-            const rateData = await rateRes.json();
-            setExchangeRate(rateData.rate);
-
-        } catch (e) {
-            // Fallback to EUR if APIs fail
-            setCountry(null);
-            setExchangeRate(null);
-            console.error("Could not fetch client-side currency data", e)
-        }
-    }
-    // In this mocked example, we just set them.
-    // A real implementation would fetch or receive this data.
-    setCountry(null); // Default to EUR for this example
-    setExchangeRate(4750); // Mock rate
-  }, []);
-
-  return { country, exchangeRate };
-}
-
 
 export default function CheckoutPage() {
   const { cart, totalPrice, cartCount } = useCart();
   const router = useRouter();
   const { toast } = useToast();
 
-  const { country, exchangeRate } = useClientCurrency();
-  const { formatPrice, currency, isLoading: isCurrencyLoading } = useCurrency(country, exchangeRate);
+  const { formatPrice, currency, isLoading: isCurrencyLoading, convertPrice } = useCurrency();
   
   const [isApplying, startTransition] = useTransition();
   const [promoCodeInput, setPromoCodeInput] = useState('');
@@ -97,17 +60,10 @@ export default function CheckoutPage() {
 
 
   const finalTotal = useMemo(() => {
-      const subtotalInEur = totalPrice;
-      const discountInEur = appliedDiscount;
-      const shippingInEur = currency.code === 'MGA' && exchangeRate ? (shippingCost / exchangeRate) : shippingCost;
-
-      const totalInEur = subtotalInEur - discountInEur + shippingInEur;
-      
-      if (currency.code === 'MGA' && exchangeRate) {
-          return totalInEur * exchangeRate;
-      }
-      return totalInEur;
-  }, [totalPrice, appliedDiscount, shippingCost, currency, exchangeRate]);
+      const subtotalInCurrentCurrency = convertPrice(totalPrice);
+      const discountInCurrentCurrency = convertPrice(appliedDiscount);
+      return subtotalInCurrentCurrency - discountInCurrentCurrency + shippingCost;
+  }, [totalPrice, appliedDiscount, shippingCost, currency, convertPrice]);
 
   // Render a loading/placeholder state while redirecting
   if (cartCount === 0 || isCurrencyLoading) {
@@ -124,7 +80,8 @@ export default function CheckoutPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#F0F4F5]">
-      <Header themeVariant="onLightBg" country={country} exchangeRate={exchangeRate} />
+      {/* The header will set the currency info in session storage */}
+      <Header themeVariant="onLightBg" />
 
       <main className="flex-grow container mx-auto px-4 py-24 md:py-32">
         <div className="text-center mb-12">

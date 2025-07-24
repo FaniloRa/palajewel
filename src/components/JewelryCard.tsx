@@ -8,12 +8,11 @@ import { useCurrency } from '@/hooks/useCurrency';
 
 interface JewelryCardProps {
   item: OurProduct;
-  country: string | null;
-  exchangeRate: number | null;
 }
 
-const JewelryCard: React.FC<JewelryCardProps> = ({ item, country, exchangeRate }) => {
-  const { formatPrice, isLoading } = useCurrency(country, exchangeRate);
+const JewelryCard: React.FC<JewelryCardProps> = ({ item }) => {
+  // The hook now works without props, as it gets data from session storage
+  const { formatPrice, isLoading } = useCurrency();
 
   return (
     <Link href={`/produits/${item.id}`} className="group">

@@ -11,6 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Cart } from '@/components/Cart';
 import { cn } from '@/lib/utils';
+import { useEffect } from 'react';
 
 const navLinks = [
   { href: '/', label: 'Accueil' },
@@ -29,6 +30,16 @@ const Header = ({ themeVariant = 'default', country, exchangeRate }: HeaderProps
   const { cartCount } = useCart();
   const textClass = themeVariant === 'onLightBg' ? 'text-accent-foreground' : 'text-accent';
   const hoverTextClass = themeVariant === 'onLightBg' ? 'hover:text-accent-foreground/80' : 'hover:text-accent/80';
+
+  // Store server-provided data in session storage for client-side hooks to access
+  useEffect(() => {
+    if (country) {
+      sessionStorage.setItem('detectedCountry', country);
+    }
+    if (exchangeRate) {
+      sessionStorage.setItem('exchangeRate', String(exchangeRate));
+    }
+  }, [country, exchangeRate]);
 
   return (
     <header className="absolute top-0 left-0 right-0 z-20 py-4 md:py-6">
@@ -82,7 +93,8 @@ const Header = ({ themeVariant = 'default', country, exchangeRate }: HeaderProps
                 </button>
               </SheetTrigger>
               <SheetContent className="w-[400px] sm:w-[540px] p-0">
-                  <Cart country={country} exchangeRate={exchangeRate} />
+                  {/* The useCurrency hook inside Cart will now work because data is in session storage */}
+                  <Cart />
               </SheetContent>
             </Sheet>
 

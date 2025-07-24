@@ -96,7 +96,8 @@ export default async function ShopPage({
             </p>
           </div>
           <ShopFilters categories={categories} maxPrice={maxPriceForSlider} />
-          <JewelryCatalog jewelries={products} country={country} exchangeRate={exchangeRate} />
+          {/* JewelryCatalog and its children will use the currency hook */}
+          <JewelryCatalog jewelries={products} />
         </div>
       </div>
 

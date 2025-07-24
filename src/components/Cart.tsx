@@ -11,14 +11,10 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { SheetClose } from '@/components/ui/sheet';
 
-interface CartProps {
-    country?: string | null;
-    exchangeRate?: number | null;
-}
-
-export function Cart({ country, exchangeRate }: CartProps) {
+export function Cart() {
   const { cart, removeFromCart, updateQuantity, cartCount, totalPrice } = useCart();
-  const { formatPrice, isLoading } = useCurrency(country, exchangeRate);
+  // useCurrency now fetches its own data, no props needed
+  const { formatPrice, isLoading } = useCurrency();
 
   return (
     <div className="h-full flex flex-col">

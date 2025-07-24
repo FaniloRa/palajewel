@@ -17,13 +17,11 @@ import { cn } from '@/lib/utils';
 
 interface JewelryCatalogProps {
   jewelries: OurProduct[];
-  country: string | null;
-  exchangeRate: number | null;
 }
 
 const ITEMS_PER_PAGE = 12;
 
-const JewelryCatalog: React.FC<JewelryCatalogProps> = ({ jewelries, country, exchangeRate }) => {
+const JewelryCatalog: React.FC<JewelryCatalogProps> = ({ jewelries }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   // The 'jewelries' prop is now pre-filtered by the server.
@@ -95,7 +93,7 @@ const JewelryCatalog: React.FC<JewelryCatalogProps> = ({ jewelries, country, exc
         {currentJewelries.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10">
             {currentJewelries.map(item => (
-              <JewelryCard key={item.id} item={item} country={country} exchangeRate={exchangeRate} />
+              <JewelryCard key={item.id} item={item} />
             ))}
           </div>
         ) : (

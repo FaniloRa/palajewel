@@ -12,14 +12,12 @@ import type { OurProduct } from '@/types';
 
 interface ProductDetailPageClientProps {
     product: OurProduct;
-    country: string | null;
-    exchangeRate: number | null;
 }
 
-export default function ProductDetailPageClient({ product, country, exchangeRate }: ProductDetailPageClientProps) {
+export default function ProductDetailPageClient({ product }: ProductDetailPageClientProps) {
   const { addToCart } = useCart();
   const { toast } = useToast();
-  const { formatPrice, isLoading } = useCurrency(country, exchangeRate);
+  const { formatPrice, isLoading } = useCurrency();
 
   const handleAddToCart = () => {
     addToCart(product);

@@ -49,7 +49,8 @@ export default async function Home() {
       <StyleComposerSection />
       <FeaturedProducts products={featuredProducts} />
       <CraftsmanshipSection />
-      <OurProductsSection products={ourProducts} country={country} exchangeRate={exchangeRate} />
+      {/* The useCurrency hook inside OurProductsSection will handle conversion */}
+      <OurProductsSection products={ourProducts} />
       <StorefrontSection />
       <NewsletterSection />
       <Footer />

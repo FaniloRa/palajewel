@@ -10,12 +10,10 @@ import { useCurrency } from '@/hooks/useCurrency';
 
 interface OurProductsSectionProps {
   products: OurProduct[];
-  country: string | null;
-  exchangeRate: number | null;
 }
 
-const OurProductsSection: React.FC<OurProductsSectionProps> = ({ products, country, exchangeRate }) => {
-  const { formatPrice, isLoading } = useCurrency(country, exchangeRate);
+const OurProductsSection: React.FC<OurProductsSectionProps> = ({ products }) => {
+  const { formatPrice, isLoading } = useCurrency();
   
   return (
     <section id="nos-produits-section" className="w-full py-12 md:py-16 lg:py-20 bg-background">

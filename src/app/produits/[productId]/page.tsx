@@ -48,7 +48,7 @@ const ProductDetailPage = async ({ params }: ProductPageProps) => {
       </div>
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 md:pt-32 pb-10 md:pb-16">
-        <ProductDetailPageClient product={product} country={country} exchangeRate={exchangeRate} />
+        <ProductDetailPageClient product={product} />
       </div>
 
       <Footer />
