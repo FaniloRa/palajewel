@@ -33,8 +33,8 @@ const CraftsmanshipSection = () => {
           </div>
 
           {/* Right: Image */}
-          <div className="md:w-1/2">
-            <div className="relative w-full h-80 md:h-96 rounded-lg overflow-hidden shadow-lg">
+          <div className="md:w-1/2 flex justify-center items-center">
+            <div className="relative w-full max-w-sm h-72 md:h-80 rounded-lg overflow-hidden">
               <Image
                 src={boucleImage}
                 alt="Boucles d'oreilles fabriquées avec soin"
