@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import boucleImage from '@/app/boucle.png';
 
 const CraftsmanshipSection = () => {
   return (
@@ -35,12 +36,13 @@ const CraftsmanshipSection = () => {
           <div className="md:w-1/2">
             <div className="relative w-full h-80 md:h-96 rounded-lg overflow-hidden shadow-lg">
               <Image
-                src="https://placehold.co/600x400.png"
-                alt="Bracelets fabriqués avec soins"
+                src={boucleImage}
+                alt="Boucles d'oreilles fabriquées avec soin"
                 fill
                 style={{ objectFit: 'cover' }}
-                data-ai-hint="bracelets jewelry craft"
+                data-ai-hint="earrings jewelry craft"
                 className="transition-transform duration-500 group-hover:scale-105"
+                placeholder="blur"
               />
             </div>
           </div>
