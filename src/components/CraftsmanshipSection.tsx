@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import boucleImage from '@/app/boucle.png';
+import boucleImage from '@/app/boucle2.png';
 
 const CraftsmanshipSection = () => {
   return (
