@@ -9,7 +9,7 @@ const CraftsmanshipSection = () => {
           {/* Left: Text Content */}
           <div className="md:w-1/2">
             <h2 className="font-headline text-2xl sm:text-3xl text-primary uppercase mb-2">
-              UN SAVOIR-FAIRE D'EXCEPTION
+              Artisanat d'Exception
             </h2>
             <div className="w-16 h-0.5 bg-primary mb-8"></div>
 
