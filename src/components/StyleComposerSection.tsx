@@ -135,7 +135,7 @@ const StyleComposerSection = () => {
                 alt={card.imageAlt}
                 fill
                 style={{ objectFit: 'cover' }}
-                className="transition-transform duration-500 group-hover:scale-110"
+                className="transition-transform duration-700 group-hover:scale-110"
                 data-ai-hint={card.dataAiHint}
               />
               <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors duration-300" />

@@ -24,7 +24,7 @@ const JewelryCard: React.FC<JewelryCardProps> = ({ item }) => {
             fill
             style={{objectFit: "cover"}}
             data-ai-hint={item.dataAiHint}
-            className="transition-transform duration-300 group-hover:scale-105"
+            className="transition-transform duration-700 group-hover:scale-105"
           />
         </div>
         <h3 className="font-headline text-lg font-medium mb-1">{item.name}</h3>

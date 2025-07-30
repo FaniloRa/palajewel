@@ -22,7 +22,7 @@ const StorefrontSection = () => {
             alt="Intérieur de la boutique Pala Jewelry"
             fill
             style={{ objectFit: 'cover' }}
-            className="transition-transform duration-500 group-hover:scale-105"
+            className="transition-transform duration-700 group-hover:scale-105"
             placeholder="blur"
           />
           <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors duration-300" />

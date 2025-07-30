@@ -46,7 +46,7 @@ const NewsletterSection = () => {
                 fill
                 style={{ objectFit: 'cover' }}
                 data-ai-hint="fashion model jewelry"
-                className="transition-transform duration-500 group-hover:scale-105"
+                className="transition-transform duration-700 group-hover:scale-105"
               />
             </div>
           </div>

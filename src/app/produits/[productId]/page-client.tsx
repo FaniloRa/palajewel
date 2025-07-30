@@ -39,7 +39,7 @@ export default function ProductDetailPageClient({ product }: ProductDetailPageCl
             style={{objectFit: "cover"}}
             data-ai-hint={`${product.dataAiHint} main`}
             priority
-            className="transition-transform duration-300 ease-in-out group-hover:scale-110"
+            className="transition-transform duration-700 ease-in-out group-hover:scale-110"
           />
         </div>
         <div className="grid grid-cols-2 gap-4">
@@ -50,7 +50,7 @@ export default function ProductDetailPageClient({ product }: ProductDetailPageCl
               fill
               style={{objectFit: "cover"}}
               data-ai-hint={`${product.dataAiHint} thumbnail one`}
-              className="transition-transform duration-300 ease-in-out group-hover:scale-110"
+              className="transition-transform duration-700 ease-in-out group-hover:scale-110"
             />
           </div>
           <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg shadow-md border border-border group cursor-zoom-in">
@@ -60,7 +60,7 @@ export default function ProductDetailPageClient({ product }: ProductDetailPageCl
               fill
               style={{objectFit: "cover"}}
               data-ai-hint={`${product.dataAiHint} thumbnail two`}
-              className="transition-transform duration-300 ease-in-out group-hover:scale-110"
+              className="transition-transform duration-700 ease-in-out group-hover:scale-110"
             />
           </div>
         </div>

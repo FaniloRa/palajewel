@@ -41,7 +41,7 @@ const CraftsmanshipSection = () => {
                 fill
                 style={{ objectFit: 'cover' }}
                 data-ai-hint="earrings jewelry craft"
-                className="transition-transform duration-500 group-hover:scale-105"
+                className="transition-transform duration-700 group-hover:scale-105"
                 placeholder="blur"
               />
             </div>
