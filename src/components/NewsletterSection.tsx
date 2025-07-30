@@ -39,7 +39,7 @@ const NewsletterSection = () => {
         <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16">
           {/* Left: Image */}
           <div className="md:w-1/2 lg:w-2/5">
-            <div className="relative w-full h-80 md:h-96 lg:h-[500px] rounded-lg overflow-hidden">
+            <div className="relative w-full h-72 md:h-80 lg:h-[400px] rounded-lg overflow-hidden">
               <Image
                 src={bgirlImage}
                 alt="Modèle portant des bijoux PALA pour la newsletter"
