@@ -39,6 +39,7 @@ const Header = ({ themeVariant = 'default', country, exchangeRate }: HeaderProps
   const { currency, isLoading } = useCurrency(); // Get currency state from hook
   const textClass = themeVariant === 'onLightBg' ? 'text-accent-foreground' : 'text-accent';
   const hoverTextClass = themeVariant === 'onLightBg' ? 'hover:text-accent-foreground/80' : 'hover:text-accent/80';
+  const currencyHoverTextClass = themeVariant === 'onLightBg' ? 'hover:text-accent-foreground/80' : 'hover:text-accent-foreground';
 
   // Store server-provided data in session storage for client-side hooks to access
   useEffect(() => {
@@ -119,7 +120,7 @@ const Header = ({ themeVariant = 'default', country, exchangeRate }: HeaderProps
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                 <Button variant="ghost" className={cn("flex items-center gap-1 p-1 h-auto font-body text-sm", hoverTextClass)}>
+                 <Button variant="ghost" className={cn("flex items-center gap-1 p-1 h-auto font-body text-sm", currencyHoverTextClass)}>
                     {isLoading ? '...' : currency.code}
                     <ChevronDown size={16} />
                  </Button>
