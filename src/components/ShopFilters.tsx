@@ -59,7 +59,7 @@ export default function ShopFilters({ categories, maxPrice }: ShopFiltersProps) 
       const current = new URLSearchParams(Array.from(searchParams.entries()));
 
       for (const [key, value] of Object.entries(paramsToUpdate)) {
-          if (value === null || value === '' || value === 'all' || (key === 'maxPrice' && value === maxPrice)) {
+          if (value === null || value === '' || value === 'all' || (key === 'maxPrice' && Number(value) === maxPrice) || (key === 'minPrice' && Number(value) === 0)) {
               current.delete(key);
           } else {
               current.set(key, String(value));
@@ -92,8 +92,7 @@ export default function ShopFilters({ categories, maxPrice }: ShopFiltersProps) 
   }
 
   const handlePriceCommit = (newRange: [number, number]) => {
-    // When committing, we use the internal EUR values.
-    const query = createQueryString({ minPrice: newRange[0] || null, maxPrice: newRange[1] === maxPrice ? null : newRange[1] });
+    const query = createQueryString({ minPrice: newRange[0], maxPrice: newRange[1] });
     startTransition(() => {
         router.push(`/shop?${query}`);
     });
@@ -155,30 +154,11 @@ export default function ShopFilters({ categories, maxPrice }: ShopFiltersProps) 
                 </div>
                 <Slider
                     min={0}
-                    max={currency.code === 'MGA' ? displayMaxPrice : maxPrice}
-                    step={currency.code === 'MGA' ? 1000 : 10}
-                    value={currency.code === 'MGA' ? displayPriceRange : priceRange}
-                    onValueChange={(value) => {
-                      if(currency.code === 'MGA') {
-                        // If we are in MGA, we don't update the internal EUR state on every slide.
-                        // We only do it on commit. So here we can just update a temporary display state.
-                        // For simplicity, we just let the slider control its visual state based on displayPriceRange.
-                      } else {
-                        setPriceRange(value as [number, number])
-                      }
-                    }}
-                    onValueCommit={(value) => {
-                       // The value from the slider is always in the displayed currency.
-                       // We must convert it back to EUR before updating the state and URL.
-                       if(currency.code === 'MGA' && exchangeRate) {
-                          const newEurRange = [ value[0] / exchangeRate, value[1] / exchangeRate ] as [number, number];
-                          setPriceRange(newEurRange);
-                          handlePriceCommit(newEurRange);
-                       } else {
-                          setPriceRange(value as [number, number]);
-                          handlePriceCommit(value as [number, number]);
-                       }
-                    }}
+                    max={maxPrice}
+                    step={10}
+                    value={priceRange}
+                    onValueChange={(value) => setPriceRange(value as [number, number])}
+                    onValueCommit={handlePriceCommit}
                     disabled={isLoading}
                 />
             </div>
