@@ -33,7 +33,7 @@ const CraftsmanshipSection = () => {
           </div>
 
           {/* Right: Image */}
-          <div className="md:w-1/2 flex justify-center items-center">
+          <div className="md:w-1/2 flex justify-center items-center group">
             <div className="relative w-full max-w-sm h-80 rounded-lg overflow-hidden">
               <Image
                 src={boucleImage}
