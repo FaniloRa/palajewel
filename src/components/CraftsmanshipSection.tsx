@@ -9,32 +9,32 @@ const CraftsmanshipSection = () => {
           {/* Left: Text Content */}
           <div className="md:w-1/2">
             <h2 className="font-headline text-2xl sm:text-3xl text-primary uppercase mb-2">
-              FABRIQUE AVEC SOINS
+              UN SAVOIR-FAIRE D'EXCEPTION
             </h2>
             <div className="w-16 h-0.5 bg-primary mb-8"></div>
 
             <div className="mb-8">
               <h3 className="font-headline text-xl sm:text-2xl font-semibold text-accent-foreground mb-3">
-                Haute qualité
+                Des Matériaux Précieux
               </h3>
               <p className="font-body text-sm text-muted-foreground leading-relaxed">
-                Donec commodo dui at finibus ultricies. Etiam mattis vel arcu id interdum. Phasellus ornare lorem vitae facilisis sodales. Etiam auctor eget turpis eget lacinia. Sed eget augue pretium, lacinia.
+                Chaque bijou Pala est façonné à partir de matériaux nobles, sélectionnés pour leur pureté et leur éclat durable. Nous travaillons l'or, l'argent et les pierres précieuses avec le plus grand respect pour leur beauté naturelle.
               </p>
             </div>
 
             <div>
               <h3 className="font-headline text-xl sm:text-2xl font-semibold text-accent-foreground mb-3">
-                Savoir faire-expert
+                L'Art de l'Artisan
               </h3>
               <p className="font-body text-sm text-muted-foreground leading-relaxed">
-                Donec commodo dui at finibus ultricies. Etiam mattis vel arcu id interdum. Phasellus ornare lorem vitae facilisis sodales. Etiam auctor eget turpis eget lacinia. Sed eget augue pretium, lacinia.
+                Nos artisans joailliers, maîtres dans leur domaine, allient techniques ancestrales et précision moderne. Chaque détail est pensé, chaque courbe polie à la main pour donner naissance à une pièce véritablement unique.
               </p>
             </div>
           </div>
 
           {/* Right: Image */}
           <div className="md:w-1/2 flex justify-center items-center">
-            <div className="relative w-full max-w-sm h-72 md:h-80 rounded-lg overflow-hidden">
+            <div className="relative w-full max-w-sm h-80 rounded-lg overflow-hidden">
               <Image
                 src={boucleImage}
                 alt="Boucles d'oreilles fabriquées avec soin"
