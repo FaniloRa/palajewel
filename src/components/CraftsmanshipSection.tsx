@@ -1,11 +1,55 @@
+
+'use client';
+
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import boucleImage from '@/app/boucle2.png';
+import { cn } from '@/lib/utils';
 
 const CraftsmanshipSection = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+          } else {
+            setIsVisible(false);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
+
+  const animationClasses = "transition-all duration-700 ease-out";
+  const hiddenClasses = "opacity-0 translate-y-8";
+  const visibleClasses = "opacity-100 translate-y-0";
+
   return (
-    <section className="w-full py-12 md:py-16 lg:py-20 bg-background text-foreground">
+    <section 
+      ref={sectionRef}
+      className="w-full py-12 md:py-16 lg:py-20 bg-background text-foreground"
+    >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16">
+        <div className={cn(
+          "flex flex-col md:flex-row items-center gap-10 md:gap-16",
+          animationClasses,
+          isVisible ? visibleClasses : hiddenClasses
+        )}>
           {/* Left: Text Content */}
           <div className="md:w-1/2">
             <h2 className="font-headline text-2xl sm:text-3xl text-primary uppercase mb-2">
