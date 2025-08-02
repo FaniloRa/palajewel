@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import collierImage from '@/app/collier.png';
 import { useState, useEffect, useRef } from 'react';
+import { cn } from '@/lib/utils';
 
 const QualitySection = () => {
   const [isVisibleLeft, setIsVisibleLeft] = useState(false);
@@ -19,12 +20,10 @@ const QualitySection = () => {
 
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          if (entry.target === leftTextRef.current) {
-            setIsVisibleLeft(true);
-          } else if (entry.target === rightTextRef.current) {
-            setIsVisibleRight(true);
-          }
+        if (entry.target === leftTextRef.current) {
+            setIsVisibleLeft(entry.isIntersecting);
+        } else if (entry.target === rightTextRef.current) {
+            setIsVisibleRight(entry.isIntersecting);
         }
       });
     };

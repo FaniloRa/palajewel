@@ -72,18 +72,15 @@ const StyleComposerSection = () => {
       threshold: 0.2, // Trigger when 20% of the element is visible
     };
 
-    const observerCallback = (entries: IntersectionObserverEntry[], observerInstance: IntersectionObserver) => {
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const cardIndex = cardRefs.current.findIndex(ref => ref === entry.target);
-          if (cardIndex !== -1) {
-            setVisibleCards(prev => {
-              const newVisible = [...prev];
-              newVisible[cardIndex] = true;
-              return newVisible;
-            });
-            observerInstance.unobserve(entry.target); // Unobserve after animation
-          }
+        const cardIndex = cardRefs.current.findIndex(ref => ref === entry.target);
+        if (cardIndex !== -1) {
+          setVisibleCards(prev => {
+            const newVisible = [...prev];
+            newVisible[cardIndex] = entry.isIntersecting;
+            return newVisible;
+          });
         }
       });
     };
