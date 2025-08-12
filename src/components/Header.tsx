@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation';
 import { Search, ShoppingBag, User, Menu, ChevronDown } from 'lucide-react';
 import Image from 'next/image';
 import palabiglogo from '@/app/palabiglogo.png';
-import logo2 from '@/app/palabiglogo.png';
+import logo2 from '@/app/logo2.png';
 import { useCart } from '@/context/CartContext';
 import { useCurrency } from '@/hooks/useCurrency';
 import { Badge } from '@/components/ui/badge';
