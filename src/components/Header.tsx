@@ -3,9 +3,11 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Search, ShoppingBag, User, Menu, ChevronDown } from 'lucide-react';
 import Image from 'next/image';
 import palabiglogo from '@/app/palabiglogo.png';
+import logo2 from '@/app/palabiglogo.png';
 import { useCart } from '@/context/CartContext';
 import { useCurrency } from '@/hooks/useCurrency';
 import { Badge } from '@/components/ui/badge';
@@ -35,8 +37,12 @@ interface HeaderProps {
 }
 
 const Header = ({ themeVariant = 'default', country, exchangeRate }: HeaderProps) => {
+  const pathname = usePathname();
   const { cartCount } = useCart();
   const { currency, isLoading } = useCurrency(); // Get currency state from hook
+  
+  const isHomePage = pathname === '/';
+  const logoSrc = isHomePage ? palabiglogo : logo2;
   const textClass = themeVariant === 'onLightBg' ? 'text-accent-foreground' : 'text-accent';
   const hoverTextClass = themeVariant === 'onLightBg' ? 'hover:text-accent-foreground/80' : 'hover:text-accent/80';
   const currencyHoverTextClass = themeVariant === 'onLightBg' ? 'hover:text-accent-foreground/80' : 'hover:text-accent-foreground';
@@ -81,7 +87,7 @@ const Header = ({ themeVariant = 'default', country, exchangeRate }: HeaderProps
         <div className="flex-shrink-0 mx-auto">
           <Link href="/" className="group">
             <Image
-              src={palabiglogo}
+              src={logoSrc}
               alt="Pala Jewelry Logo"
               width={120}
               height={60}
