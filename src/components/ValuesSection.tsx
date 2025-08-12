@@ -1,8 +1,10 @@
+
 'use client';
 
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { useEffect, useRef, useState } from 'react';
+import valueImage from '@/app/PALA_343.jpg';
 
 const ValuesSection = () => {
     const [isVisible, setIsVisible] = useState(false);
@@ -48,12 +50,13 @@ const ValuesSection = () => {
         isVisible ? visibleClasses : hiddenClasses
       )}>
         <Image
-          src="https://placehold.co/1200x800.png"
+          src={valueImage}
           alt="Artisan travaillant sur un bijou avec passion"
           fill
           style={{ objectFit: 'cover' }}
           data-ai-hint="artisan jewelry workshop"
           className="transition-transform duration-700 group-hover:scale-105"
+          placeholder="blur"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/70 to-black/50" />
         
