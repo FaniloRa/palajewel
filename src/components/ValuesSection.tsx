@@ -56,7 +56,7 @@ const ValuesSection = () => {
           data-ai-hint="artisan jewelry workshop"
           className="transition-transform duration-700 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/20" />
         
         {/* Text Content */}
         <div className="relative z-10 p-8 md:p-12 lg:px-24 md:w-1/2 lg:w-2/3 text-white">
