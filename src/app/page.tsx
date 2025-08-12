@@ -8,7 +8,6 @@ import StyleComposerSection from '@/components/StyleComposerSection';
 import CraftsmanshipSection from '@/components/CraftsmanshipSection';
 import OurProductsSection from '@/components/OurProductsSection';
 import StorefrontSection from '@/components/StorefrontSection';
-import ValuesSection from '@/components/ValuesSection';
 import NewsletterSection from '@/components/NewsletterSection';
 import Footer from '@/components/Footer';
 import connectDB from '@/lib/mongoose';
@@ -53,7 +52,6 @@ export default async function Home() {
       {/* The useCurrency hook inside OurProductsSection will now handle conversion autonomously */}
       <OurProductsSection products={ourProducts} />
       <StorefrontSection />
-      <ValuesSection />
       <NewsletterSection />
       <Footer />
     </main>
