@@ -18,6 +18,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { useToast } from '@/hooks/use-toast';
 import { createAppointment, getBookedSlotsForDate } from '@/app/actions/appointmentActions';
 import { Loader2, CheckCircle } from 'lucide-react';
+import NewsletterSection from '@/components/NewsletterSection';
 
 const initialState = {
   success: false,
@@ -200,6 +201,9 @@ export default function RendezVousPage() {
                     </CardContent>
                 </Card>
             </main>
+            <div className="w-full">
+                <NewsletterSection />
+            </div>
             <Footer />
         </div>
     );
