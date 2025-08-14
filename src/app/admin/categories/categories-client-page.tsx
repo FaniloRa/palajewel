@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useTransition, useEffect } from 'react';
@@ -12,6 +13,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  CardFooter
 } from '@/components/ui/card';
 import {
   Table,
@@ -52,6 +54,8 @@ import { useToast } from '@/hooks/use-toast';
 import { addCategory, updateCategory, deleteCategory } from '@/app/actions/categoryActions';
 import type { ICategory } from '@/models/Category';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Separator } from '@/components/ui/separator';
+import { format } from 'date-fns';
 
 interface CategoriesClientPageProps {
   categories: ICategory[];
@@ -142,7 +146,8 @@ export default function CategoriesClientPage({ categories }: CategoriesClientPag
             <CardDescription>Gérez les catégories de vos produits.</CardDescription>
           </CardHeader>
           <CardContent>
-            <ScrollArea className="h-96">
+             {/* Desktop Table View */}
+            <ScrollArea className="h-96 hidden md:block">
                 <Table>
                 <TableHeader>
                     <TableRow>
@@ -183,6 +188,33 @@ export default function CategoriesClientPage({ categories }: CategoriesClientPag
                     ))}
                 </TableBody>
                 </Table>
+            </ScrollArea>
+             {/* Mobile Card View */}
+            <ScrollArea className="h-96 md:hidden">
+              <div className="space-y-4">
+                {categories.map((category) => (
+                  <div key={category.id} className="flex items-center justify-between rounded-lg border p-4">
+                    <span className="font-medium">{category.name}</span>
+                     <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                        <Button aria-haspopup="true" size="icon" variant="ghost">
+                            <MoreHorizontal className="h-4 w-4" />
+                            <span className="sr-only">Menu</span>
+                        </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                        <DropdownMenuItem onClick={() => openEditModal(category)} className="cursor-pointer">
+                            <Pencil className="mr-2 h-4 w-4" /> Modifier
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => setCategoryToDelete(category)} className="text-destructive focus:text-destructive focus:bg-destructive/10 cursor-pointer">
+                            <Trash2 className="mr-2 h-4 w-4" /> Supprimer
+                        </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                ))}
+              </div>
             </ScrollArea>
           </CardContent>
         </Card>

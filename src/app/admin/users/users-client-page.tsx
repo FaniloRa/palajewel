@@ -8,7 +8,7 @@ import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
@@ -125,7 +125,8 @@ export default function UsersClientPage({ users }: { users: IUser[] }) {
                     </Dialog>
                 </CardHeader>
                 <CardContent>
-                    <ScrollArea className="h-[calc(100vh-250px)]">
+                    {/* Desktop View */}
+                    <ScrollArea className="h-[calc(100vh-250px)] hidden md:block">
                         <Table>
                             <TableHeader>
                                 <TableRow>
@@ -166,6 +167,33 @@ export default function UsersClientPage({ users }: { users: IUser[] }) {
                             </TableBody>
                         </Table>
                     </ScrollArea>
+                    
+                    {/* Mobile View */}
+                    <div className="md:hidden space-y-4">
+                        {users.map((user) => (
+                            <Card key={user.id}>
+                                <CardHeader className="p-4 flex flex-row items-start justify-between">
+                                    <div>
+                                        <CardTitle className="text-base">{user.email}</CardTitle>
+                                        <CardDescription>Créé le: {format(new Date(user.createdAt!), 'dd/MM/yyyy')}</CardDescription>
+                                    </div>
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild><Button size="icon" variant="ghost"><MoreHorizontal className="h-4 w-4" /></Button></DropdownMenuTrigger>
+                                        <DropdownMenuContent align="end">
+                                            <DropdownMenuItem onClick={() => setUserToEdit(user)}><Pencil className="mr-2 h-4 w-4" />Modifier</DropdownMenuItem>
+                                            <DropdownMenuItem onClick={() => setUserToDelete(user)} className="text-destructive"><Trash2 className="mr-2 h-4 w-4" />Supprimer</DropdownMenuItem>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
+                                </CardHeader>
+                                <CardFooter className="p-4 pt-0">
+                                     <Badge variant={user.role === 'admin' ? 'default' : 'secondary'} className="capitalize">
+                                        {user.role}
+                                    </Badge>
+                                </CardFooter>
+                            </Card>
+                        ))}
+                    </div>
+
                 </CardContent>
             </Card>
 
@@ -198,3 +226,4 @@ export default function UsersClientPage({ users }: { users: IUser[] }) {
         </>
     );
 }
+

@@ -8,7 +8,7 @@ import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
@@ -24,6 +24,7 @@ import { addPromoCode, updatePromoCode, deletePromoCode } from '@/app/actions/pr
 import type { IPromoCode } from '@/types';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
+import { Badge } from '@/components/ui/badge';
 
 const SubmitButton = ({ children }: { children: React.ReactNode }) => {
     const { pending } = useFormStatus();
@@ -135,6 +136,10 @@ export default function PromoCodesClientPage({ promoCodes }: { promoCodes: IProm
         });
     };
 
+    const getDiscountValueString = (code: IPromoCode) => {
+        return code.discountType === 'fixed' ? `${code.discountValue.toFixed(2)} €` : `${code.discountValue}%`;
+    }
+
     return (
         <>
             <Card>
@@ -159,28 +164,29 @@ export default function PromoCodesClientPage({ promoCodes }: { promoCodes: IProm
                     </Dialog>
                 </CardHeader>
                 <CardContent>
-                    <ScrollArea className="h-[calc(100vh-250px)]">
+                    {/* Desktop Table */}
+                    <ScrollArea className="h-[calc(100vh-250px)] hidden md:block">
                         <Table>
                             <TableHeader>
                                 <TableRow>
                                     <TableHead>Code</TableHead>
-                                    <TableHead>Type</TableHead>
-                                    <TableHead>Valeur</TableHead>
-                                    <TableHead className="hidden md:table-cell">Utilisation</TableHead>
-                                    <TableHead className="hidden md:table-cell">Expire le</TableHead>
+                                    <TableHead>Réduction</TableHead>
+                                    <TableHead>Utilisation</TableHead>
+                                    <TableHead>Expire le</TableHead>
                                     <TableHead>Statut</TableHead>
                                     <TableHead><span className="sr-only">Actions</span></TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
                                 {promoCodes.map((code) => (
-                                    <TableRow key={code.id}>
+                                    <TableRow key={code.id} className={!code.isActive ? 'opacity-60' : ''}>
                                         <TableCell className="font-medium">{code.code}</TableCell>
-                                        <TableCell>{code.discountType === 'fixed' ? 'Fixe' : 'Pourcentage'}</TableCell>
-                                        <TableCell>{code.discountType === 'fixed' ? `${code.discountValue.toFixed(2)} €` : `${code.discountValue}%`}</TableCell>
-                                        <TableCell className="hidden md:table-cell">{code.timesUsed} / {code.usageLimit || '∞'}</TableCell>
-                                        <TableCell className="hidden md:table-cell">{code.expiresAt ? format(new Date(code.expiresAt), 'dd/MM/yyyy') : 'Jamais'}</TableCell>
-                                        <TableCell>{code.isActive ? 'Actif' : 'Inactif'}</TableCell>
+                                        <TableCell>{getDiscountValueString(code)}</TableCell>
+                                        <TableCell>{code.timesUsed} / {code.usageLimit || '∞'}</TableCell>
+                                        <TableCell>{code.expiresAt ? format(new Date(code.expiresAt), 'dd/MM/yyyy') : 'Jamais'}</TableCell>
+                                        <TableCell>
+                                            <Badge variant={code.isActive ? 'default' : 'secondary'}>{code.isActive ? 'Actif' : 'Inactif'}</Badge>
+                                        </TableCell>
                                         <TableCell>
                                             <DropdownMenu>
                                                 <DropdownMenuTrigger asChild>
@@ -202,6 +208,35 @@ export default function PromoCodesClientPage({ promoCodes }: { promoCodes: IProm
                             </TableBody>
                         </Table>
                     </ScrollArea>
+                    
+                    {/* Mobile Cards */}
+                    <div className="md:hidden space-y-4">
+                        {promoCodes.map((code) => (
+                             <Card key={code.id} className={!code.isActive ? 'opacity-60' : ''}>
+                                <CardHeader className="p-4 flex flex-row items-start justify-between">
+                                    <div>
+                                        <CardTitle className="text-lg">{code.code}</CardTitle>
+                                        <CardDescription>{getDiscountValueString(code)} de réduction</CardDescription>
+                                    </div>
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild><Button size="icon" variant="ghost"><MoreHorizontal className="h-4 w-4" /></Button></DropdownMenuTrigger>
+                                        <DropdownMenuContent align="end">
+                                            <DropdownMenuItem onClick={() => setCodeToEdit(code)}><Pencil className="mr-2 h-4 w-4" />Modifier</DropdownMenuItem>
+                                            <DropdownMenuItem onClick={() => setCodeToDelete(code)} className="text-destructive"><Trash2 className="mr-2 h-4 w-4" />Supprimer</DropdownMenuItem>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
+                                </CardHeader>
+                                <CardContent className="p-4 pt-0 text-sm text-muted-foreground">
+                                    <p>Utilisation: {code.timesUsed} / {code.usageLimit || '∞'}</p>
+                                    <p>Expire: {code.expiresAt ? format(new Date(code.expiresAt), 'dd/MM/yyyy') : 'Jamais'}</p>
+                                </CardContent>
+                                <CardFooter className="p-4 pt-0">
+                                     <Badge variant={code.isActive ? 'default' : 'secondary'}>{code.isActive ? 'Actif' : 'Inactif'}</Badge>
+                                </CardFooter>
+                            </Card>
+                        ))}
+                    </div>
+
                 </CardContent>
             </Card>
 
@@ -234,3 +269,4 @@ export default function PromoCodesClientPage({ promoCodes }: { promoCodes: IProm
         </>
     );
 }
+
