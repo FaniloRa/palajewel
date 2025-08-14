@@ -176,7 +176,7 @@ const Header = ({ themeVariant = 'default', country, exchangeRate }: HeaderProps
                   )}
                 </button>
               </SheetTrigger>
-              <SheetContent className="w-[400px] sm:w-[540px] p-0">
+              <SheetContent className="w-full max-w-full sm:max-w-md p-0">
                   <Cart />
               </SheetContent>
             </Sheet>
