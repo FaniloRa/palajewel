@@ -1,8 +1,9 @@
+
 'use client';
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Search, ShoppingBag, User, Menu, ChevronDown } from 'lucide-react';
+import { Search, ShoppingBag, User, Menu, ChevronDown, Home, Store, Gem, Calendar, Facebook, Instagram, Twitter } from 'lucide-react';
 import Image from 'next/image';
 import palabiglogo from '@/app/palabiglogo.png';
 import logo2 from '@/app/logo2.png';
@@ -20,12 +21,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Button } from './ui/button';
+import { Separator } from './ui/separator';
 
 const navLinks = [
-  { href: '/', label: 'Accueil' },
-  { href: '/shop', label: 'Shop' },
-  { href: '/#nos-produits-section', label: 'Produits' },
-  { href: '/rendez-vous', label: 'Rendez-vous' },
+  { href: '/', label: 'Accueil', icon: Home },
+  { href: '/shop', label: 'Shop', icon: Store },
+  { href: '/#nos-produits-section', label: 'Produits', icon: Gem },
+  { href: '/rendez-vous', label: 'Rendez-vous', icon: Calendar },
 ];
 
 interface HeaderProps {
@@ -82,8 +84,8 @@ const Header = ({ themeVariant = 'default', country, exchangeRate }: HeaderProps
                         <Menu size={24} />
                     </button>
                 </SheetTrigger>
-                <SheetContent side="left" className="w-[300px] p-6 bg-background text-foreground">
-                    <div className="mb-8">
+                <SheetContent side="left" className="w-[300px] p-0 flex flex-col bg-background text-foreground">
+                    <div className="p-6">
                        <SheetClose asChild>
                             <Link href="/" className="group">
                                 <Image
@@ -96,21 +98,34 @@ const Header = ({ themeVariant = 'default', country, exchangeRate }: HeaderProps
                             </Link>
                         </SheetClose>
                     </div>
-                    <nav className="grid gap-6 text-lg font-medium">
+                    <nav className="flex-grow px-4">
                         {navLinks.map((link) => (
                             <SheetClose asChild key={link.href}>
                                 <Link
                                     href={link.href}
                                     className={cn(
-                                        'flex items-center gap-4 px-2.5 text-foreground/70 hover:text-foreground',
-                                        pathname === link.href && "text-foreground"
+                                        'flex items-center gap-4 rounded-lg px-3 py-3 text-foreground/70 transition-all hover:text-foreground hover:bg-muted',
+                                        pathname === link.href && "bg-muted text-foreground"
                                     )}
                                 >
-                                {link.label}
+                                <link.icon className="h-5 w-5" />
+                                <span className="text-base font-medium">{link.label}</span>
                                 </Link>
                             </SheetClose>
                         ))}
                     </nav>
+                    <div className="mt-auto p-6 border-t border-border">
+                        <div className="flex justify-center space-x-4 mb-4">
+                          <Link href="#" aria-label="Facebook" className="text-muted-foreground hover:text-foreground"><Facebook size={20} /></Link>
+                          <Link href="#" aria-label="Instagram" className="text-muted-foreground hover:text-foreground"><Instagram size={20} /></Link>
+                          <Link href="#" aria-label="Twitter" className="text-muted-foreground hover:text-foreground"><Twitter size={20} /></Link>
+                        </div>
+                        <SheetClose asChild>
+                          <Button asChild variant="default" className="w-full">
+                            <Link href="/rendez-vous">Prendre Rendez-vous</Link>
+                          </Button>
+                        </SheetClose>
+                    </div>
                 </SheetContent>
             </Sheet>
           </div>
