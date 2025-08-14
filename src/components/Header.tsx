@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from 'next/link';
@@ -41,7 +40,7 @@ const Header = ({ themeVariant = 'default', country, exchangeRate }: HeaderProps
   const { currency, isLoading } = useCurrency(); // Get currency state from hook
   
   const isHomePage = pathname === '/';
-  const showMobileLogo = !['/shop', '/rendez-vous'].includes(pathname);
+  const showMobileLogo = !['/shop', '/rendez-vous'].includes(pathname) && !pathname.startsWith('/produits');
   const logoSrc = isHomePage ? palabiglogo : logo2;
   const textClass = themeVariant === 'onLightBg' ? 'text-accent-foreground' : 'text-accent';
   const hoverTextClass = themeVariant === 'onLightBg' ? 'hover:text-accent-foreground/80' : 'hover:text-accent/80';
