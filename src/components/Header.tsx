@@ -41,6 +41,7 @@ const Header = ({ themeVariant = 'default', country, exchangeRate }: HeaderProps
   const { currency, isLoading } = useCurrency(); // Get currency state from hook
   
   const isHomePage = pathname === '/';
+  const showMobileLogo = !['/shop', '/rendez-vous'].includes(pathname);
   const logoSrc = isHomePage ? palabiglogo : logo2;
   const textClass = themeVariant === 'onLightBg' ? 'text-accent-foreground' : 'text-accent';
   const hoverTextClass = themeVariant === 'onLightBg' ? 'hover:text-accent-foreground/80' : 'hover:text-accent/80';
@@ -117,17 +118,19 @@ const Header = ({ themeVariant = 'default', country, exchangeRate }: HeaderProps
         </div>
 
         {/* Center: Logo */}
-        <div className="flex-1 flex justify-center items-center md:hidden">
-            <Link href="/" className="group">
-                <Image
-                src={logo2}
-                alt="Pala Jewelry Logo"
-                width={100}
-                height={50}
-                className="group-hover:opacity-80 transition-opacity"
-                />
-            </Link>
-        </div>
+        {showMobileLogo && (
+            <div className="flex-1 flex justify-center items-center md:hidden">
+                <Link href="/" className="group">
+                    <Image
+                    src={logo2}
+                    alt="Pala Jewelry Logo"
+                    width={100}
+                    height={50}
+                    className="group-hover:opacity-80 transition-opacity"
+                    />
+                </Link>
+            </div>
+        )}
         <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           <Link href="/" className="group">
             <Image
