@@ -1,3 +1,4 @@
+
 'use client'
 
 import Image from 'next/image'
@@ -83,6 +84,10 @@ export default function ProductsPageClient({ products: initialProducts }: Produc
     });
   };
 
+  const getStatusBadgeVariant = (status: string) => status === 'active' ? 'outline' : 'destructive';
+  const getStatusLabel = (status: string) => status === 'active' ? 'Actif' : 'En rupture';
+
+
   return (
     <>
       <Card>
@@ -105,7 +110,8 @@ export default function ProductsPageClient({ products: initialProducts }: Produc
           </div>
         </CardHeader>
         <CardContent>
-          <Table>
+          {/* Desktop Table */}
+          <Table className="hidden md:table">
             <TableHeader>
               <TableRow>
                 <TableHead className="hidden w-[100px] sm:table-cell">
@@ -148,8 +154,8 @@ export default function ProductsPageClient({ products: initialProducts }: Produc
                     </div>
                   </TableCell>
                   <TableCell>
-                    <Badge variant={product.status === 'active' ? 'outline' : 'destructive'}>
-                      {product.status === 'active' ? 'Actif' : 'En rupture'}
+                    <Badge variant={getStatusBadgeVariant(product.status)}>
+                      {getStatusLabel(product.status)}
                     </Badge>
                   </TableCell>
                   <TableCell>{product.price.toFixed(2)} €</TableCell>
@@ -190,6 +196,71 @@ export default function ProductsPageClient({ products: initialProducts }: Produc
               )}
             </TableBody>
           </Table>
+
+          {/* Mobile Card View */}
+           <div className="md:hidden space-y-4">
+            {filteredProducts.length === 0 ? (
+                <div className="text-center text-muted-foreground py-10">
+                    {searchTerm ? `Aucun produit trouvé pour "${searchTerm}".` : "Aucun produit."}
+                </div>
+            ) : (
+                filteredProducts.map((product) => (
+                    <Card key={product.id} className={cn("w-full", product.status === 'draft' && 'opacity-60')}>
+                        <CardHeader className="p-4 flex flex-row items-start gap-4">
+                            <Image
+                                src={product.imageUrl}
+                                alt={product.name}
+                                width={80}
+                                height={80}
+                                className="aspect-square rounded-md object-cover"
+                                data-ai-hint={product.dataAiHint}
+                            />
+                            <div className="flex-grow">
+                                <div className="flex justify-between items-start">
+                                    <div>
+                                        <CardTitle className="text-base leading-tight mb-1">{product.name}</CardTitle>
+                                        <div className="flex items-center gap-2">
+                                          <Badge variant={getStatusBadgeVariant(product.status)} className="text-xs">
+                                              {getStatusLabel(product.status)}
+                                          </Badge>
+                                          {product.featured && <Badge variant="secondary" className="text-xs">En avant</Badge>}
+                                        </div>
+                                    </div>
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <Button aria-haspopup="true" size="icon" variant="ghost" className="h-7 w-7">
+                                                <MoreHorizontal className="h-4 w-4" />
+                                            </Button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent align="end">
+                                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                            <DropdownMenuItem asChild className="cursor-pointer">
+                                              <Link href={`/admin/products/view/${product.id}`}>
+                                                  <Eye className="mr-2 h-4 w-4" /> Voir
+                                              </Link>
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem asChild className="cursor-pointer">
+                                              <Link href={`/admin/products/edit/${product.id}`}>
+                                                  <Pencil className="mr-2 h-4 w-4" /> Modifier
+                                              </Link>
+                                            </DropdownMenuItem>
+                                            <DropdownMenuSeparator />
+                                            <DropdownMenuItem onClick={() => setProductToDelete(product)} className="text-destructive focus:text-destructive focus:bg-destructive/10 cursor-pointer">
+                                                <Trash2 className="mr-2 h-4 w-4" /> Supprimer
+                                            </DropdownMenuItem>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
+                                </div>
+                                <div className="text-sm text-muted-foreground mt-2 flex justify-between">
+                                  <span>Prix: <span className="font-semibold text-foreground">{product.price.toFixed(2)} €</span></span>
+                                  <span>Stock: <span className="font-semibold text-foreground">{product.stock}</span></span>
+                                </div>
+                            </div>
+                        </CardHeader>
+                    </Card>
+                ))
+            )}
+           </div>
         </CardContent>
         <CardFooter>
           <div className="text-xs text-muted-foreground">
