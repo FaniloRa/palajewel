@@ -13,7 +13,7 @@ interface HeroSectionProps {
 
 const HeroSection = ({ country, exchangeRate }: HeroSectionProps) => {
   return (
-    <section className="relative dark w-full h-screen flex flex-col text-accent bg-hero-gradient">
+    <section className="relative w-full h-screen flex flex-col text-accent bg-hero-gradient">
       <Header country={country} exchangeRate={exchangeRate} />
       <div className="flex-grow flex container mx-auto px-4 sm:px-6 lg:px-4 items-center pt-24 md:pt-32 md:gap-8"> {/* Added md:gap-8 */}
         {/* Left Content Area */}

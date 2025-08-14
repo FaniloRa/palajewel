@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import Link from 'next/link';
@@ -147,31 +148,21 @@ const Header = ({ themeVariant = 'default', country, exchangeRate }: HeaderProps
         </div>
 
         {/* Center: Logo */}
-        {showMobileLogo && (
-            <div className="flex-1 flex justify-center items-center md:hidden">
-                <Link href="/" className="group">
-                    <Image
-                    src={logo2}
-                    alt="Pala Jewelry Logo"
-                    width={100}
-                    height={50}
-                    className="group-hover:opacity-80 transition-opacity"
-                    />
-                </Link>
-            </div>
-        )}
-        <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+        {isHomePage && (
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           <Link href="/" className="group">
             <Image
               src={logoSrc}
               alt="Pala Jewelry Logo"
               width={120}
               height={60}
-              className="group-hover:opacity-80 transition-opacity"
+              className="group-hover:opacity-80 transition-opacity hidden md:block"
               priority
             />
           </Link>
         </div>
+      )}
+
 
         {/* Right: Icon Buttons */}
         <div className="flex-1 flex justify-end">
