@@ -13,7 +13,7 @@ import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
 import { Cart } from '@/components/Cart';
 import { cn } from '@/lib/utils';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -40,13 +40,25 @@ const Header = ({ themeVariant = 'default', country, exchangeRate }: HeaderProps
   const pathname = usePathname();
   const { cartCount } = useCart();
   const { currency, isLoading } = useCurrency(); // Get currency state from hook
+  const [isScrolled, setIsScrolled] = useState(false);
   
   const isHomePage = pathname === '/';
   const showMobileLogo = !['/shop', '/rendez-vous'].includes(pathname) && !pathname.startsWith('/produits');
   const logoSrc = isHomePage ? palabiglogo : logo2;
-  const textClass = themeVariant === 'onLightBg' ? 'text-accent-foreground' : 'text-accent';
-  const hoverTextClass = themeVariant === 'onLightBg' ? 'hover:text-accent-foreground/80' : 'hover:text-accent/80';
-  const currencyHoverTextClass = themeVariant === 'onLightBg' ? 'hover:text-accent-foreground/80' : 'hover:text-accent-foreground';
+  const textClass = themeVariant === 'onLightBg' && !isScrolled ? 'text-accent-foreground' : 'text-accent';
+  const hoverTextClass = themeVariant === 'onLightBg' && !isScrolled ? 'hover:text-accent-foreground/80' : 'hover:text-accent/80';
+  const currencyHoverTextClass = themeVariant === 'onLightBg' && !isScrolled ? 'hover:text-accent-foreground/80' : 'hover:text-accent-foreground';
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   // Store server-provided data in session storage for client-side hooks to access
   useEffect(() => {
@@ -66,13 +78,16 @@ const Header = ({ themeVariant = 'default', country, exchangeRate }: HeaderProps
   };
 
   return (
-    <header className="absolute top-0 left-0 right-0 z-20 py-4 md:py-6">
-      <nav className={cn("container mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between font-kanit", textClass)}>
+    <header className={cn(
+      "left-0 right-0 z-20 py-4 md:py-6 transition-all duration-300",
+      isScrolled ? 'fixed top-0 bg-background shadow-md' : 'absolute top-0',
+    )}>
+      <nav className={cn("container mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between font-kanit", isScrolled ? 'text-foreground' : textClass)}>
         {/* Left: Nav Links (Desktop) / Hamburger (Mobile) */}
         <div className="flex-1 flex justify-start">
           <div className="hidden md:flex items-center space-x-5 lg:space-x-7 mt-1">
             {navLinks.map((link) => (
-              <Link key={link.label} href={link.href} className={cn("font-body text-sm transition-colors", hoverTextClass)}>
+              <Link key={link.label} href={link.href} className={cn("font-body text-sm transition-colors", isScrolled ? 'text-foreground hover:text-foreground/80' : hoverTextClass)}>
                   {link.label}
               </Link>
             ))}
@@ -80,7 +95,7 @@ const Header = ({ themeVariant = 'default', country, exchangeRate }: HeaderProps
           <div className="md:hidden">
              <Sheet>
                 <SheetTrigger asChild>
-                    <button aria-label="Open menu" className={cn("focus:outline-none mt-1", hoverTextClass)}>
+                    <button aria-label="Open menu" className={cn("focus:outline-none mt-1", isScrolled ? 'text-foreground hover:text-foreground/80' : hoverTextClass)}>
                         <Menu size={24} />
                     </button>
                 </SheetTrigger>
@@ -161,13 +176,13 @@ const Header = ({ themeVariant = 'default', country, exchangeRate }: HeaderProps
         {/* Right: Icon Buttons */}
         <div className="flex-1 flex justify-end">
           <div className="flex items-center space-x-3 sm:space-x-4 mt-1">
-            <button aria-label="Search" className={cn("transition-colors p-1", hoverTextClass)}>
+            <button aria-label="Search" className={cn("transition-colors p-1", isScrolled ? 'text-foreground hover:text-foreground/80' : hoverTextClass)}>
               <Search size={18} />
             </button>
             
             <Sheet>
               <SheetTrigger asChild>
-                <button aria-label="Shopping Bag" className={cn("transition-colors p-1 relative", hoverTextClass)}>
+                <button aria-label="Shopping Bag" className={cn("transition-colors p-1 relative", isScrolled ? 'text-foreground hover:text-foreground/80' : hoverTextClass)}>
                   <ShoppingBag size={18} />
                   {cartCount > 0 && (
                     <Badge variant="destructive" className="absolute -top-2 -right-2 h-5 w-5 justify-center rounded-full p-0 text-xs">
@@ -181,13 +196,13 @@ const Header = ({ themeVariant = 'default', country, exchangeRate }: HeaderProps
               </SheetContent>
             </Sheet>
 
-            <Link href="/login" aria-label="User Account" className={cn("transition-colors p-1", hoverTextClass)}>
+            <Link href="/login" aria-label="User Account" className={cn("transition-colors p-1", isScrolled ? 'text-foreground hover:text-foreground/80' : hoverTextClass)}>
               <User size={18} />
             </Link>
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                 <Button variant="ghost" className={cn("flex items-center gap-1 p-1 h-auto font-body text-sm", currencyHoverTextClass)}>
+                 <Button variant="ghost" className={cn("flex items-center gap-1 p-1 h-auto font-body text-sm", isScrolled ? 'text-foreground hover:text-foreground/80' : currencyHoverTextClass)}>
                     {isLoading ? '...' : currency.code}
                     <ChevronDown size={16} />
                  </Button>
