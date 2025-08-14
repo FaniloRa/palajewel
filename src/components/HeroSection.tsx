@@ -15,9 +15,9 @@ const HeroSection = ({ country, exchangeRate }: HeroSectionProps) => {
   return (
     <section className="relative w-full h-screen flex flex-col text-accent bg-hero-gradient">
       <Header country={country} exchangeRate={exchangeRate} />
-      <div className="flex-grow flex container mx-auto px-4 sm:px-6 lg:px-6 items-center pt-24 md:pt-32 md:gap-8"> {/* Added md:gap-8 */}
+      <div className="flex-grow flex container mx-auto px-4 sm:px-6 lg:px-6 items-start pt-28 md:pt-36 md:gap-8"> {/* Changed items-center to items-start and adjusted padding */}
         {/* Left Content Area */}
-        <div className="w-full md:w-1/2 lg:w-1/2 xl:w-2/5 flex flex-col justify-center text-left pt-8 pb-10 z-10 animate-fade-in-hero-left">
+        <div className="w-full md:w-1/2 lg:w-1/2 xl:w-2/5 flex flex-col justify-center text-left z-10 animate-fade-in-hero-left">
           <span className="font-snippet font-normal text-sm sm:text-base uppercase tracking-widest text-accent/80 mb-2 sm:mb-3">
             EDITION LIMITEE
           </span>
