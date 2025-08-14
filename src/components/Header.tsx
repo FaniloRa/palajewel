@@ -21,7 +21,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Button } from './ui/button';
-import { ThemeToggle } from '@/components/ThemeToggle';
 
 const navLinks = [
   { href: '/', label: 'Accueil' },
@@ -145,7 +144,6 @@ const Header = ({ themeVariant = 'default', country, exchangeRate }: HeaderProps
         {/* Right: Icon Buttons */}
         <div className="flex-1 flex justify-end">
           <div className="flex items-center space-x-3 sm:space-x-4 mt-1">
-            <ThemeToggle />
             <button aria-label="Search" className={cn("transition-colors p-1", hoverTextClass)}>
               <Search size={18} />
             </button>
@@ -195,5 +193,3 @@ const Header = ({ themeVariant = 'default', country, exchangeRate }: HeaderProps
 };
 
 export default Header;
-
-    
