@@ -31,7 +31,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
 
@@ -157,34 +157,39 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
             </SheetTrigger>
             <SheetContent side="left" className="sm:max-w-xs bg-primary text-primary-foreground">
                <nav className="grid gap-6 text-lg font-medium">
-                <Link
-                  href={addRoleQuery("/")}
-                  className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary-foreground text-lg font-semibold text-primary md:text-base"
-                >
-                  <Gem className="h-5 w-5 transition-all group-hover:scale-110" />
-                  <span className="sr-only">Pala Jewelry</span>
-                </Link>
+                <SheetClose asChild>
+                  <Link
+                    href={addRoleQuery("/")}
+                    className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary-foreground text-lg font-semibold text-primary md:text-base"
+                  >
+                    <Gem className="h-5 w-5 transition-all group-hover:scale-110" />
+                    <span className="sr-only">Pala Jewelry</span>
+                  </Link>
+                </SheetClose>
                 {navLinks.map((link) => (
-                    <Link
-                    key={link.href}
-                    href={addRoleQuery(link.href)}
-                    className={cn(
-                        'flex items-center gap-4 px-2.5 text-primary-foreground/70 hover:text-primary-foreground',
-                        pathname === link.href && "text-primary-foreground"
-                    )}
-                    >
-                    <link.icon className="h-5 w-5" />
-                    {link.label}
-                    </Link>
+                    <SheetClose asChild key={link.href}>
+                      <Link
+                        href={addRoleQuery(link.href)}
+                        className={cn(
+                            'flex items-center gap-4 px-2.5 text-primary-foreground/70 hover:text-primary-foreground',
+                            pathname === link.href && "text-primary-foreground"
+                        )}
+                      >
+                        <link.icon className="h-5 w-5" />
+                        {link.label}
+                      </Link>
+                    </SheetClose>
                 ))}
-                 <Link
-                    href="/login"
-                    onClick={handleLogout}
-                    className="mt-auto flex items-center gap-4 px-2.5 text-primary-foreground/70 hover:text-primary-foreground"
-                 >
-                    <LogOut className="h-5 w-5" />
-                    Déconnexion
-                </Link>
+                <SheetClose asChild>
+                  <Link
+                      href="/login"
+                      onClick={handleLogout}
+                      className="mt-auto flex items-center gap-4 px-2.5 text-primary-foreground/70 hover:text-primary-foreground"
+                  >
+                      <LogOut className="h-5 w-5" />
+                      Déconnexion
+                  </Link>
+                </SheetClose>
               </nav>
             </SheetContent>
           </Sheet>
