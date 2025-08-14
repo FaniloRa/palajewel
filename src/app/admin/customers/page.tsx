@@ -56,11 +56,11 @@ export default async function CustomersPage({ searchParams }: { searchParams?: {
     ];
 
     if (searchTerm) {
-        pipeline.splice(1, 0, { // Insert match stage after the group stage
+        pipeline.unshift({ // Prepend the match stage to filter documents before grouping
              $match: {
                 $or: [
-                    { name: { $regex: searchTerm, $options: 'i' } },
-                    { _id: { $regex: searchTerm, $options: 'i' } }, // _id is the email after grouping
+                    { 'customer.name': { $regex: searchTerm, $options: 'i' } },
+                    { 'customer.email': { $regex: searchTerm, $options: 'i' } },
                 ],
             },
         });
