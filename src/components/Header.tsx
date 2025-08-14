@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import Link from 'next/link';
@@ -11,10 +10,10 @@ import logo2 from '@/app/logo2.png';
 import { useCart } from '@/context/CartContext';
 import { useCurrency } from '@/hooks/useCurrency';
 import { Badge } from '@/components/ui/badge';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
 import { Cart } from '@/components/Cart';
 import { cn } from '@/lib/utils';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,6 +21,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Button } from './ui/button';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 const navLinks = [
   { href: '/', label: 'Accueil' },
@@ -77,14 +77,59 @@ const Header = ({ themeVariant = 'default', country, exchangeRate }: HeaderProps
             ))}
           </div>
           <div className="md:hidden">
-            <button aria-label="Open menu" className={cn("focus:outline-none mt-1", hoverTextClass)}>
-                 <Menu size={24} />
-            </button>
+             <Sheet>
+                <SheetTrigger asChild>
+                    <button aria-label="Open menu" className={cn("focus:outline-none mt-1", hoverTextClass)}>
+                        <Menu size={24} />
+                    </button>
+                </SheetTrigger>
+                <SheetContent side="left" className="w-[300px] p-6 bg-background text-foreground">
+                    <div className="mb-8">
+                       <SheetClose asChild>
+                            <Link href="/" className="group">
+                                <Image
+                                src={logo2}
+                                alt="Pala Jewelry Logo"
+                                width={120}
+                                height={60}
+                                className="group-hover:opacity-80 transition-opacity"
+                                />
+                            </Link>
+                        </SheetClose>
+                    </div>
+                    <nav className="grid gap-6 text-lg font-medium">
+                        {navLinks.map((link) => (
+                            <SheetClose asChild key={link.href}>
+                                <Link
+                                    href={link.href}
+                                    className={cn(
+                                        'flex items-center gap-4 px-2.5 text-foreground/70 hover:text-foreground',
+                                        pathname === link.href && "text-foreground"
+                                    )}
+                                >
+                                {link.label}
+                                </Link>
+                            </SheetClose>
+                        ))}
+                    </nav>
+                </SheetContent>
+            </Sheet>
           </div>
         </div>
 
         {/* Center: Logo */}
-        <div className="flex-shrink-0 mx-auto">
+        <div className="flex-1 flex justify-center items-center md:hidden">
+            <Link href="/" className="group">
+                <Image
+                src={logo2}
+                alt="Pala Jewelry Logo"
+                width={100}
+                height={50}
+                className="group-hover:opacity-80 transition-opacity"
+                />
+            </Link>
+        </div>
+        <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           <Link href="/" className="group">
             <Image
               src={logoSrc}
@@ -100,6 +145,7 @@ const Header = ({ themeVariant = 'default', country, exchangeRate }: HeaderProps
         {/* Right: Icon Buttons */}
         <div className="flex-1 flex justify-end">
           <div className="flex items-center space-x-3 sm:space-x-4 mt-1">
+            <ThemeToggle />
             <button aria-label="Search" className={cn("transition-colors p-1", hoverTextClass)}>
               <Search size={18} />
             </button>
@@ -149,3 +195,5 @@ const Header = ({ themeVariant = 'default', country, exchangeRate }: HeaderProps
 };
 
 export default Header;
+
+    
