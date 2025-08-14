@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 import type { IAppointment } from "@/types";
 import './calendar.css';
@@ -31,6 +32,7 @@ interface AppointmentsCalendarViewProps {
 export default function AppointmentsCalendarView({ appointments }: AppointmentsCalendarViewProps) {
     const [selectedAppointment, setSelectedAppointment] = useState<IAppointment | null>(null);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const isMobile = useIsMobile();
     
     const events: EventInput[] = appointments.map(app => ({
         id: app.id,
@@ -62,8 +64,12 @@ export default function AppointmentsCalendarView({ appointments }: AppointmentsC
             <div className="calendar-container">
                 <FullCalendar
                     plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
-                    initialView="timeGridWeek"
-                    headerToolbar={{
+                    initialView={isMobile ? 'listWeek' : 'timeGridWeek'}
+                    headerToolbar={isMobile ? {
+                        left: 'prev,next',
+                        center: 'title',
+                        right: 'listWeek,timeGridDay'
+                    } : {
                         left: 'prev,next today',
                         center: 'title',
                         right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
