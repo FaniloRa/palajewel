@@ -11,14 +11,8 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  CardFooter
 } from "@/components/ui/card"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import {
   Table,
   TableBody,
@@ -29,11 +23,30 @@ import {
 } from "@/components/ui/table"
 import connectDB from "@/lib/mongoose"
 import Order, { type IOrder } from "@/models/Order"
+import { Separator } from "@/components/ui/separator"
 
 
 export default async function OrdersPage() {
     await connectDB();
     const orders: IOrder[] = JSON.parse(JSON.stringify(await Order.find({}).sort({ createdAt: -1 })));
+    
+    const getStatusBadgeVariant = (status: string) => {
+        switch (status) {
+            case 'Fulfilled': return 'default';
+            case 'Pending': return 'secondary';
+            case 'Declined': return 'destructive';
+            default: return 'outline';
+        }
+    }
+     const getStatusLabel = (status: string) => {
+        switch (status) {
+            case 'Fulfilled': return 'Livré';
+            case 'Pending': return 'En attente';
+            case 'Declined': return 'Refusé';
+            default: return status;
+        }
+    }
+
 
     return (
         <Card>
@@ -54,7 +67,8 @@ export default async function OrdersPage() {
                 </Button>
             </CardHeader>
             <CardContent>
-                <Table>
+                {/* Desktop Table View */}
+                <Table className="hidden md:table">
                     <TableHeader>
                         <TableRow>
                             <TableHead>Client</TableHead>
@@ -83,35 +97,60 @@ export default async function OrdersPage() {
                             </TableCell>
                             <TableCell className="hidden sm:table-cell">Vente</TableCell>
                             <TableCell className="hidden sm:table-cell">
-                                <Badge className="text-xs" variant={order.status === 'Fulfilled' ? 'default' : order.status === 'Pending' ? 'secondary' : 'destructive'}>
-                                    {order.status === 'Fulfilled' ? 'Livré' : order.status === 'Pending' ? 'En attente' : 'Refusé'}
+                                <Badge className="text-xs" variant={getStatusBadgeVariant(order.status)}>
+                                    {getStatusLabel(order.status)}
                                 </Badge>
                             </TableCell>
-                            <TableCell className="hidden md:table-cell">{format(new Date(order.createdAt), 'yyyy-MM-dd')}</TableCell>
+                            <TableCell className="hidden md:table-cell">{format(new Date(order.createdAt), 'dd/MM/yyyy')}</TableCell>
                             <TableCell className="text-right">{order.summary.total.toFixed(2)} €</TableCell>
                              <TableCell>
-                                <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <Button aria-haspopup="true" size="icon" variant="ghost">
-                                    <MoreHorizontal className="h-4 w-4" />
-                                    <span className="sr-only">Toggle menu</span>
-                                    </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end">
-                                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                    <DropdownMenuItem asChild>
-                                      <Link href={`/admin/orders/${order.id}`} className="cursor-pointer">
-                                          <Eye className="mr-2 h-4 w-4" />
-                                          Voir la commande
-                                      </Link>
-                                    </DropdownMenuItem>
-                                </DropdownMenuContent>
-                                </DropdownMenu>
+                                <Button asChild variant="outline" size="sm">
+                                    <Link href={`/admin/orders/${order.id}`}>
+                                        <Eye className="h-4 w-4 mr-2" />
+                                        Voir
+                                    </Link>
+                                </Button>
                             </TableCell>
                         </TableRow>
                         ))}
                     </TableBody>
                 </Table>
+
+                {/* Mobile Card View */}
+                <div className="md:hidden space-y-4">
+                     {orders.length === 0 && (
+                        <div className="text-center text-muted-foreground py-10">Aucune commande trouvée.</div>
+                     )}
+                     {orders.map(order => (
+                        <Card key={order.id} className="w-full">
+                           <CardHeader className="p-4">
+                                <div className="flex justify-between items-start">
+                                    <div>
+                                        <CardTitle className="text-base">{order.customer.name}</CardTitle>
+                                        <CardDescription>{order.customer.email}</CardDescription>
+                                    </div>
+                                    <Badge variant={getStatusBadgeVariant(order.status)} className="capitalize">
+                                        {getStatusLabel(order.status)}
+                                    </Badge>
+                                </div>
+                            </CardHeader>
+                            <CardContent className="p-4 pt-0 text-sm">
+                               <div className="flex justify-between items-center text-muted-foreground">
+                                    <span>Date: {format(new Date(order.createdAt), 'dd/MM/yy')}</span>
+                                    <span className="font-bold text-lg text-foreground">{order.summary.total.toFixed(2)} €</span>
+                               </div>
+                            </CardContent>
+                            <Separator />
+                            <CardFooter className="p-4">
+                                <Button asChild className="w-full">
+                                    <Link href={`/admin/orders/${order.id}`}>
+                                        Voir les détails
+                                    </Link>
+                                </Button>
+                            </CardFooter>
+                        </Card>
+                     ))}
+                </div>
             </CardContent>
         </Card>
     )
