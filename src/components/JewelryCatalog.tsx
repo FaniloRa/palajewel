@@ -91,7 +91,7 @@ const JewelryCatalog: React.FC<JewelryCatalogProps> = ({ jewelries }) => {
     <section className="w-full">
         {/* Products Grid */}
         {currentJewelries.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10">
             {currentJewelries.map(item => (
               <JewelryCard key={item.id} item={item} />
             ))}
