@@ -113,7 +113,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
       <aside className="fixed inset-y-0 left-0 z-10 hidden w-60 flex-col border-r bg-primary text-primary-foreground sm:flex">
         <div className="flex h-full max-h-screen flex-col gap-2">
-            <div className="flex h-14 items-center border-b border-primary-foreground/20 px-4 lg:h-[60px] lg:px-6">
+            <div className="flex h-14 items-center justify-center border-b border-primary-foreground/20 px-4 lg:h-[60px] lg:px-6">
                  <Link href={addRoleQuery("/")} className="flex items-center gap-2 font-semibold text-primary-foreground">
                     <Image src={palabiglogo} alt="Pala Jewelry logo" width={100} height={50} />
                  </Link>
@@ -161,7 +161,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                 <SheetClose asChild>
                   <Link
                     href={addRoleQuery("/")}
-                    className="group flex h-10 shrink-0 items-center justify-start gap-2 text-lg font-semibold text-primary-foreground md:text-base"
+                    className="group flex h-10 shrink-0 items-center justify-center gap-2 text-lg font-semibold text-primary-foreground md:text-base"
                   >
                     <Image src={palabiglogo} alt="Pala Jewelry logo" width={120} height={60} />
                   </Link>
@@ -240,5 +240,3 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     </div>
   );
 }
-
-    
