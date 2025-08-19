@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { Progress } from '@/components/ui/progress';
-import logo2 from '@/app/logo2.png';
+import palabiglogo from '@/app/palabiglogo.png';
 
 export default function LoadingTransitionPage() {
   const router = useRouter();
@@ -43,7 +43,7 @@ export default function LoadingTransitionPage() {
       <div className="flex flex-col items-center gap-6">
         <div className="flex flex-col items-center text-primary-foreground">
             <Image
-              src={logo2}
+              src={palabiglogo}
               alt="Pala Jewelry Logo"
               width={180}
               height={90}
