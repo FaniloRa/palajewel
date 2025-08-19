@@ -4,6 +4,8 @@
 import { type ReactNode, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useSearchParams, useRouter } from 'next/navigation';
+import Image from 'next/image';
+import palabiglogo from '@/app/palabiglogo.png';
 import {
   Home,
   ShoppingCart,
@@ -113,8 +115,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
         <div className="flex h-full max-h-screen flex-col gap-2">
             <div className="flex h-14 items-center border-b border-primary-foreground/20 px-4 lg:h-[60px] lg:px-6">
                  <Link href={addRoleQuery("/")} className="flex items-center gap-2 font-semibold text-primary-foreground">
-                    <Gem className="h-6 w-6" />
-                    <span className="">Pala Jewelry</span>
+                    <Image src={palabiglogo} alt="Pala Jewelry logo" width={100} height={50} />
                  </Link>
             </div>
             <div className="flex-1">
@@ -160,10 +161,9 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                 <SheetClose asChild>
                   <Link
                     href={addRoleQuery("/")}
-                    className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary-foreground text-lg font-semibold text-primary md:text-base"
+                    className="group flex h-10 shrink-0 items-center justify-start gap-2 text-lg font-semibold text-primary-foreground md:text-base"
                   >
-                    <Gem className="h-5 w-5 transition-all group-hover:scale-110" />
-                    <span className="sr-only">Pala Jewelry</span>
+                    <Image src={palabiglogo} alt="Pala Jewelry logo" width={120} height={60} />
                   </Link>
                 </SheetClose>
                 {navLinks.map((link) => (
@@ -240,3 +240,5 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     </div>
   );
 }
+
+    
