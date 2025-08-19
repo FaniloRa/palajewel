@@ -1,9 +1,12 @@
+
 'use client';
 
 import { useEffect } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
 import Link from 'next/link';
-import { Gem, Loader2 } from 'lucide-react';
+import Image from 'next/image';
+import { Loader2 } from 'lucide-react';
+import logo2 from '@/app/logo2.png';
 
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -49,11 +52,14 @@ export default function LoginPage() {
       <main className="flex-grow flex items-center justify-center container mx-auto px-4 py-24 md:py-32">
         <Card className="w-full max-w-md shadow-xl bg-accent text-accent-foreground">
           <CardHeader className="text-center">
-             <Link href="/" className="flex flex-col items-center group mb-4">
-                <Gem size={28} className="mb-1 text-primary group-hover:text-primary/80 transition-colors" />
-                <span className="font-headline text-3xl tracking-wider text-primary uppercase group-hover:text-primary/80 transition-colors">
-                  Pala
-                </span>
+             <Link href="/" className="flex justify-center group mb-4">
+                <Image
+                  src={logo2}
+                  alt="Pala Jewelry Logo"
+                  width={120}
+                  height={60}
+                  className="group-hover:opacity-80 transition-opacity"
+                />
               </Link>
             <CardTitle className="text-2xl font-headline text-primary">Back Office</CardTitle>
             <CardDescription className="text-muted-foreground pt-1">Connectez-vous à votre espace administrateur</CardDescription>
