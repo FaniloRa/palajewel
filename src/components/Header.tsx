@@ -187,10 +187,9 @@ const Header = ({ themeVariant = 'default', country, exchangeRate }: HeaderProps
               </SheetContent>
             </Sheet>
 
-            <Link href="/login" aria-label="User Account" className={cn("transition-colors p-1", isScrolled ? 'text-foreground hover:text-foreground/80' : hoverTextClass)}>
+           {/* <Link href="/login" aria-label="User Account" className={cn("transition-colors p-1", isScrolled ? 'text-foreground hover:text-foreground/80' : hoverTextClass)}>
               <User size={18} />
-            </Link>
-
+            </Link> */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                  <Button variant="ghost" className={cn("flex items-center gap-1 p-1 h-auto font-body text-sm", isScrolled ? 'text-foreground hover:text-foreground/80' : currencyHoverTextClass)}>

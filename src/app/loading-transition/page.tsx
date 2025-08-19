@@ -3,8 +3,9 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Gem } from 'lucide-react';
+import Image from 'next/image';
 import { Progress } from '@/components/ui/progress';
+import logo2 from '@/app/logo2.png';
 
 export default function LoadingTransitionPage() {
   const router = useRouter();
@@ -41,8 +42,14 @@ export default function LoadingTransitionPage() {
     <div className="flex flex-col items-center justify-center min-h-screen bg-primary">
       <div className="flex flex-col items-center gap-6">
         <div className="flex flex-col items-center text-primary-foreground">
-            <Gem className="h-10 w-10 animate-pulse" />
-            <span className="text-4xl font-headline tracking-wider uppercase mt-2">Pala</span>
+            <Image
+              src={logo2}
+              alt="Pala Jewelry Logo"
+              width={180}
+              height={90}
+              className="animate-pulse"
+              priority
+            />
         </div>
         <div className="w-64">
             <Progress 
