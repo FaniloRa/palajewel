@@ -7,6 +7,9 @@ import { CartProvider } from '@/context/CartContext';
 export const metadata: Metadata = {
   title: 'Pala Jewelry',
   description: 'Exquisite jewelry for every occasion.',
+  icons: {
+    icon: '/faviconpala.png',
+  },
 };
 
 export default function RootLayout({
@@ -17,7 +20,6 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="icon" href="/faviconpala.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=PT+Sans:wght@400;700&family=Snippet&family=Seoul+Hangang:wght@400;700&family=Kantumruy+Pro:wght@400;700&family=Nunito+Sans:wght@400;700&family=Kanit:wght@400;700&display=swap" rel="stylesheet" />
