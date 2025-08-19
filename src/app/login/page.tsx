@@ -56,8 +56,8 @@ export default function LoginPage() {
                 <Image
                   src={logo2}
                   alt="Pala Jewelry Logo"
-                  width={120}
-                  height={60}
+                  width={180}
+                  height={90}
                   className="group-hover:opacity-80 transition-opacity"
                 />
               </Link>
