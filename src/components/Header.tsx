@@ -4,7 +4,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Search, ShoppingBag, User, Menu, ChevronDown, Home, Store, Gem, Calendar, Facebook, Instagram, Twitter } from 'lucide-react';
+import { Search, ShoppingBag, User, Menu, ChevronDown, Home, Store, Gem, Calendar, Facebook, Instagram, Twitter, Info } from 'lucide-react';
 import Image from 'next/image';
 import palabiglogo from '@/app/palabiglogo.png';
 import logo2 from '@/app/logo2.png';
@@ -27,7 +27,7 @@ import { Separator } from './ui/separator';
 const navLinks = [
   { href: '/', label: 'Accueil', icon: Home },
   { href: '/shop', label: 'Shop', icon: Store },
-  { href: '/#nos-produits-section', label: 'Produits', icon: Gem },
+  { href: '/about', label: 'À Propos', icon: Info },
   { href: '/rendez-vous', label: 'Rendez-vous', icon: Calendar },
 ];
 
