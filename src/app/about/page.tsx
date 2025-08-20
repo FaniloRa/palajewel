@@ -3,7 +3,6 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Image from 'next/image';
 import { Gem, Target, Users, History } from 'lucide-react';
-import ValuesSection from '@/components/ValuesSection';
 import StorefrontSection from '@/components/StorefrontSection';
 import CraftsmanshipSection from '@/components/CraftsmanshipSection';
 
@@ -49,8 +48,6 @@ export default function AboutPage() {
 
         <CraftsmanshipSection />
         
-        <ValuesSection />
-
         <StorefrontSection />
 
       </div>
