@@ -39,7 +39,7 @@ export default function AboutPage() {
                     src={woreImage} 
                     alt="Atelier de joaillerie Pala" 
                     fill
-                    style={{objectFit: 'cover'}}
+                    style={{objectFit: 'contain'}}
                     placeholder="blur"
                     data-ai-hint="jewelry workshop"
                 />
