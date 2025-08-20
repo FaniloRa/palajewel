@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: 'Pala Jewelry',
   description: 'Exquisite jewelry for every occasion.',
   icons: {
-    icon: '/favicon-diamond.svg',
+    icon: '/favicon-diamond.svg?v=2',
   },
 };
 
