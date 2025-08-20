@@ -34,7 +34,7 @@ export default function AboutPage() {
                 </p>
               </div>
             </div>
-            <div className="relative h-80 rounded-lg overflow-hidden shadow-xl">
+            <div className="relative h-80">
                  <Image 
                     src={woreImage} 
                     alt="Atelier de joaillerie Pala" 
