@@ -4,6 +4,7 @@ import Footer from '@/components/Footer';
 import Image from 'next/image';
 import { Gem, Target, Users, History } from 'lucide-react';
 import StorefrontSection from '@/components/StorefrontSection';
+import woreImage from '@/app/wore.png';
 
 export default function AboutPage() {
   return (
@@ -35,10 +36,11 @@ export default function AboutPage() {
             </div>
             <div className="relative h-80 rounded-lg overflow-hidden shadow-xl">
                  <Image 
-                    src="https://placehold.co/600x400.png" 
+                    src={woreImage} 
                     alt="Atelier de joaillerie Pala" 
                     fill
                     style={{objectFit: 'cover'}}
+                    placeholder="blur"
                     data-ai-hint="jewelry workshop"
                 />
             </div>
