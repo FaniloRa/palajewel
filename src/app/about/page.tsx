@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Gem, Target, Users, History } from 'lucide-react';
 import StorefrontSection from '@/components/StorefrontSection';
 import woreImage from '@/app/wore.png';
+import NewsletterSection from '@/components/NewsletterSection';
 
 export default function AboutPage() {
   return (
@@ -48,6 +49,7 @@ export default function AboutPage() {
         </div>
 
         <StorefrontSection />
+        <NewsletterSection />
 
       </div>
 
