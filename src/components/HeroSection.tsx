@@ -82,7 +82,7 @@ const HeroSection = ({ country, exchangeRate }: HeroSectionProps) => {
                 style={{ objectFit: 'contain' }}
                 quality={90}
                 className={cn(
-                  'drop-shadow-2xl animate-subtle-float transition-opacity duration-1000 ease-in-out',
+                  'drop-shadow-2xl animate-subtle-float transition-opacity duration-2000 ease-in-out',
                   index === currentIndex ? 'opacity-100' : 'opacity-0'
                 )}
                 priority={index === 0} // Prioritize loading the first image
