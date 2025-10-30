@@ -1,22 +1,66 @@
-
 'use client';
 
+import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/Header';
 import { ArrowRight } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import hero1 from '@/app/hero1.jpeg';
+import hero2 from '@/app/hero2.jpeg';
+import hero3 from '@/app/hero3.jpeg';
+
 
 interface HeroSectionProps {
     country?: string | null;
     exchangeRate?: number | null;
 }
 
+const slides = [
+  { src: hero1, alt: 'Bijoux Pala sur un modèle' },
+  { src: hero2, alt: 'Collection de bijoux Pala' },
+  { src: hero3, alt: 'Détail d\'un bijou Pala' },
+];
+
 const HeroSection = ({ country, exchangeRate }: HeroSectionProps) => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 5000); // Change image every 5 seconds
+
+    return () => clearInterval(timer);
+  }, []);
+
   return (
-    <section className="relative w-full h-screen flex flex-col text-accent bg-hero-gradient">
+    <section className="relative w-full h-screen flex flex-col text-accent">
+       {/* Background Image Carousel */}
+      <div className="absolute inset-0 z-0">
+        {slides.map((slide, index) => (
+          <Image
+            key={index}
+            src={slide.src}
+            alt={slide.alt}
+            fill
+            style={{ objectFit: 'cover' }}
+            priority={index === 0}
+            className={cn(
+              'transition-opacity duration-1000 ease-in-out',
+              currentSlide === index ? 'opacity-100' : 'opacity-0'
+            )}
+            placeholder="blur"
+          />
+        ))}
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-hero-gradient opacity-90" />
+      </div>
+
       <Header country={country} exchangeRate={exchangeRate} />
-      <div className="flex-grow flex container mx-auto px-4 sm:px-6 lg:px-6 items-start pt-28 md:pt-36 md:gap-8">
+      
+      <div className="relative z-10 flex-grow flex container mx-auto px-4 sm:px-6 lg:px-6 items-start pt-28 md:pt-36 md:gap-8">
         {/* Content Area */}
-        <div className="w-full md:w-1/2 lg:w-1/2 xl:w-2/5 flex flex-col justify-center text-left z-10 animate-fade-in-hero-left">
+        <div className="w-full flex flex-col justify-center text-left animate-fade-in-hero-left">
           <span className="font-snippet font-normal text-sm sm:text-base uppercase tracking-widest text-accent/80 mb-2 sm:mb-3">
             EDITION LIMITEE
           </span>
