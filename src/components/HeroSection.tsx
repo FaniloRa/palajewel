@@ -53,7 +53,7 @@ const HeroSection = ({ country, exchangeRate }: HeroSectionProps) => {
           />
         ))}
         {/* Overlay */}
-        <div className="absolute inset-0 bg-hero-gradient opacity-70" />
+        <div className="absolute inset-0 bg-hero-gradient opacity-40" />
       </div>
 
       <Header country={country} exchangeRate={exchangeRate} />
