@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -9,6 +10,8 @@ import { cn } from '@/lib/utils';
 import hero1 from '@/app/hero1.jpeg';
 import hero2 from '@/app/hero2.jpeg';
 import hero3 from '@/app/hero3.jpeg';
+import heromobile from '@/app/heromobile.jpeg';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 
 interface HeroSectionProps {
@@ -16,7 +19,7 @@ interface HeroSectionProps {
     exchangeRate?: number | null;
 }
 
-const slides = [
+const desktopSlides = [
   { src: hero1, alt: 'Bijoux Pala sur un modèle' },
   { src: hero2, alt: 'Collection de bijoux Pala' },
   { src: hero3, alt: 'Détail d\'un bijou Pala' },
@@ -24,10 +27,11 @@ const slides = [
 
 const HeroSection = ({ country, exchangeRate }: HeroSectionProps) => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
+      setCurrentSlide((prev) => (prev + 1) % desktopSlides.length);
     }, 5000); // Change image every 5 seconds
 
     return () => clearInterval(timer);
@@ -35,23 +39,33 @@ const HeroSection = ({ country, exchangeRate }: HeroSectionProps) => {
 
   return (
     <section className="relative w-full h-screen flex flex-col text-accent">
-       {/* Background Image Carousel */}
+       {/* Background Image Carousel / Static Image */}
       <div className="absolute inset-0 z-0">
-        {slides.map((slide, index) => (
+        {isMobile ? (
           <Image
-            key={index}
-            src={slide.src}
-            alt={slide.alt}
+            src={heromobile}
+            alt="Bijoux Pala sur un modèle"
             fill
             style={{ objectFit: 'cover' }}
-            priority={index === 0}
-            className={cn(
-              'transition-opacity duration-1000 ease-in-out',
-              currentSlide === index ? 'opacity-100' : 'opacity-0'
-            )}
-            placeholder="blur"
+            priority
           />
-        ))}
+        ) : (
+          desktopSlides.map((slide, index) => (
+            <Image
+              key={index}
+              src={slide.src}
+              alt={slide.alt}
+              fill
+              style={{ objectFit: 'cover' }}
+              priority={index === 0}
+              className={cn(
+                'transition-opacity duration-1000 ease-in-out',
+                currentSlide === index ? 'opacity-100' : 'opacity-0'
+              )}
+              placeholder="blur"
+            />
+          ))
+        )}
         {/* Overlay */}
         <div className="absolute inset-0 bg-primary opacity-40" />
       </div>
