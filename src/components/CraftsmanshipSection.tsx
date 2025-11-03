@@ -3,7 +3,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import boucleImage from '@/app/boucle2.png';
+import hero1 from '@/app/hero1.jpeg';
 import woreImage from '@/app/backgroundart.png';
 import { cn } from '@/lib/utils';
 
@@ -67,7 +67,7 @@ const CraftsmanshipSection = () => {
           <div className="md:w-1/2 flex justify-center items-center group">
             <div className="relative w-full max-w-sm h-80 rounded-lg overflow-hidden shadow-2xl">
               <Image
-                src={boucleImage}
+                src={hero1}
                 alt="Boucles d'oreilles fabriquées avec soin"
                 fill
                 style={{ objectFit: 'cover' }}
