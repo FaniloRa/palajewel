@@ -3,7 +3,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import hero1 from '@/app/hero1.jpeg';
+import hero from '@/app/hero.png';
 import woreImage from '@/app/backgroundart.png';
 import { cn } from '@/lib/utils';
 
@@ -64,19 +64,21 @@ const CraftsmanshipSection = () => {
           isVisible ? visibleClasses : hiddenClasses
         )}>
           {/* Left: Image */}
-          <div className="md:w-1/2 flex justify-center items-center group">
-            <div className="relative w-full max-w-sm h-80 rounded-lg overflow-hidden shadow-2xl">
+          <div className="w-full flex justify-center items-center group">
+            <div className="relative w-full max-w-md h-96 md:max-w-lg md:h-[28rem]">
               <Image
-                src={hero1}
+                src={hero}
                 alt="Boucles d'oreilles fabriquées avec soin"
                 fill
-                style={{ objectFit: 'cover' }}
+                style={{ objectFit: 'contain' }}
                 data-ai-hint="earrings jewelry craft"
                 className="transition-transform duration-700 group-hover:scale-105"
                 placeholder="blur"
               />
             </div>
           </div>
+
+
           {/* Right: Text Content */}
           <div className="md:w-1/2">
             <h2 className="font-headline text-2xl sm:text-3xl text-primary uppercase mb-2">

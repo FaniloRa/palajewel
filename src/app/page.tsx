@@ -43,7 +43,7 @@ export default async function Home() {
 
 
   return (
-    <main className="flex flex-col items-center min-h-screen">
+    <main className="flex flex-col items-center min-h-screen max-w-screen-2xl mx-auto">
       <HeroSection country={country} exchangeRate={exchangeRate} />
       <QualitySection />
       <StyleComposerSection />
