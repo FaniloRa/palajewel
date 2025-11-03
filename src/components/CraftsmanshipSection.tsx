@@ -4,7 +4,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import boucleImage from '@/app/boucle2.png';
-import woreImage from '@/app/wore.png'; // Import the new background image
+import woreImage from '@/app/backgroundart.png'; // Import the new background image
 import { cn } from '@/lib/utils';
 
 const CraftsmanshipSection = () => {
@@ -55,7 +55,6 @@ const CraftsmanshipSection = () => {
                 className="transition-transform duration-700 group-hover:scale-105"
                 placeholder="blur"
             />
-            <div className="absolute inset-0 bg-primary/80 backdrop-blur-sm" />
         </div>
 
 
