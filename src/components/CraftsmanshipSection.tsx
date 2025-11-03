@@ -1,9 +1,10 @@
+
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import boucleImage from '@/app/boucle2.png';
-import woreImage from '@/app/backgroundart.png'; // Import the new background image
+import woreImage from '@/app/backgroundart.png';
 import { cn } from '@/lib/utils';
 
 const CraftsmanshipSection = () => {
@@ -44,24 +45,39 @@ const CraftsmanshipSection = () => {
       ref={sectionRef}
       className="relative w-full py-12 md:py-16 lg:py-20 text-foreground overflow-hidden"
     >
-        {/* Background Image */}
+        {/* Background Image Container - Spans full width */}
         <div className="absolute inset-0 z-0">
             <Image
                 src={woreImage}
                 alt="Artisanat de bijoux"
                 fill
-                style={{ objectFit: 'contain' }}
+                style={{ objectFit: 'cover' }}
                 className="transition-transform duration-700 group-hover:scale-105"
                 placeholder="blur"
             />
+             <div className="absolute inset-0 bg-white/50" />
         </div>
 
-
+      {/* Content Container - Centered */}
       <div className={cn(
-          "relative z-10 w-full px-4 sm:px-6 lg:px-8 mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-16",
+          "relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center gap-10 md:gap-16",
           animationClasses,
           isVisible ? visibleClasses : hiddenClasses
         )}>
+          {/* Left: Image */}
+          <div className="md:w-1/2 flex justify-center items-center group">
+            <div className="relative w-full max-w-sm h-80 rounded-lg overflow-hidden shadow-2xl">
+              <Image
+                src={boucleImage}
+                alt="Boucles d'oreilles fabriquées avec soin"
+                fill
+                style={{ objectFit: 'cover' }}
+                data-ai-hint="earrings jewelry craft"
+                className="transition-transform duration-700 group-hover:scale-105"
+                placeholder="blur"
+              />
+            </div>
+          </div>
           {/* Right: Text Content */}
           <div className="md:w-1/2">
             <h2 className="font-headline text-2xl sm:text-3xl text-primary uppercase mb-2">
@@ -85,20 +101,6 @@ const CraftsmanshipSection = () => {
               <p className="font-body text-sm text-foreground/80 leading-relaxed">
                 Nos artisans joailliers, maîtres dans leur domaine, allient techniques ancestrales et précision moderne. Chaque détail est pensé, chaque courbe polie à la main pour donner naissance à une pièce véritablement unique.
               </p>
-            </div>
-          </div>
-          {/* Left: Image */}
-          <div className="md:w-1/2 flex justify-center items-center group">
-            <div className="relative w-full max-w-sm h-80 rounded-lg overflow-hidden shadow-2xl">
-              <Image
-                src={boucleImage}
-                alt="Boucles d'oreilles fabriquées avec soin"
-                fill
-                style={{ objectFit: 'cover' }}
-                data-ai-hint="earrings jewelry craft"
-                className="transition-transform duration-700 group-hover:scale-105"
-                placeholder="blur"
-              />
             </div>
           </div>
         </div>
