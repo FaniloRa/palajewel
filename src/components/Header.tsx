@@ -48,16 +48,19 @@ const Header = ({ themeVariant = 'default', country, exchangeRate }: HeaderProps
   const logoWidth = isScrolled || !isHomePage ? 100 : 120;
   const logoHeight = isScrolled || !isHomePage ? 50 : 60;
 
-  const textClass = themeVariant === 'onLightBg' && !isScrolled ? 'text-accent' : 'text-foreground';
-  const hoverTextClass = themeVariant === 'onLightBg' && !isScrolled ? 'hover:text-accent/80' : 'hover:text-foreground/80';
-  const currencyHoverTextClass = themeVariant === 'onLightBg' && !isScrolled ? 'hover:text-accent/80' : 'hover:text-foreground';
+  const initialColorClass = isHomePage ? 'text-accent' : 'text-foreground';
+  const scrolledColorClass = 'text-foreground';
 
+  const textClass = !isScrolled ? initialColorClass : scrolledColorClass;
+  const hoverTextClass = !isScrolled ? 'hover:text-accent/80' : 'hover:text-foreground/80';
+  
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 0);
     };
 
     window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Set initial state
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
@@ -227,7 +230,7 @@ const Header = ({ themeVariant = 'default', country, exchangeRate }: HeaderProps
                   variant="ghost"
                   className={cn(
                     "flex items-center gap-1 p-1 h-auto font-body text-sm",
-                    isScrolled ? 'text-foreground hover:text-foreground/80' : currencyHoverTextClass
+                    isScrolled ? 'text-foreground hover:text-foreground/80' : hoverTextClass
                   )}
                 >
                   {isLoading ? '...' : currency.code}
