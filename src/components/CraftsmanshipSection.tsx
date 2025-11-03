@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
@@ -59,25 +58,10 @@ const CraftsmanshipSection = () => {
 
 
       <div className={cn(
-          "relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center gap-10 md:gap-16",
+          "relative z-10 w-full px-4 sm:px-6 lg:px-8 mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-16",
           animationClasses,
           isVisible ? visibleClasses : hiddenClasses
         )}>
-          {/* Left: Image */}
-          <div className="md:w-1/2 flex justify-center items-center group">
-            <div className="relative w-full max-w-sm h-80 rounded-lg overflow-hidden shadow-2xl">
-              <Image
-                src={boucleImage}
-                alt="Boucles d'oreilles fabriquées avec soin"
-                fill
-                style={{ objectFit: 'cover' }}
-                data-ai-hint="earrings jewelry craft"
-                className="transition-transform duration-700 group-hover:scale-105"
-                placeholder="blur"
-              />
-            </div>
-          </div>
-          
           {/* Right: Text Content */}
           <div className="md:w-1/2">
             <h2 className="font-headline text-2xl sm:text-3xl text-primary uppercase mb-2">
@@ -101,6 +85,20 @@ const CraftsmanshipSection = () => {
               <p className="font-body text-sm text-foreground/80 leading-relaxed">
                 Nos artisans joailliers, maîtres dans leur domaine, allient techniques ancestrales et précision moderne. Chaque détail est pensé, chaque courbe polie à la main pour donner naissance à une pièce véritablement unique.
               </p>
+            </div>
+          </div>
+          {/* Left: Image */}
+          <div className="md:w-1/2 flex justify-center items-center group">
+            <div className="relative w-full max-w-sm h-80 rounded-lg overflow-hidden shadow-2xl">
+              <Image
+                src={boucleImage}
+                alt="Boucles d'oreilles fabriquées avec soin"
+                fill
+                style={{ objectFit: 'cover' }}
+                data-ai-hint="earrings jewelry craft"
+                className="transition-transform duration-700 group-hover:scale-105"
+                placeholder="blur"
+              />
             </div>
           </div>
         </div>
