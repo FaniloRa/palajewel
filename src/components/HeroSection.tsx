@@ -47,9 +47,9 @@ const HeroSection = ({ country, exchangeRate }: HeroSectionProps) => {
             src={heromobile}
             alt="Bijoux Pala sur un modèle"
             fill
-            style={{ objectFit: 'cover', objectPosition: 'center 70%' }}
+            style={{ objectFit: 'cover', objectPosition: 'center 50%' }}
             priority
-          />
+          />                
         ) : (
           desktopSlides.map((slide, index) => (
             <Image
