@@ -47,7 +47,7 @@ const HeroSection = ({ country, exchangeRate }: HeroSectionProps) => {
             src={heromobile}
             alt="Bijoux Pala sur un modèle"
             fill
-            style={{ objectFit: 'cover' }}
+            style={{ objectFit: 'cover', objectPosition: 'center 70%' }}
             priority
           />
         ) : (
@@ -73,7 +73,7 @@ const HeroSection = ({ country, exchangeRate }: HeroSectionProps) => {
 
       <Header country={country} exchangeRate={exchangeRate} />
       
-      <div className="relative z-10 flex-grow flex container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 items-center pt-28 md:pt-36">
+      <div className="relative z-10 flex-grow flex container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 items-center">
         {/* Content Area */}
         <div className="w-full max-w-lg lg:max-w-xl xl:max-w-2xl flex flex-col justify-center text-left animate-fade-in-hero-left md:pl-4 lg:pl-8 xl:pl-16">
           <span className="font-snippet font-normal text-sm sm:text-base uppercase tracking-widest text-accent/80 mb-2 sm:mb-3">
