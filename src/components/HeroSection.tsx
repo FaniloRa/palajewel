@@ -72,7 +72,7 @@ const HeroSection = ({ country, exchangeRate }: HeroSectionProps) => {
 
       <Header country={country} exchangeRate={exchangeRate} />
       
-      <div className="relative z-10 flex-grow flex container mx-auto px-4 sm:px-6 lg:px-6 items-start pt-28 md:pt-36 md:gap-8">
+      <div className="relative z-10 flex-grow flex container mx-auto px-4 sm:px-6 xl:px-8 items-start pt-28 md:pt-36 md:gap-8">
         {/* Content Area */}
         <div className="w-full flex flex-col justify-center text-left animate-fade-in-hero-left">
           <span className="font-snippet font-normal text-sm sm:text-base uppercase tracking-widest text-accent/80 mb-2 sm:mb-3">
