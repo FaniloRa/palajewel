@@ -68,14 +68,14 @@ const HeroSection = ({ country, exchangeRate }: HeroSectionProps) => {
           ))
         )}
         {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent" />
       </div>
 
       <Header country={country} exchangeRate={exchangeRate} />
       
-      <div className="relative z-10 flex-grow flex container mx-auto px-4 sm:px-6 xl:px-8 items-center pt-28 md:pt-36">
+      <div className="relative z-10 flex-grow flex container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 items-center pt-28 md:pt-36">
         {/* Content Area */}
-        <div className="w-full max-w-xl flex flex-col justify-center text-left animate-fade-in-hero-left md:pl-8 lg:pl-16">
+        <div className="w-full max-w-lg lg:max-w-xl xl:max-w-2xl flex flex-col justify-center text-left animate-fade-in-hero-left md:pl-4 lg:pl-8 xl:pl-16">
           <span className="font-snippet font-normal text-sm sm:text-base uppercase tracking-widest text-accent/80 mb-2 sm:mb-3">
             EDITION LIMITEE
           </span>
