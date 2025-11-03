@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -41,11 +42,15 @@ const Header = ({ themeVariant = 'default', country, exchangeRate }: HeaderProps
   const [isScrolled, setIsScrolled] = useState(false);
   
   const isHomePage = pathname === '/';
-  const showMobileLogo = !['/shop', '/rendez-vous'].includes(pathname) && !pathname.startsWith('/produits');
-  const logoSrc = isHomePage ? palabiglogo : logo2;
-  const textClass = themeVariant === 'onLightBg' && !isScrolled ? 'text-accent-foreground' : 'text-accent';
-  const hoverTextClass = themeVariant === 'onLightBg' && !isScrolled ? 'hover:text-accent-foreground/80' : 'hover:text-accent/80';
-  const currencyHoverTextClass = themeVariant === 'onLightBg' && !isScrolled ? 'hover:text-accent-foreground/80' : 'hover:text-accent-foreground';
+  
+  // Change logo based on scroll state and page
+  const logoSrc = isScrolled || !isHomePage ? logo2 : palabiglogo;
+  const logoWidth = isScrolled || !isHomePage ? 100 : 120;
+  const logoHeight = isScrolled || !isHomePage ? 50 : 60;
+
+  const textClass = themeVariant === 'onLightBg' && !isScrolled ? 'text-accent' : 'text-foreground';
+  const hoverTextClass = themeVariant === 'onLightBg' && !isScrolled ? 'hover:text-accent/80' : 'hover:text-foreground/80';
+  const currencyHoverTextClass = themeVariant === 'onLightBg' && !isScrolled ? 'hover:text-accent/80' : 'hover:text-foreground';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -165,30 +170,17 @@ const Header = ({ themeVariant = 'default', country, exchangeRate }: HeaderProps
         </div>
 
         {/* Center: Logo — parfaitement centré grâce à la colonne centrale */}
-        <div className="flex-1 flex justify-center pointer-events-none">
-          {isHomePage ? (
-            <Link href="/" className="group pointer-events-auto">
+        <div className="flex-1 flex justify-center">
+            <Link href="/" className="group">
               <Image
-                src={logoSrc} // palabiglogo à l'accueil
+                src={logoSrc}
                 alt="Pala Jewelry Logo"
-                width={120}
-                height={60}
+                width={logoWidth}
+                height={logoHeight}
                 className="group-hover:opacity-80 transition-opacity hidden md:block"
                 priority
               />
             </Link>
-          ) : (
-            <Link href="/" className="group pointer-events-auto">
-              <Image
-                src={logo2}   // logo compact ailleurs
-                alt="Pala Jewelry Logo"
-                width={100}
-                height={50}
-                className="group-hover:opacity-80 transition-opacity hidden md:block"
-                priority
-              />
-            </Link>
-          )}
         </div>
 
         {/* Right: Icon Buttons */}
