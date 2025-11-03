@@ -55,7 +55,6 @@ const CraftsmanshipSection = () => {
                 className="transition-transform duration-700 group-hover:scale-105"
                 placeholder="blur"
             />
-             <div className="absolute inset-0 bg-white/50" />
         </div>
 
       {/* Content Container - Centered */}
