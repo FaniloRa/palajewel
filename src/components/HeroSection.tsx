@@ -39,7 +39,7 @@ const HeroSection = ({ country, exchangeRate }: HeroSectionProps) => {
   }, []);
 
   return (
-    <section className="relative w-full h-screen flex flex-col text-accent">
+    <section className="relative w-full h-[80vh] md:h-screen flex flex-col text-accent">
        {/* Background Image Carousel / Static Image */}
       <div className="absolute inset-0 z-0">
         {isMobile ? (
