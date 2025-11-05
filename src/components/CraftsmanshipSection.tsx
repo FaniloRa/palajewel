@@ -4,7 +4,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import hero from '@/app/hero.png';
-import woreImage from '@/app/backgroundart.png';
+import woreImage from '@/app/voile.png';
 import { cn } from '@/lib/utils';
 
 const CraftsmanshipSection = () => {
