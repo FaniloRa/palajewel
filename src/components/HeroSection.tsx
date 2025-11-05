@@ -12,6 +12,7 @@ import hero1 from '@/app/hero1.jpeg';
 import hero2 from '@/app/hero2.jpeg';
 import hero3 from '@/app/hero3.jpeg';
 import heromobile from '@/app/heromobile.jpeg';
+import hero4 from '@/app/hero4.jpeg';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 
@@ -24,6 +25,7 @@ const desktopSlides = [
   { src: hero1, alt: 'Bijoux Pala sur un modèle' },
   { src: hero2, alt: 'Collection de bijoux Pala' },
   { src: hero3, alt: 'Détail d\'un bijou Pala' },
+  { src: hero4, alt: 'Autre vue de la collection Pala' },
 ];
 
 const HeroSection = ({ country, exchangeRate }: HeroSectionProps) => {
