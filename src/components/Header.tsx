@@ -98,7 +98,7 @@ const Header = ({ themeVariant = 'default', country, exchangeRate }: HeaderProps
       >
         {/* Left: Nav Links (Desktop) / Hamburger (Mobile) */}
         <div className="flex-1 flex justify-start">
-          <div className="hidden md:flex items-center space-x-5 lg:space-x-7 mt-1">
+          <div className="hidden lg:flex items-center space-x-5 lg:space-x-7 mt-1">
             {navLinks.map((link) => (
               <Link
                 key={link.label}
@@ -112,7 +112,7 @@ const Header = ({ themeVariant = 'default', country, exchangeRate }: HeaderProps
               </Link>
             ))}
           </div>
-          <div className="md:hidden">
+          <div className="lg:hidden">
             <Sheet>
               <SheetTrigger asChild>
                 <button
@@ -180,7 +180,7 @@ const Header = ({ themeVariant = 'default', country, exchangeRate }: HeaderProps
                 alt="Pala Jewelry Logo"
                 width={logoWidth}
                 height={logoHeight}
-                className="group-hover:opacity-80 transition-opacity hidden md:block"
+                className="group-hover:opacity-80 transition-opacity hidden lg:block"
                 priority
               />
             </Link>
