@@ -13,7 +13,6 @@ import hero2 from '@/app/hero2.jpeg';
 import hero3 from '@/app/hero3.jpeg';
 import heromobile from '@/app/heromobile.jpeg';
 import hero4 from '@/app/hero4.jpeg';
-import { useIsMobile } from '@/hooks/use-mobile';
 
 
 interface HeroSectionProps {
@@ -30,7 +29,6 @@ const desktopSlides = [
 
 const HeroSection = ({ country, exchangeRate }: HeroSectionProps) => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const isMobile = useIsMobile();
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -41,34 +39,36 @@ const HeroSection = ({ country, exchangeRate }: HeroSectionProps) => {
   }, []);
 
   return (
-    <section className="relative w-full h-[80vh] md:h-screen flex flex-col text-accent">
+    <section className="relative w-full h-[80vh] lg:h-screen flex flex-col text-accent">
        {/* Background Image Carousel / Static Image */}
       <div className="absolute inset-0 z-0">
-        {isMobile ? (
-          <Image
-            src={heromobile}
-            alt="Bijoux Pala sur un modèle"
-            fill
-            style={{ objectFit: 'cover', objectPosition: 'center 50%' }}
-            priority
-          />                
-        ) : (
-          desktopSlides.map((slide, index) => (
+        <div className="lg:hidden w-full h-full">
             <Image
-              key={index}
-              src={slide.src}
-              alt={slide.alt}
-              fill
-              style={{ objectFit: 'cover' }}
-              priority={index === 0}
-              className={cn(
-                'transition-opacity duration-1000 ease-in-out md:object-bottom',
-                currentSlide === index ? 'opacity-100' : 'opacity-0'
-              )}
-              placeholder="blur"
+                src={heromobile}
+                alt="Bijoux Pala sur un modèle"
+                fill
+                style={{ objectFit: 'cover', objectPosition: 'center 50%' }}
+                priority
+                className="lg:hidden"
             />
-          ))
-        )}
+        </div>
+        <div className="hidden lg:block">
+            {desktopSlides.map((slide, index) => (
+                <Image
+                key={index}
+                src={slide.src}
+                alt={slide.alt}
+                fill
+                style={{ objectFit: 'cover' }}
+                priority={index === 0}
+                className={cn(
+                    'transition-opacity duration-1000 ease-in-out md:object-bottom',
+                    currentSlide === index ? 'opacity-100' : 'opacity-0'
+                )}
+                placeholder="blur"
+                />
+            ))}
+        </div>
         {/* Overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent" />
       </div>
@@ -77,11 +77,11 @@ const HeroSection = ({ country, exchangeRate }: HeroSectionProps) => {
       
       <div className="relative z-10 flex-grow flex container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 items-center">
         {/* Content Area */}
-        <div className="w-full max-w-lg lg:max-w-xl xl:max-w-2xl flex flex-col justify-center text-left animate-fade-in-hero-left md:pl-4 lg:pl-8 xl:pl-16">
+        <div className="w-full max-w-lg lg:max-w-xl xl:max-w-2xl flex flex-col justify-center text-left animate-fade-in-hero-left lg:pl-8 xl:pl-16">
           <span className="font-snippet font-normal text-sm sm:text-base uppercase tracking-widest text-accent/80 mb-2 sm:mb-3">
             EDITION LIMITEE
           </span>
-          <h1 className="font-seoulhangang text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-[#F6D5BE] mb-4 sm:mb-6 leading-tight">
+          <h1 className="font-seoulhangang text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-[#F6D5BE] mb-4 sm:mb-6 leading-tight">
             L'Excellence<br />
             <span className="text-accent">Intemporelle</span>
           </h1>
