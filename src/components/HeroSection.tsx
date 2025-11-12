@@ -38,20 +38,20 @@ const HeroSection = ({ country, exchangeRate }: HeroSectionProps) => {
   }, []);
 
   return (
-    <section className="relative w-full h-[80vh] lg:h-screen flex flex-col text-accent">
+    <section className="relative w-full h-[80vh] md:h-screen flex flex-col text-accent">
        {/* Background Image Carousel / Static Image */}
       <div className="absolute inset-0 z-0">
-        <div className="lg:hidden w-full h-full">
+        <div className="md:hidden w-full h-full">
             <Image
                 src={heromobile}
                 alt="Bijoux Pala sur un modèle"
                 fill
                 style={{ objectFit: 'cover', objectPosition: 'center 50%' }}
                 priority
-                className="lg:hidden"
+                className="md:hidden"
             />
         </div>
-        <div className="hidden lg:block">
+        <div className="hidden md:block">
             {desktopSlides.map((slide, index) => (
                 <Image
                 key={index}
@@ -76,15 +76,15 @@ const HeroSection = ({ country, exchangeRate }: HeroSectionProps) => {
       
       <div className="relative z-10 flex-grow flex container mx-auto px-4 sm:px-6 lg:px-8 items-center">
         {/* Content Area */}
-        <div className="w-full max-w-lg lg:max-w-xl flex flex-col justify-center text-left animate-fade-in-hero-left">
+        <div className="w-full max-w-lg md:max-w-xl flex flex-col justify-center text-left animate-fade-in-hero-left">
           <span className="font-snippet font-normal text-sm uppercase tracking-widest text-accent/80 mb-2 sm:mb-3">
             EDITION LIMITEE
           </span>
-          <h1 className="font-seoulhangang text-4xl lg:text-6xl font-bold text-[#F6D5BE] mb-4 sm:mb-6 leading-tight">
+          <h1 className="font-seoulhangang text-4xl md:text-6xl font-bold text-[#F6D5BE] mb-4 sm:mb-6 leading-tight">
             L'Excellence<br />
             <span className="text-accent">Intemporelle</span>
           </h1>
-          <p className="font-kantumruy text-sm lg:text-base text-accent/90 mb-6 sm:mb-8 max-w-md lg:max-w-lg">
+          <p className="font-kantumruy text-sm md:text-base text-accent/90 mb-6 sm:mb-8 max-w-md">
             Chaque pièce, fruit d'un savoir-faire centenaire, incarne la
             quintessence de l'horlogerie suisse. Une invitation à posséder
             non pas une montre, mais un héritage.
@@ -104,7 +104,7 @@ const HeroSection = ({ country, exchangeRate }: HeroSectionProps) => {
               PRENDRE RENDEZ-VOUS <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
           </div>
-          <p className="font-body text-xs lg:text-sm text-accent/70 tracking-wider">
+          <p className="font-body text-xs md:text-sm text-accent/70 tracking-wider">
             GENEVE | PARIS | MONACO
           </p>
         </div>
@@ -114,3 +114,4 @@ const HeroSection = ({ country, exchangeRate }: HeroSectionProps) => {
 };
 
 export default HeroSection;
+
