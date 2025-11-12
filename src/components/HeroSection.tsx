@@ -93,18 +93,18 @@ const HeroSection = ({ country, exchangeRate }: HeroSectionProps) => {
             <Button
               size="lg"
               variant="outline"
-              className="bg-transparent border-accent text-accent hover:bg-accent hover:text-accent-foreground transition-colors duration-300 px-6 sm:px-8 py-3 text-xs sm:text-sm"
+              className="bg-transparent border-accent text-accent hover:bg-accent hover:text-accent-foreground transition-colors duration-300 px-6 sm:px-8 py-3 text-xs sm:text-sm xl:text-base"
             >
               DÉCOUVRIR LA COLLECTION
             </Button>
             <Button
               variant="link"
-              className="text-accent hover:text-accent/80 px-0 sm:px-4 py-3 group text-xs sm:text-sm"
+              className="text-accent hover:text-accent/80 px-0 sm:px-4 py-3 group text-xs sm:text-sm xl:text-base"
             >
               PRENDRE RENDEZ-VOUS <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
           </div>
-          <p className="font-body text-xs text-accent/70 tracking-wider">
+          <p className="font-body text-xs lg:text-sm text-accent/70 tracking-wider">
             GENEVE | PARIS | MONACO
           </p>
         </div>
