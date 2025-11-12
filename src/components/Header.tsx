@@ -98,13 +98,13 @@ const Header = ({ themeVariant = 'default', country, exchangeRate }: HeaderProps
       >
         {/* Left: Nav Links (Desktop) / Hamburger (Mobile) */}
         <div className="flex-1 flex justify-start">
-          <div className="hidden lg:flex items-center space-x-5 lg:space-x-7 mt-1">
+          <div className="hidden lg:flex items-center space-x-8 xl:space-x-10 mt-1">
             {navLinks.map((link) => (
               <Link
                 key={link.label}
                 href={link.href}
                 className={cn(
-                  "font-body text-sm transition-colors",
+                  "font-body text-sm xl:text-base transition-colors",
                   isScrolled ? 'text-foreground hover:text-foreground/80' : hoverTextClass
                 )}
               >
