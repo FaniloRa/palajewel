@@ -74,13 +74,13 @@ const HeroSection = ({ country, exchangeRate }: HeroSectionProps) => {
 
       <Header country={country} exchangeRate={exchangeRate} />
       
-      <div className="relative z-10 flex-grow flex container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 items-center">
+      <div className="relative z-10 flex-grow flex container mx-auto px-4 sm:px-6 lg:px-8 items-center">
         {/* Content Area */}
-        <div className="w-full max-w-lg lg:max-w-xl xl:max-w-2xl flex flex-col justify-center text-left animate-fade-in-hero-left lg:pl-8 xl:pl-16">
-          <span className="font-snippet font-normal text-sm lg:text-base xl:text-lg uppercase tracking-widest text-accent/80 mb-2 sm:mb-3">
+        <div className="w-full max-w-lg lg:max-w-xl xl:max-w-2xl flex flex-col justify-center text-left animate-fade-in-hero-left">
+          <span className="font-snippet font-normal text-sm lg:text-base uppercase tracking-widest text-accent/80 mb-2 sm:mb-3">
             EDITION LIMITEE
           </span>
-          <h1 className="font-seoulhangang text-4xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold text-[#F6D5BE] mb-4 sm:mb-6 leading-tight">
+          <h1 className="font-seoulhangang text-4xl lg:text-6xl xl:text-7xl font-bold text-[#F6D5BE] mb-4 sm:mb-6 leading-tight">
             L'Excellence<br />
             <span className="text-accent">Intemporelle</span>
           </h1>

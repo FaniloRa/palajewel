@@ -98,7 +98,7 @@ const Header = ({ themeVariant = 'default', country, exchangeRate }: HeaderProps
       >
         {/* Left: Nav Links (Desktop) / Hamburger (Mobile) */}
         <div className="flex-1 flex justify-start">
-          <div className="hidden lg:flex items-center space-x-8 xl:space-x-10 mt-1">
+          <div className="hidden lg:flex items-center space-x-6 xl:space-x-8 mt-1">
             {navLinks.map((link) => (
               <Link
                 key={link.label}
