@@ -58,10 +58,10 @@ const HeroSection = ({ country, exchangeRate }: HeroSectionProps) => {
                 src={slide.src}
                 alt={slide.alt}
                 fill
-                style={{ objectFit: 'cover' }}
+                style={{ objectFit: 'cover', objectPosition: 'center 70%' }}
                 priority={index === 0}
                 className={cn(
-                    'transition-opacity duration-1000 ease-in-out md:object-center',
+                    'transition-opacity duration-1000 ease-in-out',
                     currentSlide === index ? 'opacity-100' : 'opacity-0'
                 )}
                 placeholder="blur"
