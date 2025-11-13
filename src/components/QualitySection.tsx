@@ -65,7 +65,7 @@ const QualitySection = () => {
             <h3 className="font-headline text-2xl sm:text-3xl text-primary mb-4">
               Haute qualité
             </h3>
-            <p className="font-body text-sm text-muted-foreground leading-relaxed">
+            <p className="font-body text-sm text-muted-foreground leading-relaxed text-justify">
               Chaque création PALA est une promesse d'excellence. Nous sélectionnons rigoureusement des matériaux nobles, de l'or 18 carats aux diamants certifiés, pour garantir une pureté et une brillance incomparables. Nos bijoux sont conçus pour traverser le temps, comme un héritage précieux.
             </p>
           </div>
@@ -92,7 +92,7 @@ const QualitySection = () => {
             <h3 className="font-headline text-2xl sm:text-3xl text-primary mb-4">
               Savoir faire-expert
             </h3>
-            <p className="font-body text-sm text-muted-foreground leading-relaxed">
+            <p className="font-body text-sm text-muted-foreground leading-relaxed text-justify">
               Au cœur de notre atelier, des artisans passionnés allient techniques traditionnelles et innovation. Chaque pierre est sertie à la main, chaque courbe est polie avec une infinie patience. Ce dévouement donne vie à des pièces uniques, où chaque détail témoigne d'un art maîtrisé.
             </p>
           </div>
