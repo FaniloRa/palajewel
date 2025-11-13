@@ -44,7 +44,7 @@ const NewsletterSection = () => {
                 src={bgirlImage}
                 alt="Modèle portant des bijoux PALA pour la newsletter"
                 fill
-                style={{ objectFit: 'cover' }}
+                style={{ objectFit: 'contain' }}
                 data-ai-hint="fashion model jewelry"
                 className="transition-transform duration-700 group-hover:scale-105"
               />
