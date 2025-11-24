@@ -2,6 +2,7 @@
 
 import { headers } from 'next/headers';
 import HeroSection from '@/components/HeroSection';
+import PromiseSection from '@/components/PromiseSection';
 import QualitySection from '@/components/QualitySection';
 import FeaturedProducts from '@/components/FeaturedProducts';
 import StyleComposerSection from '@/components/StyleComposerSection';
@@ -45,6 +46,7 @@ export default async function Home() {
   return (
     <main className="flex flex-col items-center min-h-screen">
       <HeroSection country={country} exchangeRate={exchangeRate} />
+      <PromiseSection />
       <QualitySection />
       <StyleComposerSection />
       <FeaturedProducts products={featuredProducts} />
