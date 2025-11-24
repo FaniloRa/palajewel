@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { useSearchParams } from 'next/navigation';
+import backsect2 from '@/app/backsect2.png';
 
 const PromiseSection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -43,12 +44,13 @@ const PromiseSection = () => {
     >
       <div className="absolute inset-0 z-0">
         <Image
-          src="/backsect2.png"
+          src={backsect2}
           alt="Collier PALA sur un drap en soie"
           fill
           style={{ objectFit: 'cover' }}
           data-ai-hint="necklace silk"
           priority
+          placeholder="blur"
         />
          <div className="absolute inset-0 bg-black/20" />
       </div>
