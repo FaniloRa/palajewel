@@ -4,13 +4,11 @@
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
-import { useSearchParams } from 'next/navigation';
 import backsect2 from '@/app/backsect2.png';
 
 const PromiseSection = () => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
-  const searchParams = useSearchParams();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -40,7 +38,7 @@ const PromiseSection = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full h-[60vh] md:h-[70vh] bg-background flex items-center"
+      className="relative w-full h-[70vh] md:h-[80vh] bg-background flex items-center"
     >
       <div className="absolute inset-0 z-0">
         <Image
