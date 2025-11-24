@@ -60,7 +60,7 @@ const PromiseSection = () => {
           isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'
         )}
       >
-        <div className="w-full md:w-1/2 lg:w-2/5 bg-white/80 backdrop-blur-sm p-8 rounded-lg">
+        <div className="w-full md:w-1/2 lg:w-2/5 p-8 rounded-lg">
           <p className="font-body text-base md:text-lg text-black leading-relaxed text-justify">
             Chaque création PALA est une promesse d'excellence.
             Nous sélectionnons rigoureusement des matériaux
