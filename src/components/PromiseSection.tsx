@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { useSearchParams } from 'next/navigation';
-import voileImage from '@/app/voile.png';
+import backsect2 from '@/app/backsect2.png';
 
 const PromiseSection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -44,7 +44,7 @@ const PromiseSection = () => {
     >
       <div className="absolute inset-0 z-0">
         <Image
-          src={voileImage}
+          src={backsect2}
           alt="Collier PALA sur un drap en soie"
           fill
           style={{ objectFit: 'cover' }}
