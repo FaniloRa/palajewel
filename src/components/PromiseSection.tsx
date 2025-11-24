@@ -43,7 +43,7 @@ const PromiseSection = () => {
     >
       <div className="absolute inset-0 z-0">
         <Image
-          src="/secondsec.png"
+          src="/backsect2.png"
           alt="Collier PALA sur un drap en soie"
           fill
           style={{ objectFit: 'cover' }}
