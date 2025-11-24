@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
@@ -59,14 +58,14 @@ const CraftsmanshipSection = () => {
         )}
       >
         <div className="w-full md:w-2/3 lg:w-3/5 p-8 rounded-lg space-y-8">
-          <p className="font-body text-base md:text-lg text-white leading-relaxed">
+          <p className="font-body text-base md:text-lg text-black leading-relaxed">
             Au cœur de notre atelier, des artisans passionnés allient
             techniques traditionnelles et innovation. Chaque pierre est
             sertie à la main, chaque courbe est polie avec une infinie
             patience. Ce dévouement donne vie à des pièces uniques, où
             chaque détail témoigne d'un art maîtrisé.
           </p>
-           <div className="text-white leading-relaxed">
+           <div className="text-black leading-relaxed">
              <p className="font-body text-base md:text-lg">
                 Chaque création PALA est le fruit d'un savoir-faire joaillier d'exception, façonnée pour sublimer la lumière et l'âme de celle ou celui qui la porte.
              </p>
