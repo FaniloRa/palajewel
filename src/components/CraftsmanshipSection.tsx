@@ -3,9 +3,10 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import hero from '@/app/hero.png';
-import woreImage from '@/app/voile.png';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import woreImage from '@/app/wore.png';
+import Link from 'next/link';
 
 const CraftsmanshipSection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -17,94 +18,57 @@ const CraftsmanshipSection = () => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setIsVisible(true);
-          } else {
-            setIsVisible(false);
+            observer.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.2 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+    const currentRef = sectionRef.current;
+    if (currentRef) {
+      observer.observe(currentRef);
     }
 
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
+      if (currentRef) {
+        observer.unobserve(currentRef);
       }
     };
   }, []);
 
-  const animationClasses = "transition-all duration-700 ease-out";
-  const hiddenClasses = "opacity-0 translate-y-8";
-  const visibleClasses = "opacity-100 translate-y-0";
-
   return (
-    <section 
+    <section
       ref={sectionRef}
-      className="relative w-full py-12 md:py-16 lg:py-20 text-foreground overflow-hidden"
+      className="relative w-full h-[60vh] md:h-[70vh] bg-background flex items-center justify-center text-center"
     >
-        {/* Background Image Container - Spans full width */}
-        <div className="absolute inset-0 z-0">
-            <Image
-                src={woreImage}
-                alt="Artisanat de bijoux"
-                fill
-                style={{ objectFit: 'cover' }}
-                className="transition-transform duration-700 group-hover:scale-105"
-                placeholder="blur"
-            />
-        </div>
-
-      {/* Content Container - Centered */}
-      <div className={cn(
-          "relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center gap-10 md:gap-16",
-          animationClasses,
-          isVisible ? visibleClasses : hiddenClasses
-        )}>
-          {/* Left: Image */}
-          <div className="w-full flex justify-center items-center group">
-            <div className="relative w-full max-w-md h-96 md:max-w-lg md:h-[28rem]">
-              <Image
-                src={hero}
-                alt="Boucles d'oreilles fabriquées avec soin"
-                fill
-                style={{ objectFit: 'contain' }}
-                data-ai-hint="earrings jewelry craft"
-                className="transition-transform duration-700 group-hover:scale-105"
-                placeholder="blur"
-              />
-            </div>
-          </div>
-
-
-          {/* Right: Text Content */}
-          <div className="md:w-1/2">
-            <h2 className="font-headline text-2xl sm:text-3xl text-primary uppercase mb-2">
-              Artisanat d'Exception
-            </h2>
-            <div className="w-16 h-0.5 bg-primary mb-8"></div>
-
-            <div className="mb-8">
-              <h3 className="font-headline text-xl sm:text-2xl font-semibold text-primary mb-3">
-                Des Matériaux Précieux
-              </h3>
-              <p className="font-body text-sm text-foreground/80 leading-relaxed">
-                Chaque bijou Pala est façonné à partir de matériaux nobles, sélectionnés pour leur pureté et leur éclat durable. Nous travaillons l'or, l'argent et les pierres précieuses avec le plus grand respect pour leur beauté naturelle.
-              </p>
-            </div>
-
-            <div>
-              <h3 className="font-headline text-xl sm:text-2xl font-semibold text-primary mb-3">
-                L'Art de l'Artisan
-              </h3>
-              <p className="font-body text-sm text-foreground/80 leading-relaxed">
-                Nos artisans joailliers, maîtres dans leur domaine, allient techniques ancestrales et précision moderne. Chaque détail est pensé, chaque courbe polie à la main pour donner naissance à une pièce véritablement unique.
-              </p>
-            </div>
-          </div>
-        </div>
+      <div className="absolute inset-0 z-0">
+        <Image
+          src={woreImage}
+          alt="Atelier de joaillerie Pala"
+          fill
+          style={{ objectFit: 'cover' }}
+          data-ai-hint="jewelry workshop"
+          placeholder="blur"
+        />
+         <div className="absolute inset-0 bg-black/40" />
+      </div>
+      <div
+        className={cn(
+          'relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center text-white transition-all duration-1000 ease-out',
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        )}
+      >
+        <h2 className="font-headline text-3xl md:text-5xl font-bold uppercase tracking-wider mb-4">
+          L'Art de l'Artisanat
+        </h2>
+        <p className="font-body text-base md:text-lg max-w-2xl mx-auto mb-8">
+          Chaque bijou est le fruit d'un savoir-faire d'exception. Nos artisans joailliers façonnent à la main des pièces uniques, alliant techniques ancestrales et design contemporain pour donner vie à des créations intemporelles.
+        </p>
+        <Button asChild variant="outline" size="lg" className="bg-transparent border-white text-white hover:bg-white hover:text-primary transition-colors duration-300">
+            <Link href="/about">En savoir plus</Link>
+        </Button>
+      </div>
     </section>
   );
 };
