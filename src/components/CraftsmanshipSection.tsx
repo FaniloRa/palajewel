@@ -58,7 +58,7 @@ const CraftsmanshipSection = () => {
           isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'
         )}
       >
-        <div className="w-full md:w-1/2 lg:w-2/5 p-8 rounded-lg space-y-8">
+        <div className="w-full md:w-2/3 lg:w-3/5 p-8 rounded-lg space-y-8">
           <p className="font-body text-base md:text-lg text-white leading-relaxed">
             Au cœur de notre atelier, des artisans passionnés allient
             techniques traditionnelles et innovation. Chaque pierre est
