@@ -77,7 +77,7 @@ const EleganceSection = () => {
           >
             <div className="space-y-3">
               <p className="font-body text-base text-muted-foreground leading-relaxed">
-                Évoquant la douceur d&apos;un moment suspendu, cette montre
+                Évoquant la douceur d'un moment suspendu, cette montre
                 capture la lumière comme un bijou précieux. Son cadran
                 délicat, inspiré des nuits étoilées, reflète une élégance discrète
                 tandis que son boîtier finement poli raconte un savoir-faire
@@ -89,9 +89,9 @@ const EleganceSection = () => {
               <p className="font-body text-base text-muted-foreground leading-relaxed">
                 Pensée pour la femme qui avance avec assurance et finesse,
                 elle se porte comme une signature personnelle. Son bracelet
-                se pose sur le poignet avec la grâce d&apos;un bijou rare,
-                transformant chaque regard en éclat de rêve. Plus qu&apos;une
-                montre, c&apos;est une complice intime : un symbole d&apos;élégance
+                se pose sur le poignet avec la grâce d'un bijou rare,
+                transformant chaque regard en éclat de rêve. Plus qu'une
+                montre, c'est une complice intime : un symbole d'élégance
                 intemporelle.
               </p>
             </div>
