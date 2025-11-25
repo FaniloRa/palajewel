@@ -3,8 +3,8 @@
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
-import montreImage from '@/app/montre.jpg';
-import voileImage from '@/app/backsect2.png';
+import montreImage from '@/app/montre1.png';
+import voileImage from '@/app/voile.png';
 
 const EleganceSection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -40,7 +40,7 @@ const EleganceSection = () => {
       ref={sectionRef}
       className="relative w-full py-16 md:py-24 bg-background overflow-hidden"
     >
-      <div className="absolute inset-0 z-0 opacity-40">
+      <div className="absolute inset-0 z-0">
         <Image
           src={voileImage}
           alt="Voile de fond"
@@ -57,16 +57,16 @@ const EleganceSection = () => {
         )}
       >
         <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
-          <div className="relative w-full aspect-square md:aspect-[4/5] rounded-lg overflow-hidden shadow-xl group">
-            <Image
-              src={montreImage}
-              alt="Montre PALA élégante"
-              fill
-              style={{ objectFit: 'cover' }}
-              data-ai-hint="watch fashion model"
-              className="transition-transform duration-700 group-hover:scale-105"
-            />
-          </div>
+        <div className="relative w-full aspect-square md:aspect-[4/5] overflow-hidden group">
+          <Image
+            src={montreImage}
+            alt="Montre PALA élégante"
+            fill
+            style={{ objectFit: 'cover' }}
+            data-ai-hint="watch fashion model"
+            className="transition-transform duration-700 group-hover:scale-105"
+          />
+        </div>
           <div className="text-foreground/80 font-body text-base md:text-lg leading-relaxed text-justify">
             <p className="mb-6">
               Évoquant la douceur d’un moment suspendu, cette montre

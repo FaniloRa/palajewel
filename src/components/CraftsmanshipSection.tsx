@@ -4,7 +4,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
-import backsect2 from '@/app/backsect2.png';
+import backsect2 from '@/app/backsect4.png';
 
 const CraftsmanshipSection = () => {
   const [isVisible, setIsVisible] = useState(false);
