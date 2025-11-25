@@ -7,6 +7,7 @@ import PromiseSection from '@/components/PromiseSection';
 import FeaturedProducts from '@/components/FeaturedProducts';
 import StyleComposerSection from '@/components/StyleComposerSection';
 import CraftsmanshipSection from '@/components/CraftsmanshipSection';
+import EleganceSection from '@/components/EleganceSection';
 import OurProductsSection from '@/components/OurProductsSection';
 import StorefrontSection from '@/components/StorefrontSection';
 import NewsletterSection from '@/components/NewsletterSection';
@@ -51,6 +52,7 @@ export default async function Home() {
       <StyleComposerSection />
       <FeaturedProducts products={featuredProducts} />
       <CraftsmanshipSection />
+      <EleganceSection />
       {/* The useCurrency hook inside OurProductsSection will now handle conversion autonomously */}
       <OurProductsSection products={ourProducts} />
       <StorefrontSection />
