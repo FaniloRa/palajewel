@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import watchImage from '@/app/montre.jpg';
-import backgroundImage from '@/app/backsect2.png';
+import backgroundImage from '@/app/voile.png';
 
 const EleganceSection = () => {
   const [isVisible, setIsVisible] = useState(false);
