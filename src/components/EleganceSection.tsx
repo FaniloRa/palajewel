@@ -1,9 +1,11 @@
+
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import watchImage from '@/app/montre.jpg';
+import backgroundImage from '@/app/backsect2.png';
 
 const EleganceSection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -37,8 +39,16 @@ const EleganceSection = () => {
   return (
     <section
       ref={sectionRef}
-      className="w-full bg-background py-12 md:py-16 lg:py-20"
+      className="relative w-full bg-background py-12 md:py-16 lg:py-20"
     >
+        <Image
+          src={backgroundImage}
+          alt="Fond abstrait"
+          fill
+          style={{ objectFit: 'cover' }}
+          className="-z-10 opacity-30"
+          data-ai-hint="abstract texture"
+        />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
           {/* Image on the left */}
