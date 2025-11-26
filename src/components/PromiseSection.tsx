@@ -38,7 +38,7 @@ const PromiseSection = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full h-[70vh] md:h-[80vh] bg-background flex items-center mt-10"
+      className="relative w-full h-[70vh] md:h-[80vh] bg-background flex items-center mt-10 shadow-lg"
     >
       <div className="absolute inset-0 z-0">
         <Image
