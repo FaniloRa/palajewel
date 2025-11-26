@@ -38,10 +38,10 @@ const CraftsmanshipSection = () => {
   return (
     <section
       ref={sectionRef}
-      className="w-full bg-background flex items-center px-4"
+      className="w-full bg-background flex items-center px-4 py-4"
     >
       <div className={cn(
-          "relative w-full h-[85vh] md:h-[90vh] transition-opacity duration-1000 ease-out",
+          "relative w-full h-[85vh] md:h-[90vh] transition-opacity duration-1000 ease-out shadow-xl",
           isVisible ? 'opacity-100' : 'opacity-0'
       )}>
         <div className="absolute inset-0 z-0">
