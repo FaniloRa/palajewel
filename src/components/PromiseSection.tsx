@@ -38,7 +38,7 @@ const PromiseSection = () => {
   return (
     <section
       ref={sectionRef}
-      className="w-full bg-background pt-10"
+      className="w-full bg-background pt-10 px-4"
     >
         <div className={cn(
             'relative h-[70vh] md:h-[80vh] flex items-center shadow-xl transition-opacity duration-1000 ease-out',
